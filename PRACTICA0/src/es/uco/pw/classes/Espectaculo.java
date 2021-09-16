@@ -1,8 +1,8 @@
 package es.uco.pw.classes;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Scanner;
+import java.sql.Date;
 
 /**
  * Clase que representa los espectaculos culturales a programar en un teatro
@@ -57,7 +57,7 @@ public class Espectaculo {
 	 * Fecha de representacion del espectaculo
 	 */
 	
-	private Date fechaRepresentacionEspectaculo;
+	private java.sql.Date fechaRepresentacionEspectaculo;
 	
 	/**
 	 * Numero de localidades a la venta
@@ -217,8 +217,8 @@ public class Espectaculo {
 	public void setFechaRepresentacionEspectaculo(String fecha) {
 		SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd"); // Formato de las cadenas
 		try {
-			this.fechaRepresentacionEspectaculo = formato.parse(fecha);// Transformamos la fecha de representacion del espectaculo en java.util.Date
-			System.out.println(getFechaRepresentacionEspectaculo());
+			java.util.Date cambio = formato.parse(fecha);
+			this.fechaRepresentacionEspectaculo = new java.sql.Date(cambio.getTime());
 		}catch(Exception ex) {
 			System.out.println("Se ha producido un error al transformar la nueva fecha de representacion del anuncio en java.util.Date");
 			return;
@@ -274,5 +274,78 @@ public class Espectaculo {
 		System.out.println("Numero de localidades en venta del espectaculo: " + this.getNumeroLocalidadesVentaEspectaculo());// Imprimimos el numero de localidades en venta del espectaculo
 		System.out.println("Numero de localidades vendidas del espectaculo: " + this.getNumeroLocalidadesVendidasEspectaculo());// Imprimimos el numero de localidades vendidas del espectaculo
 	}
+	
+	/**
+	 * Funcion que comprueba si el dia introducido se cumple en el mes indicado
+	 * @param mes Mes de la fecha 
+	 * @param dia Dia de la fecha
+	 * @return Valor de comprobacion de la validez de las fechas
+	 */
+
+	public int comprobarValidezFechasMesDia(int mes, int dia){
+		
+		// Caso 1: El dia introducido es superior a 28 y el mes es febrero
+		
+		if(mes == 2 && dia > 28) {
+			System.out.println("El mes " + mes + " no tiene " + dia + " dias."
+					+ "Debe introducir como maximo un valor de 28 dias para dicho mes\n");
+			return 1;
+		}
+		
+		// Caso 2: El mes introducido tiene maximo 30 dias, pero el usuario ha indicado un numero superior de dias
+		
+		else if( dia > 30 && (mes == 4 || mes == 6 || mes == 9 || mes == 11) ){
+			System.out.println("El mes " + mes + " no tiene " + dia + " dias."
+					+ "Debe introducir como maximo un valor de 30 dias para dicho mes\n");
+			return 1;
+		}
+		
+		// Caso 3: El mes introducido tiene maximo 31 dias, pero el usuario ha indicado un numero superior de dias
+		
+		else if(dia > 31 && (mes == 1 || mes == 3 || mes == 5 || mes == 7 || mes == 8 || mes == 10 || mes == 12)) {
+			System.out.println("El mes " + mes + " no tiene " + dia + " dias."
+					+ "Debe introducir como maximo un valor de 31 dias para dicho mes\n");
+			return 1;
+		}
+		
+		// Por defecto, las fechas son correctas
+		
+		return 0;
+		
+	}
+
+
+	/**
+	 * Funcion que crea un menu con las opciones de obtener la fecha
+	 * @param teclado Scanner para introducir datos por teclado
+	 * @return Opcion de la funcionalidad del menu
+	 */
+	
+	public int crearMenuObtencionFecha(Scanner teclado) {
+		int opcion = 2;
+		System.out.println("Menu de obtencion de fechas");
+		System.out.println("Pulsa 0 si deseas modificar el mes de representacion del espectaculo");
+		System.out.println("Pulsa 1 si deseas modificar el dia de representacion del espectaculo");
+		try {
+			opcion = teclado.nextInt();
+		}catch(Exception ex) {
+			System.out.println("Introduce un valor entero al elegir una opcion del menu");
+		}
+		return opcion;
+	}
+	
+	/**
+	 * Funcion que muestra un menu con las categorias disponibles de un espectaculo
+	 */
+
+	public void mostrarMenuCategoriasEspectaculo() {
+		
+		System.out.println("\t Menu de categorias de un espectaculo");
+		System.out.println("1. concierto");
+		System.out.println("2. obra");
+		System.out.println("3. monologo");
+		System.out.println("Introduce una opcion: ");
+	}
+
 	
 }
