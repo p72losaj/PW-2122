@@ -174,6 +174,7 @@ public class Programacion {
 			
 		} catch (ParseException e) {
 			System.out.println("Se ha producido un error al comparar las fechas");
+			return null;
 		}
 		
 		// Retornamos la lista de espectaculos programados hasta la fecha
@@ -182,7 +183,24 @@ public class Programacion {
 		
 	}
 	
-	 //verEspectaculosDisponibles
+	/**
+	 * Funcion que devuelve los espectáculos de una categoria, para los que aun quedan entradas
+	 * @param categoria Categoria de los espectaculos
+	 * @return Lista de espectaculos de la categoria indicada como argumento, con entradas disponibles.
+	 */
+	
+	 ArrayList<Espectaculo> verEspectaculosDisponibles(CategoriaEspectaculoEnumeracion categoria){
+		 // Creamos una lista de espectaculos vacio
+		 ArrayList <Espectaculo> lista = new ArrayList<Espectaculo>();
+		 // Recorremos la lista de espectaculos de la programacion
+		 for(int i=0; i < this.listaEspectaculos.size(); i++) {
+			 // Comprobamos si el espectaculo coincide con la categoria buscada y tiene entradas disponibles
+			 if(this.listaEspectaculos.get(i).getCategoriaEspectaculo().equals(categoria) && this.listaEspectaculos.get(i).getNumeroLocalidadesVentaEspectaculo() > 0) {
+				 lista.add(this.listaEspectaculos.get(i));
+			 }
+		 }
+		 return lista;
+	 }
 	
 	// end
 }

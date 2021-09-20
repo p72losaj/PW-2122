@@ -21,7 +21,7 @@ public class Espectaculo {
 	 * Titulo del espectaculo, de tipo String
 	 */
 	
-	private String tituloEspectaculo;
+	private String tituloEspectaculo ;
 	
 	/**
 	 * Enumeracion que representa la categoria del espectaculo
@@ -346,6 +346,8 @@ public class Espectaculo {
 		System.out.println("3. monologo");
 		System.out.println("Introduce una opcion: ");
 	}
+	
+
 
 	
 }
