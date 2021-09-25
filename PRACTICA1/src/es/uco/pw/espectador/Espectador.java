@@ -1,6 +1,8 @@
 package es.uco.pw.espectador;
 
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Clase que gestiona la informacion de un espectador
@@ -14,37 +16,38 @@ public class Espectador {
 	 * Nombre del espectador
 	 */
 	
-	String nombre; 
+	private String nombre = null; 
 	
 	/**
 	 * Primer apellido del espectador
 	 */
 	
-	String apellido1;
+	private String apellido1 = null;
 	
 	/**
 	 * Segundo apellido del espectador
 	 */
 	
-	String apellido2; 
+	private String apellido2 = null; 
 	
 	/**
 	 * Nombre de usuario del espectador
 	 */
 	
-	String nick; 
+	private String nick = null; 
 	
 	/**
 	 * Correo electronico unico del espectador
 	 */
 	
-	String correo; 
+	private String correo = null; 
 	
 	/**
-	 * Lista de criticas realizadas por el espectador
+	 *  Lista de criticas escritas del espectador
 	 */
 	
-	ArrayList <String> listaCriticas = new ArrayList<String>();
+	private ArrayList <String> listaCriticasEspectador = new ArrayList<String>();
+	
 	
 	/**
 	 * Funcion que obtiene el nombre del espectador
@@ -80,6 +83,24 @@ public class Espectador {
 	
 	public void setPrimerApellidoEspectador(String apellido1) {
 		this.apellido1 = apellido1;
+	}
+	
+	/**
+	 * Funcion que obtiene el segundo apellido del espectador
+	 * @return Segundo apellido del espectador
+	 */
+	
+	public String getSegundoApellidoEspectador() {
+		return this.apellido2;
+	}
+	
+	/**
+	 * Funcion que modifica el segundo apellido del espectador
+	 * @param apellido2 Nuevo segundo apellido del espectador
+	 */
+	
+	public void setSegundoApellidoEspectador(String apellido2) {
+		this.apellido2 = apellido2;
 	}
 	
 	/**
@@ -124,7 +145,7 @@ public class Espectador {
 	 */
 	
 	public ArrayList<String> getListaCriticasPropias(){
-		return this.listaCriticas;
+		return this.listaCriticasEspectador;
 	}
 	
 	/**
@@ -133,7 +154,33 @@ public class Espectador {
 	 */
 	
 	public void setListaCriticasPropias(ArrayList <String> criticas) {
-		this.listaCriticas = criticas;
+		this.listaCriticasEspectador = criticas;
 	}
+	
+	/**
+	 * Funcion que comprueba si un correo es valido o no
+	 * @param correo Correo a validar
+	 * @return true si el correo es valido; false en caso contrario
+	 */
+
+	public Boolean comprobarValidezCorreo(String correo) {
+		
+		// Patrón para validar el email
+        
+		Pattern pattern = Pattern
+                .compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                        + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
+		
+		Matcher mather = pattern.matcher(correo);
+		
+		// Correo es valido
+		
+		if(mather.find() == true) {
+			return true;
+		}
+		
+		return false;
+	}
+	
 	
 }
