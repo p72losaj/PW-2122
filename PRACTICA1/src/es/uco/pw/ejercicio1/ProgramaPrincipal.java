@@ -1,4 +1,4 @@
-package es.uco.pw;
+package es.uco.pw.ejercicio1;
 
 
 import java.io.File;
@@ -7,10 +7,10 @@ import java.io.InputStream;
 import java.util.Properties;
 import java.util.Scanner;
 
-import es.uco.pw.critica.GestorCriticas;
-import es.uco.pw.espectador.Espectador;
-import es.uco.pw.espectador.Espectadores;
-import es.uco.pw.menu.Menus;
+import es.uco.pw.comun.menus.Menus;
+import es.uco.pw.ejercicio1.critica.GestorCriticas;
+import es.uco.pw.ejercicio1.espectador.Espectador;
+import es.uco.pw.ejercicio1.espectador.Espectadores;
 
 /**
  * Programa ejecutable 
@@ -24,7 +24,7 @@ public class ProgramaPrincipal {
 		
 		Properties prop = new Properties(); // Inicializamos la clase Properties
 		
-		Scanner teclado = new Scanner (System.in); // Clase scanner es necesaria para obtener datos por teclado
+		Scanner entrada = new Scanner (System.in); // Clase scanner es necesaria para obtener datos por teclado
 		
 		Menus menu = new Menus(); // clase que gestiona los distintos menus a mostrar al usuario
 		
@@ -38,7 +38,7 @@ public class ProgramaPrincipal {
 			
 			// Obtenemos la ruta del fichero de propiedades
 			
-			String rutaFicheroPropiedades = rutaAbsoluta + "/bin/es/uco/pw/ficheros/propiedades.properties";
+			String rutaFicheroPropiedades = rutaAbsoluta + "/bin/es/uco/pw/comun/ficheros/propiedades.properties";
 			
 			InputStream is = new FileInputStream(rutaFicheroPropiedades);
 			
@@ -46,7 +46,7 @@ public class ProgramaPrincipal {
 			
 			// Obtenemos la ubicacion del fichero de datos de las criticas
 			
-			String rutaFicheroDatosCriticas = rutaAbsoluta + "/bin/es/uco/pw/ficheros/criticas.txt";
+			String rutaFicheroDatosCriticas = rutaAbsoluta + "/bin/es/uco/pw/comun/ficheros/criticas.txt";
 			
 			// Especificamos en el fichero de propiedades la ubicacion del fichero de datos de criticas
 			
@@ -54,7 +54,7 @@ public class ProgramaPrincipal {
 			
 			// Obtenemos la ubicacion del fichero de datos de los espectadores
 			
-			String rutaFicheroDatosEspectadores = rutaAbsoluta + "/bin/es/uco/pw/ficheros/espectadores.txt";
+			String rutaFicheroDatosEspectadores = rutaAbsoluta + "/bin/es/uco/pw/comun/ficheros/espectadores.txt";
 			
 			// Especificamos en el fichero de propiedades la ubicacion del fichero de datos de espectadores
 			
@@ -72,13 +72,13 @@ public class ProgramaPrincipal {
 			
 			espectadores.leerEspectadores(prop);
 			
+			// Mostramos la lista de espectadores por pantalla
+			
+			espectadores.visualizarDatosEspectadores(prop);
+			
 			// Leemos los datos del fichero de texto de criticas
 			
 			// gestorCriticas.obtenerCriticasRegistradas(prop);
-			
-			// Obtenemos la informacion del fichero de espectadores
-			
-			espectadores.leerEspectadores(prop);
 			
 			int opcionAcceso = -1;
 			
@@ -92,91 +92,49 @@ public class ProgramaPrincipal {
 					
 					menu.MostrarMenuAcceso();					
 					
-					opcionAcceso = teclado.nextInt();
+					System.out.print("Introduce una opcion: ");
 					
-					teclado.nextLine(); // Leemos cualquier caracter quedado como basura
+					opcionAcceso = entrada.nextInt();
 					
 					// El usuario ha elegido la opcion de registro
 					
 					if(opcionAcceso == 1) {
 						
-						// Creamos un espectador vacio
+						// Obtenemos los datos del espectador
+
+						entrada = new Scanner(System.in); // Limpiamos el buffer de entrada
 						
-						Espectador espectador = new Espectador();
-						
-						// Pedimos al usuario su nombre de usuario
-						
-						System.out.println("Introduzca su nombre de usuario: ");
-						
-						espectador.setNickEspectador(teclado.nextLine());
-						
-						// El usuario ya esta registrado
-						
-						if(espectadores.comprobarUsuario(espectador) == true) {
-							System.out.println("El nombre de usuario ya esta registrado");
+						if(espectadores.anadirNuevoEspectador(entrada) == 1) {
+							System.out.println("Se han registrado los datos del espectador");
+							espectadores.RegistrarEspectadores(prop); // Actualizamos el fichero de datos de los espectadores
+							entrada = new Scanner(System.in); // Limpiamos el buffer de entrada
 						}
-						
-						// Usuario no registrado
-						
-						else {
-							
-							// Pedimos el nombre del usuario
-							
-							System.out.println("Introduzca su nombre: ");
-							
-							espectador.setNombreEspectador(teclado.next());
-							
-							// Pedimos el primer apellido del usuario
-							
-							System.out.println("Introduzca su primer apellido: ");
-							
-							espectador.setPrimerApellidoEspectador(teclado.next());
-							
-							// Pedimos el segundo apellido del usuario
-							
-							System.out.println("Introduzca su segundo apellido: ");
-							
-							espectador.setSegundoApellidoEspectador(teclado.next());
-							
-							// Pedimos el correo del espectador
-							
-							System.out.println("Introduzca su correo: ");
-							
-							String correo = teclado.next();
-							
-							// Comprobamos si el correo es valido
-							
-							Boolean valido = espectador.comprobarValidezCorreo(correo);
-							
-							while(valido == false) {
-								System.out.println("El correo introducido no es valido.");
-								System.out.println("Ejemplo de correo valido: xxx@xxx.com/es");
-								System.out.print("Introduzca un correo valido: ");
-								correo = teclado.next();
-								valido = espectador.comprobarValidezCorreo(correo);
-							}
-							
-							espectador.setCorreoEspectador(correo);	
-							
-							// Comprobamos si se ha anadido los datos del espectador en el sistema
-							
-							if(espectadores.anadirNuevoEspectador(espectador) == 0) {
-								System.out.println("Se ha producido un error al registrar sus datos en el sistema");
-							}
-							
-							else {
-								espectadores.RegistrarEspectadores(prop);
-								menu.MostrarMenuAcceso();
-							}
-							
-						}
-						
-						
 					}
+					
 					// El usuario ha elegido la opcion de identificarse en el sistema
+					
+					else if(opcionAcceso == 2){
+						entrada = new Scanner(System.in); // Limpiamos el buffer de entrada
+						System.out.print("Introduce su nombre de usuario para acceder a su cuenta: ");
+						String cadena = entrada.nextLine();
+						// Comprobamos si el nombre de usuario del espectador esta registrado
+						Boolean existe = espectadores.comprobarExistenciaNickUsuario(cadena);
+						// El nombre de usuario no esta registrado
+						if(existe == false) {
+							System.out.println("El nombre de usuario introducido no esta registrado");
+						}
+						// El nombre de usuario esta registrado
+						else {
+							// Obtenemos los datos del usuario registrado
+							Espectador espectador = new Espectador();
+							espectador = espectadores.obtenerDatosUsuario(cadena); // Obtenemos los datos del usuario registrado
+							System.out.println("Bienvenido " + espectador.getNickEspectador());
+							
+						}
+					}
+					
 				}catch(Exception ex) {
 					System.out.println("Debe introducir un valor entero");
-					
 				}
 			}
 			

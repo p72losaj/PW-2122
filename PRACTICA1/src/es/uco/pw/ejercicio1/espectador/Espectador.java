@@ -1,4 +1,4 @@
-package es.uco.pw.espectador;
+package es.uco.pw.ejercicio1.espectador;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;
@@ -181,6 +181,7 @@ public class Espectador {
 		
 		return false;
 	}
+
 	
 	
 }

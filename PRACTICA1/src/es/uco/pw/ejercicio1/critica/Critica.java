@@ -1,4 +1,4 @@
-package es.uco.pw.critica;
+package es.uco.pw.ejercicio1.critica;
 
 import java.util.ArrayList;
 
