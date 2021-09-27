@@ -77,6 +77,8 @@ public class ProgramaPrincipal {
 			
 			gestorCriticas.obtencionCriticasRegistradas(prop);
 			
+			gestorCriticas.visualizacionCriticas();
+			
 			int opcionAcceso = -1;
 			
 			// Obtenemos la opcion indicada por el usuario
@@ -172,6 +174,8 @@ public class ProgramaPrincipal {
 											else {
 												// Actualizamos el fichero de criticas
 												gestorCriticas.RegistroCriticas(prop);
+												// Actualizamos el gestor de criticas
+												gestorCriticas.obtencionCriticasRegistradas(prop);
 											}
 										}
 										
@@ -202,6 +206,36 @@ public class ProgramaPrincipal {
 											}
 											
 											// Caso 1: Critica encontrada
+											
+											else {
+												// Obtenemos los datos de la critica
+												critica = gestorCriticas.obtencionDatosCritica(titulo);
+												// Comprobamos si el usuario puede valorar la utilidad de la critica
+												
+												// Caso 0: El usuario no puede valorar la utilidad de la critica -> Es el autor de la critica
+												
+												if(critica.getAutorCritica().equals(espectador.getNickEspectador())) {
+													System.out.println("El usuario no puede valorar la utilidad de la critica -> Es el autor de la critica");
+												}
+												
+												// Caso 1: El usuario puede valorar la utilidad de la critica
+												
+												else {
+													int evaluacionCritica = gestorCriticas.evaluacionUtilidadCritica(entrada,critica, espectador.getNickEspectador());
+													// Caso 0: No se ha registrado la evaluacion de utilidad del usuario
+													if(evaluacionCritica == 0) {
+														System.out.println("No se ha registrado la evaluacion de utilidad de la critica");
+													}
+													// Caso 1: Se ha registrado la evaluacion de utilidad del usuario
+													else {
+														// Actualizamos los datos de la critica
+														System.out.println("Actualizando los datos de la critica");
+														gestorCriticas.RegistroCriticas(prop);
+														// Actualizamos el gestor de criticas
+														gestorCriticas.obtencionCriticasRegistradas(prop);
+													}
+												}
+											}
 											
 										}
 										

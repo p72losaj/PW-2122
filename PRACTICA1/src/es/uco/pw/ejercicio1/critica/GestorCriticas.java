@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Properties;
 import java.util.Scanner;
 import java.util.StringTokenizer;
@@ -52,6 +53,10 @@ public class GestorCriticas {
 	 */
 	
 	public void obtencionCriticasRegistradas(Properties prop) {
+		
+		// Limpiamos la lista de criticas
+		
+		this.listaCriticas = new ArrayList<Critica>();
 		
 		String nombreFichero = prop.getProperty("ficheroCriticas");
 		
@@ -118,6 +123,41 @@ public class GestorCriticas {
 					}
 					
 					// Guardamos las valoraciones de utilidad de la critica
+					
+					else if(i == 4) {
+						
+						ArrayList<EvaluacionUtilidadCritica> listaEvaluaciones = new ArrayList<EvaluacionUtilidadCritica>(); // Lista de evaluaciones de utilidad de una critica
+						
+						EvaluacionUtilidadCritica evaluacion = new EvaluacionUtilidadCritica();
+						
+						StringTokenizer st2 = new StringTokenizer(linea.get(i),","); // Segundo delimitador para separar los elementos de la lista de evaluaciones de la critica
+						
+						ArrayList<String> linea2 = new ArrayList<String>(); // Linea que separa por el delimitador <,>
+						
+						while(st2.hasMoreTokens()) {
+							// Almacenamos cada elemento de la linea
+							linea2.add(st2.nextToken());
+						}
+						
+						// Recorremos la nueva linea
+						
+						ArrayList<String> linea3 = new ArrayList<String>();
+						
+						for(int j=0; j < linea2.size(); j++) {
+							StringTokenizer st3 = new StringTokenizer(linea2.get(j),":");
+							while(st3.hasMoreTokens()) {
+								linea3.add(st3.nextToken());
+							}
+							evaluacion.setAutorEvaluacion(linea3.get(0));
+							evaluacion.setEvaluacionCritica(linea3.get(1));
+							listaEvaluaciones.add(evaluacion);
+						}
+						
+						// Anadimos la lista de evaluacion de utilidad de la critica a la critica
+						
+						critica.setValoracionesUtilidadCritica(listaEvaluaciones);
+							
+					}
 					
 				}
 				
@@ -266,7 +306,7 @@ public class GestorCriticas {
 				
 				// Puntuacion espectaculo
 				
-				escritura.write(this.listaCriticas.get(i).getPuntuacionEspectaculo()+";");
+				escritura.write(this.listaCriticas.get(i).getPuntuacionEspectaculo() + ";");
 				
 				// Resena de la critica
 				
@@ -274,19 +314,31 @@ public class GestorCriticas {
 				
 				// Autor de la critica
 				
-				escritura.write(this.listaCriticas.get(i).getAutorCritica() + ";");
+				escritura.write(this.listaCriticas.get(i).getAutorCritica()+";");
 				
 				// Valoraciones de utilidad de la critica
 				
 				ArrayList<EvaluacionUtilidadCritica> lista = this.listaCriticas.get(i).getValoracionesUtilidadCritica();
 				
-				// Recorremos la lista de valoraciones de utilidad de la critica
+				// Lista de evaluaciones de utilidad de la critica no esta vacia
 				
-				for(int j=0; j<lista.size(); j++) {
-					// Escribimos en el fichero los datos de las valoraciones de utilidad de la critica
-					escritura.write(lista.get(j).getAutorEvaluacion() + ":" + lista.get(j).getEvaluacionCritica());
-					if(j != lista.size()) {
-						escritura.write(",");
+				if(lista.isEmpty() == false) {
+					// Anadimos la lista de evaluacion de utilidad de la practica
+					
+					for(int j=0; j <= lista.size(); j++) {
+						
+						// final de la lista de evaluacion de utilidad
+						
+						if(j == lista.size()) {
+							escritura.write(";");
+						}
+						
+						// Escribimos el resto de la lista de evaliacion de utilidad
+						
+						else {
+							escritura.write(lista.get(j).getAutorEvaluacion() + ":" + lista.get(j).getEvaluacionCritica() + ",");
+						}
+
 					}
 				}
 				
@@ -304,13 +356,83 @@ public class GestorCriticas {
 	/**
 	 * Funcion que evalua la utilidad de una critica
 	 * @param entrada Buffer de entrada
-	 * @param nombre Nombre de usuario del espectador que esta evaluando la utilidad de una critica
+	 * @param critica Datos de la critica a evaluar
+	 * @param espectador Nombre de usuario del espectador 
 	 * @return 1 si se ha realizado la evaluacion; 0 en caso contrario
 	 */
 
-	public int evaluacionUtilidadCritica(String nombre) {
+	public int evaluacionUtilidadCritica(Scanner entrada, Critica critica, String espectador) {
 		
+		// Creamos una evaluacion de utilidad de la critica vacia
+		
+		EvaluacionUtilidadCritica evaluacion = new EvaluacionUtilidadCritica();
+		
+		// Almacenamos en la lista de evaluaciones el nick del espectador
+		
+		evaluacion.setAutorEvaluacion(espectador);
+		
+		// Caso 0: Critica sin evaluaciones de utilidad
+		
+		if(critica.getValoracionesUtilidadCritica().size() == 0) {
+			
+			// Pedimos al espectador su evaluacion de la utilidad de la critica
+			
+			System.out.print("Introduce su evaluacion de la utilidad de la critica: ");
+			
+			evaluacion.setEvaluacionCritica(entrada.nextLine());
+			
+			// Actualizamos la lista de criticas
+			
+			for(int i=0; i < this.listaCriticas.size(); i++) {
+				if(this.listaCriticas.get(i).getTituloCritica().equals(critica.getTituloCritica())) {
+					this.listaCriticas.get(i).getValoracionesUtilidadCritica().add(evaluacion);
+					return 1;
+				}
+			}
+		}
+		
+		//  Caso 1: Critica con evaluaciones de utilidad
 
+		else {
+			// Comprobamos si el usuario ya ha escrito una evaluacion de utilidad de la critica
+			
+			int existeEvaluacion = 0; // Por defecto, el usuario no ha escrito una evaluacion de utilidad de la critica
+			
+			for(int i=0; i < critica.getValoracionesUtilidadCritica().size(); i++) {
+				if(critica.getValoracionesUtilidadCritica().get(i).getAutorEvaluacion().equals(espectador)) {
+					existeEvaluacion = 1; // El usuario ha escrito una evaluacion de utilidad de la critica
+				}
+			}
+			
+			// Caso 0: El usuario no ha escrito una evaluacion de utilidad de la critica
+			
+			if(existeEvaluacion == 0) {
+				
+				// Pedimos al espectador su evaluacion de la utilidad de la critica
+				
+				System.out.print("Introduce su evaluacion de la utilidad de la critica: ");
+				
+				evaluacion.setEvaluacionCritica(entrada.nextLine());
+				
+				// Actualizamos la lista de criticas
+				
+				
+				for(int i=0; i < this.listaCriticas.size(); i++) {
+					if(this.listaCriticas.get(i).getTituloCritica().equals(critica.getTituloCritica())) {
+						this.listaCriticas.get(i).getValoracionesUtilidadCritica().add(evaluacion);
+						return 1;
+					}
+				}
+				
+			}
+			
+			// Caso 1: El usuario ha escrito una evaluacion de utilidad de la critica
+			
+			else {
+				System.out.println("Ya ha escrito una evaluacion de la utilidad de la critica");
+			}
+		}
+		
 		return 0; // Por defecto retorna 0
 	}
 	
@@ -329,6 +451,42 @@ public class GestorCriticas {
 			System.out.println(); // Imprimimos una linea vacia
 		}
 		
+	}
+	
+	/**
+	 * Funcion que obtiene los datos de una critica en funcion de su titulo
+	 * @param titulo Titulo de la critica
+	 * @return Datos de la critica cuyo titulo es el indicado como parametro
+	 */
+
+	public Critica obtencionDatosCritica(String titulo) {
+		// Creamos una critica vacia
+		
+		Critica critica = new Critica();
+		
+		// Almacenamos el titulo de la critica
+		
+		critica.setTituloCritica(titulo);
+		
+		// Recorremos la lista de criticas
+		
+		for(int i=0; i < this.listaCriticas.size(); i++) {
+			// Obtenemos la informacion de la critica
+			if(this.listaCriticas.get(i).getTituloCritica().equals(critica.getTituloCritica())) {
+				// Almacenamos la puntuacion de la critica
+				critica.setPuntuacionEspectaculo(this.listaCriticas.get(i).getPuntuacionEspectaculo());
+				// Almacenamos la resena de la critica
+				critica.setResenaEspectaculo(this.listaCriticas.get(i).getResenaEspectaculo());
+				// Almacenamos la lista de evaluaciones de utilidad de la critica
+				critica.setValoracionesUtilidadCritica(this.listaCriticas.get(i).getValoracionesUtilidadCritica());
+				// Almacenamos el autor de la critica
+				critica.setAutorCritica(this.listaCriticas.get(i).getAutorCritica());
+			}
+		}
+		
+		// Retornamos la critica
+		
+		return critica;
 	}
 
 

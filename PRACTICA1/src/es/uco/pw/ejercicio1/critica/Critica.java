@@ -144,9 +144,13 @@ public class Critica {
 		// Mostramos la resena de la critica
 		System.out.println("Resena de la critica: " + this.getResenaEspectaculo());
 		// Mostramos la lista de valoraciones de la critica
-		System.out.println("Valoraciones de utilidad de la critica: " + this.getValoracionesUtilidadCritica());
+		System.out.println("Valoraciones de utilidad de la critica: ");
+		for(int i=0; i < this.getValoracionesUtilidadCritica().size(); i++) {
+			System.out.println("Autor valoracion: " + this.getValoracionesUtilidadCritica().get(i).getAutorEvaluacion() + "-Evaluacion Critica: " + this.getValoracionesUtilidadCritica().get(i).getEvaluacionCritica());
+		}
 		// Mostramos el autor de la critica
 		System.out.println("Autor de la critica: " + this.getAutorCritica());
+		
 	}
 	
 }
