@@ -42,12 +42,6 @@ public class Espectador {
 	
 	private String correo = null; 
 	
-	/**
-	 *  Lista de criticas escritas del espectador
-	 */
-	
-	private ArrayList <String> listaCriticasEspectador = new ArrayList<String>();
-	
 	
 	/**
 	 * Funcion que obtiene el nombre del espectador
@@ -137,24 +131,6 @@ public class Espectador {
 	
 	public void setCorreoEspectador(String correo) {
 		this.correo = correo;
-	}
-	
-	/**
-	 * Funcion que obtiene los titulos de las criticas escritas por el espectador
-	 * @return Lista de titulos de las criticas escritas por el espectador
-	 */
-	
-	public ArrayList<String> getListaCriticasPropias(){
-		return this.listaCriticasEspectador;
-	}
-	
-	/**
-	 * Funcion que modifica la lista de criticas escritas por el espectador
-	 * @param criticas Nueva lista de criticas escritas por el espectador
-	 */
-	
-	public void setListaCriticasPropias(ArrayList <String> criticas) {
-		this.listaCriticasEspectador = criticas;
 	}
 	
 	/**

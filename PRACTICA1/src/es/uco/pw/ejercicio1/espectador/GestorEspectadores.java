@@ -335,15 +335,8 @@ public class GestorEspectadores {
 				
 				// Correo del espectador
 				
-				escritura.write(this.listaEspectadores.get(i).getCorreoEspectador() + ":");
+				escritura.write(this.listaEspectadores.get(i).getCorreoEspectador());
 				
-				// Lista de criticas del espectador
-				
-				ArrayList<String> lista = this.listaEspectadores.get(i).getListaCriticasPropias();
-				
-				for(int j=0; i < lista.size(); i++) {
-					escritura.write(lista.get(j));
-				}
 				escritura.newLine(); // Escribimos una nueva linea
 			}
 			escritura.close(); // Cerramos el fichero

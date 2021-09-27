@@ -28,5 +28,33 @@ public class Menus {
 		System.out.println("2. Identificarse en el sistema");
 		
 	}
+	
+	/**
+	 * Funcion que muestra el menu al usuario cuando se identifica en el sistema
+	 */
+	
+	public void MostrarMenuUsuarioRegistrado() {
+		System.out.println("MENU DE USUARIO");
+		System.out.println("0. SALIR DEL MENU");
+		System.out.println("1. CRITICAS");
+		System.out.println("2. ESPECTACULOS");
+		System.out.println("Introduce una opcion: ");
+	}
+	
+	/**
+	 * Funcion que muestra el menu de criticas
+	 */
+
+	public void MostrarMenuCriticas() {
+		// TODO Auto-generated method stub
+		System.out.println("MENU DE CRITICAS");
+		System.out.println("0. SALIR DEL MENU DE CRITICAS");
+		System.out.println("1. CREAR UNA CRITICA");
+		System.out.println("2. CONSULTAR TODAS LAS CRITICAS DISPONIBLES");
+		System.out.println("3. BORRAR UNA CRITICA DEL USUARIO");
+		System.out.println("4. VOTAR LA UTILIDAD DE UNA CRITICA DE OTRO USUARIO REGISTRADO");
+		System.out.println("5. BUSCAR LAS CRITICAS DE UN USUARIO REGISTRADO");
+		System.out.println("INTRODUCE UNA OPCION: ");
+	}
 
 }

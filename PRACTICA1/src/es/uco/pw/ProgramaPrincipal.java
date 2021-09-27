@@ -8,6 +8,7 @@ import java.util.Properties;
 import java.util.Scanner;
 
 import es.uco.pw.comun.menus.Menus;
+import es.uco.pw.ejercicio1.critica.Critica;
 import es.uco.pw.ejercicio1.critica.GestorCriticas;
 import es.uco.pw.ejercicio1.espectador.Espectador;
 import es.uco.pw.ejercicio1.espectador.GestorEspectadores;
@@ -37,7 +38,6 @@ public class ProgramaPrincipal {
 			
 			// Obtenemos la ruta del fichero de propiedades
 			
-			//String rutaFicheroPropiedades = rutaAbsoluta + "/src/es/uco/pw/comun/ficheros/propiedades.properties";
 			
 			String rutaFicheroPropiedades = rutaAbsoluta + "/propiedades.properties";
 			
@@ -72,10 +72,6 @@ public class ProgramaPrincipal {
 			// Leemos los datos del fichero de texto de espectadores
 			
 			espectadores.leerEspectadores(prop);
-			
-			// Mostramos la lista de espectadores por pantalla
-			
-			espectadores.visualizarDatosEspectadores(prop);
 			
 			// Leemos los datos del fichero de texto de criticas
 			
@@ -126,11 +122,67 @@ public class ProgramaPrincipal {
 						}
 						// El nombre de usuario esta registrado
 						else {
+
 							// Obtenemos los datos del usuario registrado
+							
 							Espectador espectador = new Espectador();
+							
 							espectador = espectadores.obtenerDatosUsuario(cadena); // Obtenemos los datos del usuario registrado
+							
 							System.out.println("Bienvenido " + espectador.getNickEspectador());
 							
+							int opcion2 = -1;
+							
+							while(opcion2 != 0) {
+								
+								// Mostramos el menu
+								
+								menu.MostrarMenuUsuarioRegistrado();
+								
+								// Menu de criticas
+								
+								opcion2 = entrada.nextInt();
+								
+								if(opcion2 == 1) {
+									
+									entrada = new Scanner(System.in); // Limpiamos el buffer de entrada
+									
+									int opcionCriticas = -1;
+									
+									while(opcionCriticas != 0) {
+										
+										// Mostramos el menu de criticas
+										
+										menu.MostrarMenuCriticas();
+										
+										opcionCriticas = entrada.nextInt();
+										
+										entrada = new Scanner(System.in); // Limpiamos el buffer de entrada
+										
+										// Funcion de creacion de una critica
+										
+										if(opcionCriticas == 1) {
+											
+										}
+										
+										// Funcion de consulta de todas las criticas disponibles
+										
+										// Funcion de borrado de una critica
+										
+										// Funcion de votacion de la utilidad de una critica de otro usuario registrado
+										
+										// Funcion de busqueda de las criticas de un usuario registrado
+									}
+									
+								}
+								
+								// Menu de espectaculos
+								else if(opcion2 == 2) {
+									entrada = new Scanner(System.in); // Limpiamos el buffer de entrada
+									// Mostramos el menu de espectaculos
+								
+								}
+							}
 						}
 					}
 					

@@ -50,78 +50,23 @@ public class GestorCriticas {
 
 		File fichero = new File(prop.getProperty("ficheroCriticas"));
 		
-		Scanner s = null;
 		
-		try {
-			
-			// Leemos el fichero de datos
 		
-			s = new Scanner(fichero);
-			
-			// Recorremos todas las lineas del fichero
-			
-			while( s.hasNextLine() ) {
-				
-				// Creamos una critica vacia
-				
-				Critica critica = new Critica();
-				
-				// Creamos una variable para obtener la informacion la critica
-				
-				String cadena = s.nextLine(); // Guardamos la linea en un string
-				
-				String[] cadena2 = cadena.split(":"); // Dividimos la linea en funcion de un limitador
-				
-				// Titulo de la critica
-				
-				if(cadena2[0].equals("TituloCritica")) {
-					critica.setTituloCritica(cadena2[1]);
-				}
-				
-				// Puntuacion de la critica
-				
-				else if(cadena2[0].equals("puntuacionCritica")) {
-					try {
-						critica.setPuntuacionEspectaculo(Integer.valueOf(cadena2[1]));
-					}catch(Exception ex) {
-						System.out.println("Se ha producido un error al obtener la puntuacion del espectaculo: ");
-						return;
-					}
-				}
-				
-				// Resena de la critica
-				
-				else if(cadena2[0].equals("valoracionesUtilidad")) {
-					// Recorremos la lita de valores de utilidad
-					try {
-						String[] cad = cadena2[1].split(",");
-						
-					}catch(Exception ex) {
-						System.out.println("Se ha producido un error al obtener las valoraciones de la utilidad de la critica");
-						return;
-					}
-				}
-				
-				
-				// Almacenamos la critica en el gestor de criticas
-				
-				
-			}
-				
-		}catch(Exception ex) {
-			System.out.println("Se ha producido un error al abrir el fichero: " + fichero);
-			return;
-		}
-		// Cerramos el fichero
-		finally {
-			try {
-				if(s != null) {
-					s.close();
-				}
-			}catch(Exception ex) {
-				System.out.println("Se ha producido un error al cerrar el fichero: " + fichero);
-			}
-		}
+		
+	}
+	
+	/**
+	 * Funcion que crea una critica nueva
+	 * @param entrada Buffer de entrada
+	 * @return 1 si se ha creado la critica; 0 en caso contrario
+	 */
+
+	public int crearNuevaCritica(Scanner entrada) {
+		// Creamos una critica vacia
+		Critica critica = new Critica();
+		// Obtenemos el titulo de la critica
+		System.out.print("Introduce el titulo de la critica: ");
+		return 0;
 	}
 	
 	
