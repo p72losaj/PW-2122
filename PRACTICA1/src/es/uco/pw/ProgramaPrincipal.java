@@ -10,7 +10,7 @@ import java.util.Scanner;
 import es.uco.pw.comun.menus.Menus;
 import es.uco.pw.ejercicio1.critica.GestorCriticas;
 import es.uco.pw.ejercicio1.espectador.Espectador;
-import es.uco.pw.ejercicio1.espectador.Espectadores;
+import es.uco.pw.ejercicio1.espectador.GestorEspectadores;
 
 /**
  * Programa ejecutable 
@@ -30,15 +30,16 @@ public class ProgramaPrincipal {
 		
 		// Obtenemos la ubicacion actual del archivo
 		
-		String rutaAbsoluta = new File("").getAbsolutePath();
+		String rutaAbsoluta = "./ficheros"; 
+				
 		
 		try {
 			
 			// Obtenemos la ruta del fichero de propiedades
 			
-			// String rutaFicheroPropiedades = rutaAbsoluta + "/bin/es/uco/pw/comun/ficheros/propiedades.properties";
+			//String rutaFicheroPropiedades = rutaAbsoluta + "/src/es/uco/pw/comun/ficheros/propiedades.properties";
 			
-			String rutaFicheroPropiedades = rutaAbsoluta + "/src/es/uco/pw/comun/ficheros/propiedades.properties";
+			String rutaFicheroPropiedades = rutaAbsoluta + "/propiedades.properties";
 			
 			InputStream is = new FileInputStream(rutaFicheroPropiedades);
 			
@@ -46,7 +47,7 @@ public class ProgramaPrincipal {
 			
 			// Obtenemos la ubicacion del fichero de datos de las criticas
 			
-			String rutaFicheroDatosCriticas = rutaAbsoluta + "/src/es/uco/pw/comun/ficheros/criticas.txt";
+			String rutaFicheroDatosCriticas = rutaAbsoluta + "/criticas.txt";
 			
 			// Especificamos en el fichero de propiedades la ubicacion del fichero de datos de criticas
 			
@@ -54,7 +55,7 @@ public class ProgramaPrincipal {
 			
 			// Obtenemos la ubicacion del fichero de datos de los espectadores
 			
-			String rutaFicheroDatosEspectadores = rutaAbsoluta + "/src/es/uco/pw/comun/ficheros/espectadores.txt";
+			String rutaFicheroDatosEspectadores = rutaAbsoluta + "/espectadores.txt";
 			
 			// Especificamos en el fichero de propiedades la ubicacion del fichero de datos de espectadores
 			
@@ -66,7 +67,7 @@ public class ProgramaPrincipal {
 			
 			// Creamos un gestor de espectadores
 			
-			Espectadores espectadores = new Espectadores();
+			GestorEspectadores espectadores = new GestorEspectadores();
 			
 			// Leemos los datos del fichero de texto de espectadores
 			

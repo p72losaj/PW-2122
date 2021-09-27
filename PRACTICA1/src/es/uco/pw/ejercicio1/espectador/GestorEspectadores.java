@@ -17,7 +17,7 @@ import java.util.StringTokenizer;
  * @version 1.0
  */
 
-public class Espectadores {
+public class GestorEspectadores {
 	
 	/**
 	 * Lista de espectadores
@@ -28,7 +28,7 @@ public class Espectadores {
 	/**
 	 * Constructor de clase vacio
 	 */
-	public Espectadores() {
+	public GestorEspectadores() {
 		
 	}
 	
