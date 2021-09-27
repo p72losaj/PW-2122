@@ -162,7 +162,8 @@ public class ProgramaPrincipal {
 										// Funcion de creacion de una critica
 										
 										if(opcionCriticas == 1) {
-											
+											// Creamos la critica
+											int creacionCritica = gestorCriticas.crearNuevaCritica(entrada);
 										}
 										
 										// Funcion de consulta de todas las criticas disponibles

@@ -62,11 +62,73 @@ public class GestorCriticas {
 	 */
 
 	public int crearNuevaCritica(Scanner entrada) {
+		
 		// Creamos una critica vacia
+		
 		Critica critica = new Critica();
+		
 		// Obtenemos el titulo de la critica
+		
 		System.out.print("Introduce el titulo de la critica: ");
+		
+		critica.setTituloCritica(entrada.nextLine());
+		
+		// Comprobamos si la critica ya esta registrada
+		
+		// Critica ya registrada
+		
+		if(comprobarExistenciaTituloCritica(critica.getTituloCritica()) == true) {
+			System.out.println("Critica ya registrada");
+			return 0; // No se crea la critica
+		}
+		
+		// Critica no registrada
+		
+		else {
+			// Obtenemos la puntuacion de la critica
+			int opcion = -1;
+			while(opcion == -1) {
+				System.out.print("Introduce la puntuacion de la critica [0-muy malo, 10-Perfecto]: ");
+				
+				try {
+					
+					opcion = entrada.nextInt();
+					
+					if( (opcion < 0) || (opcion > 10) ) {
+						System.out.println("Puntuacion de la critica fuera del rango establecido");
+						entrada = new Scanner(System.in); // Limpiamos el buffer de entrada
+						opcion = -1;
+					}
+					else {
+						critica.setPuntuacionEspectaculo(opcion); // Almacenamos la puntuacion de la critica
+					}
+					entrada = new Scanner(System.in); // Limpiamos el buffer de entrada
+				}catch(Exception ex) {
+					System.out.println("La puntuacion de la critica debe ser un valor entero");
+					entrada = new Scanner(System.in); // Limpiamos el buffer de entrada
+				}
+			}
+			// 
+		}
+		
 		return 0;
+	}
+	
+	/**
+	 * Funcion que comprueba si el titulo de una critica esta registrado o no
+	 * @param tituloCritica Titulo de la critica a comprobar su existencia en el sistema
+	 * @return true si la critica esta ya registrada; 0 en caso contrario
+	 */
+
+	private boolean comprobarExistenciaTituloCritica(String tituloCritica) {
+		// Recorremos la lista de criticas
+		for(int i=0; i < this.listaCriticas.size(); i++) {
+			// Titulo de critica encontrada
+			if(this.listaCriticas.get(i).getTituloCritica().equals(tituloCritica)) {
+				return true; // Critica registrada -> Retornamos true
+			}
+		}
+		return false; // Por defecto, retorna false
 	}
 	
 	

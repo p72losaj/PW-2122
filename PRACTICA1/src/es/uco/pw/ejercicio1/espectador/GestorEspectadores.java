@@ -360,7 +360,6 @@ public class GestorEspectadores {
 			System.out.println("Segundo apellido del espectador: " + this.listaEspectadores.get(i).getSegundoApellidoEspectador());
 			System.out.println("Nombre de usuario del espectador: " + this.listaEspectadores.get(i).getNickEspectador());
 			System.out.println("Correo del espectador: " + this.listaEspectadores.get(i).getCorreoEspectador());
-			System.out.println("Lista de criticas escritas por el espectador: " + this.listaEspectadores.get(i).getListaCriticasPropias());
 		}
 		
 	}
@@ -383,7 +382,6 @@ public class GestorEspectadores {
 				espectador.setSegundoApellidoEspectador(this.listaEspectadores.get(i).getSegundoApellidoEspectador());
 				espectador.setNickEspectador(nick);
 				espectador.setCorreoEspectador(this.listaEspectadores.get(i).getCorreoEspectador());
-				espectador.setListaCriticasPropias(this.listaEspectadores.get(i).getListaCriticasPropias());
 			}
 		}
 		return espectador;// Retornamos los datos del usuario registrado
