@@ -229,7 +229,7 @@ public class GestorEspectadores {
 					linea.add(st.nextToken());
 				}
 				
-				// Mostramos los elementos de la linea
+				// Obtenemos los elementos de la linea
 				
 				for(int i=0; i<linea.size(); i++) {
 					
@@ -262,10 +262,6 @@ public class GestorEspectadores {
 					else if(i==4) {
 						espectador.setCorreoEspectador(linea.get(i));
 					}
-					
-					// Guardamos la lista de criticas del espectador
-					
-					
 					
 				}
 				
@@ -300,8 +296,6 @@ public class GestorEspectadores {
 	
 	
 	public void RegistrarEspectadores(Properties prop) {
-		
-		// Fichero de datos de los espectadores
 		
 		FileWriter fichero = null;
 		

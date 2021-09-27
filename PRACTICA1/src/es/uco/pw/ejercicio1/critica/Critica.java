@@ -32,7 +32,7 @@ public class Critica {
 	 * Valoraciones de la utilidad de una critica
 	 */
 	
-	private ArrayList<Integer> valoracionesUtilidadCritica = new ArrayList<Integer>(); // Valoraciones de utilidad de una critica
+	ArrayList<EvaluacionUtilidadCritica> listaEvaluaciones = new ArrayList<EvaluacionUtilidadCritica>(); // Lista de evaluaciones de utilidad de una critica
 	
 	/**
 	 * Autor de la critica
@@ -101,8 +101,8 @@ public class Critica {
 	 * @return Lista de valoraciones de utilidad de una critica
 	 */
 	
-	public ArrayList<Integer> getValoracionesUtilidadCritica(){
-		return this.valoracionesUtilidadCritica;
+	public ArrayList<EvaluacionUtilidadCritica> getValoracionesUtilidadCritica(){
+		return this.listaEvaluaciones;
 	}
 	
 	/**
@@ -110,8 +110,8 @@ public class Critica {
 	 * @param valoraciones Nuevas valoraciones de la utilidad de una critica
 	 */
 	
-	public void setValoracionesUtilidadCritica(ArrayList<Integer> valoraciones) {
-		this.valoracionesUtilidadCritica = valoraciones;
+	public void setValoracionesUtilidadCritica(ArrayList<EvaluacionUtilidadCritica> valoraciones) {
+		this.listaEvaluaciones = valoraciones;
 	}
 	
 	/**
@@ -130,6 +130,23 @@ public class Critica {
 
 	public void setAutorCritica(String autorCritica) {
 		this.autorCritica = autorCritica;
+	}
+	
+	/**
+	 * Funcion que muestra la informacion de una critica
+	 */
+
+	public void mostrarCritica() {
+		// Mostramos el titulo de la critica
+		System.out.println("Titulo de la critica: " + this.getTituloCritica());
+		// Mostramos la puntuacion del espectaculo
+		System.out.println("Puntuacion de la critica: " + this.getPuntuacionEspectaculo());
+		// Mostramos la resena de la critica
+		System.out.println("Resena de la critica: " + this.getResenaEspectaculo());
+		// Mostramos la lista de valoraciones de la critica
+		System.out.println("Valoraciones de utilidad de la critica: " + this.getValoracionesUtilidadCritica());
+		// Mostramos el autor de la critica
+		System.out.println("Autor de la critica: " + this.getAutorCritica());
 	}
 	
 }

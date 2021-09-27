@@ -37,7 +37,8 @@ public class Menus {
 		System.out.println("MENU DE USUARIO");
 		System.out.println("0. SALIR DEL MENU");
 		System.out.println("1. CRITICAS");
-		System.out.println("2. ESPECTACULOS");
+		System.out.println("2. USUARIO");
+		System.out.println("3. ESPECTACULOS");
 		System.out.println("Introduce una opcion: ");
 	}
 	
@@ -46,7 +47,6 @@ public class Menus {
 	 */
 
 	public void MostrarMenuCriticas() {
-		// TODO Auto-generated method stub
 		System.out.println("MENU DE CRITICAS");
 		System.out.println("0. SALIR DEL MENU DE CRITICAS");
 		System.out.println("1. CREAR UNA CRITICA");

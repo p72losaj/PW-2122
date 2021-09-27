@@ -75,7 +75,7 @@ public class ProgramaPrincipal {
 			
 			// Leemos los datos del fichero de texto de criticas
 			
-			// gestorCriticas.obtenerCriticasRegistradas(prop);
+			gestorCriticas.obtencionCriticasRegistradas(prop);
 			
 			int opcionAcceso = -1;
 			
@@ -163,26 +163,62 @@ public class ProgramaPrincipal {
 										
 										if(opcionCriticas == 1) {
 											// Creamos la critica
-											int creacionCritica = gestorCriticas.crearNuevaCritica(entrada);
+											int creacionCritica = gestorCriticas.creacionNuevaCritica(entrada, espectador.getNickEspectador());
+											// Caso 1: No se ha creado la critica
+											if(creacionCritica == 0) {
+												System.out.println("No se han registrado los datos de la critica");
+											}
+											// Caso 2: Se ha creado la critica
+											else {
+												// Actualizamos el fichero de criticas
+												gestorCriticas.RegistroCriticas(prop);
+											}
 										}
 										
 										// Funcion de consulta de todas las criticas disponibles
 										
+										else if(opcionCriticas == 2) {
+											gestorCriticas.visualizacionCriticas();
+										}
+										
 										// Funcion de borrado de una critica
 										
 										// Funcion de votacion de la utilidad de una critica de otro usuario registrado
+										
+										else if(opcionCriticas == 4) {
+											// Obtenemos el titulo de la critica
+											System.out.print("Introduce el titulo de la critica a evaluar: ");
+											String titulo = entrada.nextLine(); 
+											Critica critica = new Critica(); // Creamos una critica vacio
+											
+											// Comprobamos si el titulo de la critica esta registrado
+											
+											Boolean encontrado = gestorCriticas.comprobacionExistenciaTituloCritica(titulo);
+											
+											// Caso 0: Critica no encontrada
+											
+											if(encontrado == false) {
+												System.out.println("Titulo de critica no registrada en el sistema");
+											}
+											
+											// Caso 1: Critica encontrada
+											
+										}
 										
 										// Funcion de busqueda de las criticas de un usuario registrado
 									}
 									
 								}
 								
-								// Menu de espectaculos
+								// Menu de usuarios
+								
 								else if(opcion2 == 2) {
 									entrada = new Scanner(System.in); // Limpiamos el buffer de entrada
-									// Mostramos el menu de espectaculos
+									// Mostramos el menu de los usuarios
 								
 								}
+								
+								// Menu de espectaculos
 							}
 						}
 					}
