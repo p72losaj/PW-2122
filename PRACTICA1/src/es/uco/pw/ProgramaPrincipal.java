@@ -1,4 +1,4 @@
-package es.uco.pw.ejercicio1;
+package es.uco.pw;
 
 
 import java.io.File;
@@ -28,17 +28,17 @@ public class ProgramaPrincipal {
 		
 		Menus menu = new Menus(); // clase que gestiona los distintos menus a mostrar al usuario
 		
-		// Obtenemos la informacion del fichero de propiedades
+		// Obtenemos la ubicacion actual del archivo
+		
+		String rutaAbsoluta = new File("").getAbsolutePath();
 		
 		try {
 			
-			// Obtenemos la ubicacion actual del archivo
-			
-			String rutaAbsoluta = new File("").getAbsolutePath();
-			
 			// Obtenemos la ruta del fichero de propiedades
 			
-			String rutaFicheroPropiedades = rutaAbsoluta + "/bin/es/uco/pw/comun/ficheros/propiedades.properties";
+			// String rutaFicheroPropiedades = rutaAbsoluta + "/bin/es/uco/pw/comun/ficheros/propiedades.properties";
+			
+			String rutaFicheroPropiedades = rutaAbsoluta + "/src/es/uco/pw/comun/ficheros/propiedades.properties";
 			
 			InputStream is = new FileInputStream(rutaFicheroPropiedades);
 			
@@ -46,7 +46,7 @@ public class ProgramaPrincipal {
 			
 			// Obtenemos la ubicacion del fichero de datos de las criticas
 			
-			String rutaFicheroDatosCriticas = rutaAbsoluta + "/bin/es/uco/pw/comun/ficheros/criticas.txt";
+			String rutaFicheroDatosCriticas = rutaAbsoluta + "/src/es/uco/pw/comun/ficheros/criticas.txt";
 			
 			// Especificamos en el fichero de propiedades la ubicacion del fichero de datos de criticas
 			
@@ -54,7 +54,7 @@ public class ProgramaPrincipal {
 			
 			// Obtenemos la ubicacion del fichero de datos de los espectadores
 			
-			String rutaFicheroDatosEspectadores = rutaAbsoluta + "/bin/es/uco/pw/comun/ficheros/espectadores.txt";
+			String rutaFicheroDatosEspectadores = rutaAbsoluta + "/src/es/uco/pw/comun/ficheros/espectadores.txt";
 			
 			// Especificamos en el fichero de propiedades la ubicacion del fichero de datos de espectadores
 			
