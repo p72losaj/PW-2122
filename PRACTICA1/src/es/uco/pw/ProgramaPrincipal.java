@@ -77,8 +77,6 @@ public class ProgramaPrincipal {
 			
 			gestorCriticas.obtencionCriticasRegistradas(prop);
 			
-			gestorCriticas.visualizacionCriticas();
-			
 			int opcionAcceso = -1;
 			
 			// Obtenemos la opcion indicada por el usuario
@@ -104,8 +102,11 @@ public class ProgramaPrincipal {
 						entrada = new Scanner(System.in); // Limpiamos el buffer de entrada
 						
 						if(espectadores.anadirNuevoEspectador(entrada) == 1) {
+							
 							System.out.println("Se han registrado los datos del espectador");
+							
 							espectadores.RegistrarEspectadores(prop); // Actualizamos el fichero de datos de los espectadores
+						
 							entrada = new Scanner(System.in); // Limpiamos el buffer de entrada
 						}
 					}
@@ -113,16 +114,23 @@ public class ProgramaPrincipal {
 					// El usuario ha elegido la opcion de identificarse en el sistema
 					
 					else if(opcionAcceso == 2){
+						
 						entrada = new Scanner(System.in); // Limpiamos el buffer de entrada
+						
 						System.out.print("Introduce su nombre de usuario para acceder a su cuenta: ");
+						
 						String cadena = entrada.nextLine();
+						
 						// Comprobamos si el nombre de usuario del espectador esta registrado
+						
 						Boolean existe = espectadores.comprobarExistenciaNickUsuario(cadena);
+						
 						// El nombre de usuario no esta registrado
-						if(existe == false) {
-							System.out.println("El nombre de usuario introducido no esta registrado");
-						}
+						
+						if(existe == false) {System.out.println("El nombre de usuario introducido no esta registrado");}
+						
 						// El nombre de usuario esta registrado
+						
 						else {
 
 							// Obtenemos los datos del usuario registrado
@@ -186,6 +194,49 @@ public class ProgramaPrincipal {
 										}
 										
 										// Funcion de borrado de una critica
+										
+										else if(opcionCriticas == 3) {
+											// Obtenemos el titulo de la critica
+											System.out.print("Introduce el titulo de la critica a eliminar: ");
+											String tituloEliminar = entrada.nextLine();
+											
+											// Comprobamos si el titulo de la critica esta registrado
+											
+											boolean encontrado = gestorCriticas.comprobacionExistenciaTituloCritica(tituloEliminar);
+											
+											// Caso 0: el titulo de la critica no esta registrado
+											
+											if(encontrado == false) { System.out.println("El titulo de la critica no esta registrado en el sistema");}
+											
+											// Caso 1: El titulo de la critica esta registrado
+											
+											else {
+												// Obtenemos los datos de la critica
+												
+												Critica critica = gestorCriticas.obtencionDatosCritica(tituloEliminar);
+												
+												// Comprobamos si el usuario es autor de la critica
+												
+												// Caso 0: El espectador es el autor de la critica
+												
+												if(critica.getAutorCritica().equals(espectador.getNickEspectador()) ) {
+													// Eliminamos los datos de la critica
+													gestorCriticas.eliminacionCritica(tituloEliminar);
+													
+													// Actualizamos el fichero de texto
+													
+													gestorCriticas.RegistroCriticas(prop);
+													
+													System.out.println("Critica eliminada");
+												}
+												
+												// Caso 1: El espectador no es el autor de la critica
+												
+												else {
+													System.out.println("El usuario no es autor de la critica. No tiene permisos para eliminar los datos de la critica");
+												}
+											}
+										}
 										
 										// Funcion de votacion de la utilidad de una critica de otro usuario registrado
 										

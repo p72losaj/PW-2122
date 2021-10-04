@@ -488,6 +488,24 @@ public class GestorCriticas {
 		
 		return critica;
 	}
+	
+	/**
+	 * Funcion que elimina los datos de una critica
+	 * @param tituloEliminar Titulo de la critica a eliminar
+	 */
+
+	public void eliminacionCritica(String tituloEliminar) {
+		
+		// Recorremos la lista de criticas
+		
+		for(int i=0; i<this.listaCriticas.size(); i++) {
+			// Eliminamos la critica de la lista
+			if(this.listaCriticas.get(i).getTituloCritica().equals(tituloEliminar)) {
+				this.listaCriticas.remove(this.listaCriticas.get(i));
+			}
+		}
+		
+	}
 
 
 	
