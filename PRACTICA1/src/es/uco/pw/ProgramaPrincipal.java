@@ -291,6 +291,33 @@ public class ProgramaPrincipal {
 										}
 										
 										// Funcion de busqueda de las criticas de un usuario registrado
+										
+										else if(opcionCriticas == 5) {
+											
+											// Pedimos un nombre de usuario registrado
+											
+											System.out.print("Introduce el nombre del usuario ha buscar sus criticas creadas:");
+											
+											String usuario = entrada.nextLine();
+											
+											// Comprobamos si el usuario esta registrado
+											
+											boolean encontrado = espectadores.comprobarExistenciaNickUsuario(usuario);
+											
+											// Caso 0: Usuario no encontrada
+											
+											if(encontrado == false) {
+												System.out.println("Usuario <" + usuario + "> no encontrado");
+											}
+											
+											// Caso 1: Usuario encontrado
+											
+											else {
+												System.out.println("Mostrando las criticas del usuario " + usuario);
+												gestorCriticas.visualizacionCriticasUsuario(usuario);
+											}
+											
+										}
 									}
 									
 								}

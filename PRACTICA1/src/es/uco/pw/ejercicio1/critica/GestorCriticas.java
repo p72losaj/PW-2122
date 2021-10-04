@@ -506,6 +506,26 @@ public class GestorCriticas {
 		}
 		
 	}
+	
+	/**
+	 * Funcion que muestra por pantalla los datos de las criticas de un usuario registrado
+	 * @param nickEspectador Nombre de usuario del usuario registrado
+	 */
+
+	public void visualizacionCriticasUsuario(String nickEspectador) {
+		
+		// Recorremos la lista de criticas
+		
+		for(int i=0; i<this.listaCriticas.size(); i++) {
+			// Buscamos la critica del usuario
+			if(this.listaCriticas.get(i).getAutorCritica().equals(nickEspectador)) {
+				// Mostramos por pantalla las criticas del usuario
+				this.listaCriticas.get(i).mostrarCritica();
+			}
+		}
+		
+		
+	}
 
 
 	
