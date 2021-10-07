@@ -1,7 +1,5 @@
 package es.uco.pw.ejercicio2.espectaculos;
 
-import java.util.ArrayList;
-
 /**
  * Clase que almacena las declaraciones de las funciones comunes de un espectaculo
  * @author Jaime Lorenzo Sanchez

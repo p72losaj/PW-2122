@@ -1,7 +1,5 @@
 package es.uco.pw.ejercicio2.espectaculos;
 
-import java.util.ArrayList;
-
 public abstract class FactoriaEspectaculos implements InterfazEspectaculo {
 
 	private String tituloEspectaculo; // Titulo del espectaculo

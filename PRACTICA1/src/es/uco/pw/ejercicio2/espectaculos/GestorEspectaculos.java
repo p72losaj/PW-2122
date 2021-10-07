@@ -3,7 +3,6 @@ package es.uco.pw.ejercicio2.espectaculos;
 import java.util.ArrayList;
 
 import es.uco.pw.ejercicio1.critica.Critica;
-import es.uco.pw.ejercicio1.critica.GestorCriticas;
 
 /**
  * Clase que crea y gestiona un gestor de espectaculos
