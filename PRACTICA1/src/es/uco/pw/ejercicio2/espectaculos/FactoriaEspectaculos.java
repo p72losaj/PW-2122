@@ -1,11 +1,15 @@
 package es.uco.pw.ejercicio2.espectaculos;
 
+import java.util.ArrayList;
+
 public abstract class FactoriaEspectaculos implements InterfazEspectaculo {
 
 	private String tituloEspectaculo; // Titulo del espectaculo
 	private String descripcionEspectaculo; // Descripcion del espectaculo
 	private CategoriaEspectaculo categoriaEspectaculo; // Categoria del espectaculo
 	private String tipoEspectaculo; // Tipo del espectaculo
+	private SesionEspectaculo sesionEspectaculo; // sesion del espectaculo
+	 
 	
 	/**
 	 * Constructor vacio de la factoria de espectaculos
@@ -13,6 +17,7 @@ public abstract class FactoriaEspectaculos implements InterfazEspectaculo {
 	
 	public FactoriaEspectaculos() {
 	}
+
 
 	@Override
 	public String getTituloEspectaculo() {
@@ -54,18 +59,30 @@ public abstract class FactoriaEspectaculos implements InterfazEspectaculo {
 		this.tipoEspectaculo = tipo;
 	}
 	
-	/**
-	 * Funcion que crea un espectaculo de tipo puntual
-	 * @param titulo Titulo del espectaculo
-	 * @param descripcion Descripcion del espectaculo
-	 * @param categoria Categoria del espectaculo
-	 * @param tipo Tipo del espectaculo
-	 * @return Espectaculo de tipo puntual
-	 */
+	@Override
+	public SesionEspectaculo getSesionEspectaculo() {
+		return this.sesionEspectaculo;
+	}
 	
-	public EspectaculoPuntual crearEspectaculoPuntual(String titulo,String descripcion, CategoriaEspectaculo categoria, String tipo) {
-		return new EspectaculoPuntual(titulo,descripcion,categoria,tipo);
+
+	@Override
+	public void setSesionEspectaculo(SesionEspectaculo sesion) {
+		this.sesionEspectaculo = sesion;
+	}
+	
+	@Override
+	public EspectaculoPuntual crearEspectaculoPuntual(String titulo,String descripcion, CategoriaEspectaculo categoria, String tipo, String fecha, String hora) {
+		return new EspectaculoPuntual(titulo,descripcion, categoria, tipo, fecha, hora);
+	}
+	
+	@Override
+	public EspectaculoTemporada crearEspectaculoTemporada(String titulo, String descripcion, CategoriaEspectaculo categoria, String tipo, String fechaInicio, String fechaFin, String dia) {
+		return new EspectaculoTemporada(titulo, descripcion, categoria,tipo,fechaInicio,fechaFin,dia);
 	}
 
+	@Override
+	public EspectaculoMultiple crearEspectaculoMultiple(String titulo,String descripcion, CategoriaEspectaculo categoria, String tipo, String dia1, String hora1, String dia2, String hora2) {
+		return new EspectaculoMultiple(titulo,descripcion, categoria, tipo, dia1, hora1, dia2, hora2);
+	}
 	
 }

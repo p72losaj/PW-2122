@@ -17,6 +17,26 @@ public class SesionEspectaculo {
 	private Date fecha; // fecha de la sesion
 	private int hora; // hora de la sesion
 	private int minutos; // minutos de la sesion
+	private String horaCompleta; // Hora completa de la sesion
+	private String diaSemana; // dia de la semana de la sesion
+	
+	/**
+	 * Funcion que obtiene el dia de la semana de la sesion
+	 * @return Dia de la semana de la sesion
+	 */
+	
+	public String getDiaSemana() {
+		return this.diaSemana;
+	}
+	
+	/**
+	 * Funcion que modifica el dia de la semana del espectaculo
+	 * @param diaSemana Nuevo dia de la semana del espectaculo
+	 */
+	
+	public void setDiaSemana(String diaSemana) {
+		this.diaSemana = diaSemana;
+	}
 	
 	/**
 	 * Funcion que obtiene una hora completa
@@ -24,7 +44,17 @@ public class SesionEspectaculo {
 	 */
 	
 	public String getHoraCompleta() {
-		return String.valueOf(this.hora) +":" + String.valueOf(this.minutos);
+		this.horaCompleta = String.valueOf(this.hora) +":" + String.valueOf(this.minutos);
+		return this.horaCompleta;
+	}
+	
+	/**
+	 * Funcion que modifica la hora completa de una sesion
+	 * @param hora Nueva hora completa de la sesion
+	 */
+	
+	public void setHoraCompleta(String hora) {
+		this.horaCompleta = hora;
 	}
 	
 	/**
@@ -68,16 +98,16 @@ public class SesionEspectaculo {
 	 * @return Fecha de la sesion
 	 */
 	
-	public Date getFechaSesion() {
+	public Date getFechaCompletaSesion() {
 		return this.fecha;
 	}
 	
 	/**
-	 * Funcion que modifica la fecha de representacion de un espectaculo
-	 * @param fecha Nueva fecha de representacion de un espectaculo
+	 * Funcion que modifica la fecha completa de la sesion de un espectaculo
+	 * @param fecha Nueva fecha completa de la sesion del espectaculo
 	 */
 	
-	public void setFechaRepresentacionEspectaculo(String fecha) {
+	public void setFechaCompletaSesion(String fecha) {
 		SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd"); // Formato de las cadenas
 		try {
 			java.util.Date cambio = formato.parse(fecha);

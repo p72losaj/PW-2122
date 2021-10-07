@@ -1,5 +1,7 @@
 package es.uco.pw.ejercicio2.espectaculos;
 
+import java.util.ArrayList;
+
 /**
  * Clase que almacena las declaraciones de las funciones comunes de un espectaculo
  * @author Jaime Lorenzo Sanchez
@@ -62,4 +64,62 @@ public interface InterfazEspectaculo {
 	 */
 	
 	public void setTipoEspectaculo(String tipo);
+	
+	/**
+	 * Funcion que obtiene la sesion de un espectaculo
+	 * @return Sesion del espectaculo
+	 */
+	
+	public SesionEspectaculo getSesionEspectaculo();
+	
+	/**
+	 * Funcion que modifica la sesion de un espectaculo
+	 * @param sesion Nueva sesion del espectaculo
+	 */
+	
+	public void setSesionEspectaculo(SesionEspectaculo sesion);
+
+	
+	/**
+	 * Funcion que crea un espectaculo de tipo puntual
+	 * @param titulo Titulo del espectaculo
+	 * @param descripcion Descripcion del espectaculo
+	 * @param categoria Categoria del espectaculo
+	 * @param tipo Tipo del espectaculo
+	 * @param fecha Fecha del espectaculo
+	 * @param hora Hora del espectaculo
+	 * @return Espectaculo de tipo puntual
+	 */
+	
+	public EspectaculoPuntual crearEspectaculoPuntual(String titulo,String descripcion, CategoriaEspectaculo categoria, String tipo, String fecha, String hora);
+	
+	/**
+	 * Funcion que crea un espectaculo de temporada
+	 * @param titulo Titulo del espectaculo
+	 * @param descripcion Descripcion del espectaculo
+	 * @param categoria Categoria del espectaculo
+	 * @param tipo Tipo del espectaculo
+	 * @param fechaInicio Fecha de inicio del espectaculo
+	 * @param fechaFin Fecha de fin del espectaculo
+	 * @param dia Dia de la semana
+	 * @return Espectaculo de tipo temporada
+	 */
+	
+	public EspectaculoTemporada crearEspectaculoTemporada(String titulo,String descripcion, CategoriaEspectaculo categoria, String tipo, String fechaInicio, String fechaFin, String dia);
+
+	/**
+	 * Funcion que crea un espectaculo de tipo multiple
+	 * @param titulo Titulo del espectaculo
+	 * @param descripcion Descripcion del espectaculo
+	 * @param categoria Categoria del espectaculo
+	 * @param tipo Tipo del espectaculo
+	 * @param dia1 Dia de la semana de la sesion 1 del espectaculo
+	 * @param hora1 Hora de la sesion 1 del espectaculo
+	 * @param dia2 Dia de la semana de la sesion 2 del espectaculo
+	 * @param hora2 Hora de la sesion 2 del espectaculo
+	 * @return Espectaculo de tipo multiple
+	 */
+	
+	public EspectaculoMultiple crearEspectaculoMultiple(String titulo,String descripcion, CategoriaEspectaculo categoria, String tipo, String dia1, String hora1, String dia2, String hora2);
+	
 }
