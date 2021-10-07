@@ -1,5 +1,11 @@
 package es.uco.pw.ejercicio2.espectaculos;
 
+/**
+ * Factoria de espectaculos
+ * @author Jaime Lorenzo Sanchez
+ * @version 1.0
+ */
+
 public abstract class FactoriaEspectaculos implements InterfazEspectaculo {
 
 	private String tituloEspectaculo; // Titulo del espectaculo

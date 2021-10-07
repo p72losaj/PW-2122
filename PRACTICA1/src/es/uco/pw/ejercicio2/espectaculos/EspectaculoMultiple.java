@@ -2,6 +2,12 @@ package es.uco.pw.ejercicio2.espectaculos;
 
 import java.util.ArrayList;
 
+/**
+ * Funcion que crea un espectaculo multiple
+ * @author Jaime Lorenzo Sanchez
+ * @version 1.0
+ */
+
 public class EspectaculoMultiple extends FactoriaEspectaculos {
 
 	private ArrayList<SesionEspectaculo> sesionesEspectaculo; // Sesiones del espectaculo

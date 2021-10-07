@@ -1,5 +1,11 @@
 package es.uco.pw.ejercicio2.espectaculos;
 
+/**
+ * Funcion que crea un espectaculo de tipo puntual
+ * @author Jaime Lorenzo Sanchez
+ * @version 1.0
+ */
+
 public class EspectaculoPuntual extends FactoriaEspectaculos {
 
 	public EspectaculoPuntual(String titulo, String descripcion, CategoriaEspectaculo categoria, String tipo, String fecha, String hora) {
