@@ -1,7 +1,5 @@
 package es.uco.pw.ejercicio2.espectaculos;
 
-import java.util.ArrayList;
-
 public class EspectaculoPuntual extends FactoriaEspectaculos {
 
 	public EspectaculoPuntual(String titulo, String descripcion, CategoriaEspectaculo categoria, String tipo, String fecha, String hora) {

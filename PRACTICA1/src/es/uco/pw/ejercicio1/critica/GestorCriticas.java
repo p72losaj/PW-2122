@@ -20,6 +20,7 @@ import es.uco.pw.ejercicio1.espectador.Espectador;
  */
 
 public class GestorCriticas {
+	
 	ArrayList<Critica> listaCriticas = new ArrayList<Critica>(); // Lista de criticas
 	
 	/**
