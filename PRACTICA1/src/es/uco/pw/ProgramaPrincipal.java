@@ -523,9 +523,10 @@ public class ProgramaPrincipal {
 													diaI= entrada.nextLine();
 													
 												}
-												
+											int cato = 0;
+												while(cato == 0){
 												System.out.print("Introduce categoria, 1. Concierto, 2. Monologo 3. Teatro ");
-												int cato = entrada.nextInt();
+												try(cato = entrada.nextInt();
 												if(cato == 1) {
 													cat = CategoriaEspectaculo.concierto;
 												}
@@ -534,8 +535,9 @@ public class ProgramaPrincipal {
 												}
 												else if(cato == 3) {
 													cat = CategoriaEspectaculo.obraTeatro;
+												})catch(exception ex){
+													system.out.println(" la opcion indicada no es una categoria valida ");}
 												}
-												
 										gestorEspectaculos.DarAltaEspectaculo(titulo,descr,cat,tipo,fechaP,horaP,diaM1,horaM1,diaM2,horaM2,fechaIn,fechaFi,diaI);
 												
 								
