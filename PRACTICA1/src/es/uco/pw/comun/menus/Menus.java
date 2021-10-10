@@ -3,6 +3,7 @@ package es.uco.pw.comun.menus;
 /**
  * Clase que gestiona los distintos menus que se mostraran al usuario
  * @author Jaime Lorenzo Sanchez
+ * @author Jose Angel Exposito Fernandez
  * @version 1.0
  */
 
@@ -57,4 +58,38 @@ public class Menus {
 		System.out.println("INTRODUCE UNA OPCION: ");
 	}
 
+	/**
+	 * Funcion que muestra el menu de usuarios
+	 */
+	
+	/**
+	 * Funcion que muestra el menu de espectaculos
+	 */
+	public void MostrarMenuEspectaculos() {
+		System.out.println("MENU DE ESPECTACULOS");
+		System.out.println("0. SALIR DEL MENU DE ESPECTACULOS");
+		System.out.println("1. REGISTRAR UN ESPECTACULO");
+		System.out.println("2. CANCELAR ESPECTACULO");
+		System.out.println("3. ACTUALIZAR ESPECTACULO");
+		System.out.println("4. CONTABILIZAR VENTA DE ENTRADAS");
+		System.out.println("5. BUSCAR LOCALIDADES DISPONIBLES");
+		System.out.println("6. BUSCAR ESPECTACULO POR TITULO O CATEGORIA");
+		System.out.println("7. BUSCAR ESPECTACULOS CON LOCALIDADES DISPONIBLES");
+		System.out.println("8. PUBLICAR CRITICAS ESPECTACULO");
+		System.out.println("9. CONSULTAR CRITICAS");
+		System.out.println("10. ELIMINAR CRITICAS");
+		System.out.println("11. VALORAR CRITICAS");
+		System.out.println("INTRODUCE UNA OPCION: ");
+		
+	}
+	
+	
+	public void MostrarTiposEspectaculos() {
+		System.out.println("TIPOS DE ESPECTACULOS");
+		System.out.println("1. PUNTUAL");
+		System.out.println("2. MULTIPLE");
+		System.out.println("3. TEMPORADA");	
+		System.out.println("INTRODUCE UNA OPCION: ");
+	}
+	
 }
