@@ -1,12 +1,24 @@
 package es.uco.pw.ejercicio2.espectaculos;
 
 import java.util.ArrayList;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Properties;
+import java.util.Scanner;
+import java.util.StringTokenizer;
 
 import es.uco.pw.ejercicio1.critica.Critica;
+import es.uco.pw.ejercicio2.espectaculos.CategoriaEspectaculo;
 
 /**
  * Clase que crea y gestiona un gestor de espectaculos
  * @author Jaime Lorenzo Sanchez
+ * @author Jose Angel Exposito Fernandez
  * @version 1.0
  */
 
@@ -94,5 +106,135 @@ public class GestorEspectaculos {
 		}
 		
 	}
+
+	
+	public void cancelarEspectaculo(String tituloEliminar) {
+		
+		// Recorremos las listas de espectaculos
+		
+		for(int i=0; i<this.listaEspectaculosPuntual.size(); i++) {
+		
+
+			if(this.listaEspectaculosPuntual.get(i).getTituloEspectaculo().equals(tituloEliminar)) {
+				this.listaEspectaculosPuntual.remove(this.listaEspectaculosPuntual.get(i));
+			}
+		}
+		for(int i=0; i<this.listaEspectaculosMultiple.size(); i++) {
+			
+
+				if(this.listaEspectaculosMultiple.get(i).getTituloEspectaculo().equals(tituloEliminar)) {
+					this.listaEspectaculosMultiple.remove(this.listaEspectaculosMultiple.get(i));
+				}
+		}
+		for(int i=0; i<this.listaEspectaculoTemporada.size(); i++) {
+					
+
+					if(this.listaEspectaculoTemporada.get(i).getTituloEspectaculo().equals(tituloEliminar)) {
+						this.listaEspectaculoTemporada.remove(this.listaEspectaculoTemporada.get(i));
+					}
+		}
+		
+	}
+	
+	public void BuscarEspectaculos(Scanner entrada) {
+		String titulo = "";
+		CategoriaEspectaculo cat = CategoriaEspectaculo.concierto;
+		System.out.print("Buscar por 1 titulo o 2 categoria");
+		int opc = entrada.nextInt();
+		if(opc == 1) {
+			
+			System.out.print("Introduce el titulo del espectaculo: ");
+			titulo = entrada.nextLine();
+			
+			
+			for(int i=0; i<this.listaEspectaculosPuntual.size(); i++) {
+				
+
+				if(this.listaEspectaculosPuntual.get(i).getTituloEspectaculo().equals(titulo)) {
+
+					System.out.print(this.listaEspectaculosPuntual.get(i).getTituloEspectaculo());
+					System.out.print(this.listaEspectaculosPuntual.get(i).getDescripcionEspectaculo());
+					System.out.print(this.listaEspectaculosPuntual.get(i).getCategoriaEspectaculo());
+				}
+			}
+			for(int i=0; i<this.listaEspectaculosMultiple.size(); i++) {
+				
+
+					if(this.listaEspectaculosMultiple.get(i).getTituloEspectaculo().equals(titulo)) {
+						System.out.print(this.listaEspectaculosMultiple.get(i).getTituloEspectaculo());
+						System.out.print(this.listaEspectaculosMultiple.get(i).getDescripcionEspectaculo());
+						System.out.print(this.listaEspectaculosMultiple.get(i).getCategoriaEspectaculo());	
+					}
+			}
+			for(int i=0; i<this.listaEspectaculoTemporada.size(); i++) {
+						
+
+						if(this.listaEspectaculoTemporada.get(i).getTituloEspectaculo().equals(titulo)) {
+							System.out.print(this.listaEspectaculoTemporada.get(i).getTituloEspectaculo());
+							System.out.print(this.listaEspectaculoTemporada.get(i).getDescripcionEspectaculo());
+							System.out.print(this.listaEspectaculoTemporada.get(i).getCategoriaEspectaculo());	
+							}
+			}
+			
+		}
+		else {
+			
+			System.out.print("Introduce categoria, 1. Concierto, 2. Monologo 3. Teatro ");
+			int cato = entrada.nextInt();
+			if(cato == 1) {
+				cat = CategoriaEspectaculo.concierto;
+			}
+			else if(cato == 2) {
+				cat = CategoriaEspectaculo.monologo;
+			}
+			else if(cato == 3) {
+				cat = CategoriaEspectaculo.obraTeatro;
+			}
+			
+			
+			
+			for(int i=0; i<this.listaEspectaculosPuntual.size(); i++) {
+				
+
+				if(this.listaEspectaculosPuntual.get(i).getCategoriaEspectaculo().equals(cat)) {
+
+					System.out.print(this.listaEspectaculosPuntual.get(i).getTituloEspectaculo());
+					System.out.print(this.listaEspectaculosPuntual.get(i).getDescripcionEspectaculo());
+					System.out.print(this.listaEspectaculosPuntual.get(i).getCategoriaEspectaculo());
+				}
+			}
+			for(int i=0; i<this.listaEspectaculosMultiple.size(); i++) {
+				
+
+					if(this.listaEspectaculosMultiple.get(i).getCategoriaEspectaculo().equals(cat)) {
+						System.out.print(this.listaEspectaculosMultiple.get(i).getTituloEspectaculo());
+						System.out.print(this.listaEspectaculosMultiple.get(i).getDescripcionEspectaculo());
+						System.out.print(this.listaEspectaculosMultiple.get(i).getCategoriaEspectaculo());
+					}
+			}
+			for(int i=0; i<this.listaEspectaculoTemporada.size(); i++) {
+						
+
+						if(this.listaEspectaculoTemporada.get(i).getCategoriaEspectaculo().equals(cat)) {
+							System.out.print(this.listaEspectaculoTemporada.get(i).getTituloEspectaculo());
+							System.out.print(this.listaEspectaculoTemporada.get(i).getDescripcionEspectaculo());
+							System.out.print(this.listaEspectaculoTemporada.get(i).getCategoriaEspectaculo());	
+						}
+			}
+			
+			
+			
+			
+			
+			
+			
+			
+		}
+		
+		
+		
+		
+	};
+	
 	
 }
