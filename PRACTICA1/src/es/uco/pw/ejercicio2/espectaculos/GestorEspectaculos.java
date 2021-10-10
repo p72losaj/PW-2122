@@ -180,20 +180,20 @@ public class GestorEspectaculos {
 		else {
 			
 			int cato = 0;
-												while(cato == 0){
-												System.out.print("Introduce categoria, 1. Concierto, 2. Monologo 3. Teatro ");
-												try(cato = entrada.nextInt();
-												if(cato == 1) {
-													cat = CategoriaEspectaculo.concierto;
-												}
-												else if(cato == 2) {
-													cat = CategoriaEspectaculo.monologo;
-												}
-												else if(cato == 3) {
-													cat = CategoriaEspectaculo.obraTeatro;
-												})catch(exception ex){
-													system.out.println(" la opcion indicada no es una categoria valida ");}
-												}
+			while(cato == 0){
+			System.out.print("Introduce categoria, 1. Concierto, 2. Monologo 3. Teatro ");
+			try{cato = entrada.nextInt();
+			if(cato == 1) {
+				cat = CategoriaEspectaculo.concierto;
+			}
+			else if(cato == 2) {
+				cat = CategoriaEspectaculo.monologo;
+			}
+			else if(cato == 3) {
+				cat = CategoriaEspectaculo.obraTeatro;
+			}}catch(Exception ex){
+				System.out.println(" la opcion indicada no es una categoria valida ");}
+			}
 			
 			
 			
