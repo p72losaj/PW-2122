@@ -12,10 +12,13 @@ import es.uco.pw.ejercicio1.critica.Critica;
 import es.uco.pw.ejercicio1.critica.GestorCriticas;
 import es.uco.pw.ejercicio1.espectador.Espectador;
 import es.uco.pw.ejercicio1.espectador.GestorEspectadores;
+import es.uco.pw.ejercicio2.espectaculos.CategoriaEspectaculo;
+import es.uco.pw.ejercicio2.espectaculos.GestorEspectaculos;
 
 /**
  * Programa ejecutable 
  * @author Jaime Lorenzo Sanchez
+ * @author Jose Angel Exposito Fernandez
  * @version 1.0
  */
 
@@ -331,6 +334,262 @@ public class ProgramaPrincipal {
 								}
 								
 								// Menu de espectaculos
+								else if(opcion2 == 3) {
+									
+									GestorEspectaculos gestorEspectaculos = GestorEspectaculos.getInstancia();
+									
+									entrada = new Scanner(System.in); // Limpiamos el buffer de entrada
+									
+									int opcionEspectaculos = -1;
+									
+									while(opcionEspectaculos != 0) {
+										
+										// Mostramos el menu de Espectaculos
+										
+										menu.MostrarMenuEspectaculos();
+										
+										opcionEspectaculos = entrada.nextInt();
+										
+										entrada = new Scanner(System.in); // Limpiamos el buffer de entrada
+										
+										// Creacion de Espectaculos
+										
+										if(opcionEspectaculos == 1) {
+											// Creamos el espectaculo
+											
+											String titulo = "",descr = "",tipo = "",fechaP = "",horaP = "",diaM1 = "", horaM1 = "",diaM2 = "",horaM2 = "",fechaIn = "" ,fechaFi = "",diaI = "";
+											CategoriaEspectaculo cat = CategoriaEspectaculo.concierto;
+											
+											
+											menu.MostrarTiposEspectaculos();
+											int opcionEsp = entrada.nextInt();
+												if(opcionEsp == 1) {
+													System.out.print("Introduce el titulo del espectaculo: ");
+													titulo = entrada.nextLine();
+													System.out.print("Introduce la descripcion del espectaculo: ");
+													descr = entrada.nextLine();
+													tipo = "puntual";
+													System.out.print("Introduce la fecha del espectaculo: ");
+													fechaP = entrada.nextLine();
+													System.out.print("Introduce la hora del espectaculo: ");
+													horaP = entrada.nextLine();
+													diaM1 = "";
+													horaM1 = "";
+													diaM2 = "";
+													horaM2 = "";
+													fechaIn="";
+													fechaFi="";
+													diaI="";
+													
+													
+												}
+												else if(opcionEsp == 2) {
+													System.out.print("Introduce el titulo del espectaculo: ");
+													titulo = entrada.nextLine();
+													System.out.print("Introduce la descripcion del espectaculo: ");
+													descr = entrada.nextLine();
+													tipo = "multiple";
+													fechaP = "";
+													horaP = "";
+													System.out.print("Introduce el dia 1 espectaculo: ");
+													diaM1 = entrada.nextLine();
+													System.out.print("Introduce la hora 1 del espectaculo: ");
+													horaM1 = entrada.nextLine();
+													System.out.print("Introduce el dia 2 espectaculo: ");
+													diaM2 = entrada.nextLine();
+													System.out.print("Introduce la hora 2 del espectaculo: ");
+													horaM2 = entrada.nextLine();
+													
+													fechaIn="";
+													fechaFi="";
+													diaI="";
+													
+												}
+												else if(opcionEsp == 3){
+													System.out.print("Introduce el titulo del espectaculo: ");
+													titulo = entrada.nextLine();
+													System.out.print("Introduce la descripcion del espectaculo: ");
+													descr = entrada.nextLine();
+													tipo = "temporada";
+													fechaP = "";
+													horaP = "";
+													diaM1 = "";
+													horaM1 = "";
+													diaM2 = "";
+													horaM2 = "";
+													System.out.print("Introduce la fecha de inicio del espectaculo: ");
+													fechaIn= entrada.nextLine();
+													System.out.print("Introduce la fecha de fin del espectaculo: ");
+													fechaFi= entrada.nextLine();
+													System.out.print("Introduce el dia del espectaculo");
+													diaI= entrada.nextLine();
+													
+												}
+												
+												System.out.print("Introduce categoria, 1. Concierto, 2. Monologo 3. Teatro ");
+												int cato = entrada.nextInt();
+												if(cato == 1) {
+													cat = CategoriaEspectaculo.concierto;
+												}
+												else if(cato == 2) {
+													cat = CategoriaEspectaculo.monologo;
+												}
+												else if(cato == 3) {
+													cat = CategoriaEspectaculo.obraTeatro;
+												}
+												
+										gestorEspectaculos.DarAltaEspectaculo(titulo,descr,cat,tipo,fechaP,horaP,diaM1,horaM1,diaM2,horaM2,fechaIn,fechaFi,diaI);
+												
+										}//fin registrar espectaculo
+								
+										
+										else if(opcionEspectaculos == 2) {
+										
+											System.out.print("Introduce el titulo del espectaculo: ");
+											gestorEspectaculos.cancelarEspectaculo(entrada.nextLine());
+										
+										}//fin cancelar espectaculo
+										
+										else if(opcionEspectaculos == 3) {
+											
+											System.out.print("Introduce el titulo antiguo del espectaculo: ");
+											gestorEspectaculos.cancelarEspectaculo(entrada.nextLine());
+								
+											String titulo = "",descr = "",tipo = "",fechaP = "",horaP = "",diaM1 = "", horaM1 = "",diaM2 = "",horaM2 = "",fechaIn = "" ,fechaFi = "",diaI = "";
+											CategoriaEspectaculo cat = CategoriaEspectaculo.concierto;
+											
+											System.out.print("Introduzca los nuevos datos");
+											menu.MostrarTiposEspectaculos();
+											int opcionEsp = entrada.nextInt();
+												if(opcionEsp == 1) {
+													System.out.print("Introduce el titulo del espectaculo: ");
+													titulo = entrada.nextLine();
+													System.out.print("Introduce la descripcion del espectaculo: ");
+													descr = entrada.nextLine();
+													tipo = "puntual";
+													System.out.print("Introduce la fecha del espectaculo: ");
+													fechaP = entrada.nextLine();
+													System.out.print("Introduce la hora del espectaculo: ");
+													horaP = entrada.nextLine();
+													diaM1 = "";
+													horaM1 = "";
+													diaM2 = "";
+													horaM2 = "";
+													fechaIn="";
+													fechaFi="";
+													diaI="";
+													
+													
+												}
+												else if(opcionEsp == 2) {
+													System.out.print("Introduce el titulo del espectaculo: ");
+													titulo = entrada.nextLine();
+													System.out.print("Introduce la descripcion del espectaculo: ");
+													descr = entrada.nextLine();
+													tipo = "multiple";
+													fechaP = "";
+													horaP = "";
+													System.out.print("Introduce el dia 1 espectaculo: ");
+													diaM1 = entrada.nextLine();
+													System.out.print("Introduce la hora 1 del espectaculo: ");
+													horaM1 = entrada.nextLine();
+													System.out.print("Introduce el dia 2 espectaculo: ");
+													diaM2 = entrada.nextLine();
+													System.out.print("Introduce la hora 2 del espectaculo: ");
+													horaM2 = entrada.nextLine();
+													
+													fechaIn="";
+													fechaFi="";
+													diaI="";
+													
+												}
+												else if(opcionEsp == 3){
+													System.out.print("Introduce el titulo del espectaculo: ");
+													titulo = entrada.nextLine();
+													System.out.print("Introduce la descripcion del espectaculo: ");
+													descr = entrada.nextLine();
+													tipo = "temporada";
+													fechaP = "";
+													horaP = "";
+													diaM1 = "";
+													horaM1 = "";
+													diaM2 = "";
+													horaM2 = "";
+													System.out.print("Introduce la fecha de inicio del espectaculo: ");
+													fechaIn= entrada.nextLine();
+													System.out.print("Introduce la fecha de fin del espectaculo: ");
+													fechaFi= entrada.nextLine();
+													System.out.print("Introduce el dia del espectaculo");
+													diaI= entrada.nextLine();
+													
+												}
+												
+												System.out.print("Introduce categoria, 1. Concierto, 2. Monologo 3. Teatro ");
+												int cato = entrada.nextInt();
+												if(cato == 1) {
+													cat = CategoriaEspectaculo.concierto;
+												}
+												else if(cato == 2) {
+													cat = CategoriaEspectaculo.monologo;
+												}
+												else if(cato == 3) {
+													cat = CategoriaEspectaculo.obraTeatro;
+												}
+												
+										gestorEspectaculos.DarAltaEspectaculo(titulo,descr,cat,tipo,fechaP,horaP,diaM1,horaM1,diaM2,horaM2,fechaIn,fechaFi,diaI);
+												
+								
+											
+											
+										}
+										
+										else if(opcionEspectaculos == 4) {
+											System.out.print("No implementado");
+										}
+
+										else if(opcionEspectaculos == 5) {
+
+											System.out.print("No implementado");
+										}	
+										
+
+										else if(opcionEspectaculos == 6) {
+											
+											gestorEspectaculos.BuscarEspectaculos(entrada);
+											
+										}
+
+										else if(opcionEspectaculos == 7) {
+											System.out.print("No implementado");}
+
+										else if(opcionEspectaculos == 8) {
+											System.out.print("No implementado");}
+
+										else if(opcionEspectaculos == 9) {
+											System.out.print("No implementado");}
+									
+
+										else if(opcionEspectaculos == 10) {
+											System.out.print("No implementado");}
+										
+
+										else if(opcionEspectaculos == 11) {
+											System.out.print("No implementado");}
+										
+									}
+										
+										
+										
+										
+									}	
+										
+										
+										
+									
+										
+									}
+								
+									
 							}
 						}
 					}
