@@ -17,6 +17,12 @@ CREATE TABLE `USUARIO` (
 PRIMARY KEY ( `CORREO` )
 ) TYPE = INNODB CHARACTER SET utf8 COLLATE utf8_spanish_ci COMMENT = 'TABLA DE USUARIO';
 
+# 2. ANADIR DATOS NUEVO USUARIO (EJEMPLO)
+
+INSERT INTO `USUARIO` ( `ID` , `CORREO` , `NOMBRE` , `APELLIDO1` , `APELLIDO2` , `NICK` , `ROL` )
+VALUES (
+NULL , 'ralonu@uco.es', 'Ramon', 'Lorenzo', 'Nunez', 'ralonu', 'espectador'
+);
 
 ##############################################################################################################################
 # SENTENCIAS SQL TABLA CRITICA
