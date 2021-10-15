@@ -56,6 +56,14 @@ FULLTEXT (
 )
 ) TYPE = INNODB CHARACTER SET utf8 COLLATE utf8_spanish_ci COMMENT = 'TABLA DE UNA CRITICA';
 
+# 2. CREAR UNA NUEVA CRITICA
+
+INSERT INTO `CRITICA` ( `ID` , `TITULO` , `RESENA` , `AUTOR` )
+VALUES (
+NULL , 'ROMEO Y JULIETA', 'ACTUACION DE LOS AUTORES DE LA OBRA DE TEATRO DE ROMEO Y JULIETA HA SIDO PESIMA', 'p72losaj@uco.es'
+);
+
+
 ###############################################################################################################################
 
 # SENTENCIAS SQL TABLA USUARIO-CRITICA
