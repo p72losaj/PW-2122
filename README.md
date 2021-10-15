@@ -34,6 +34,14 @@ WHERE CORREO = 'p72losaj@uco.es';
 
 DELETE FROM USUARIO WHERE `CORREO` = 'nuevo@gmail.com';
 
+# 5. MODIFICAR DATOS DE UN USUARIO (CORREO)
+
+UPDATE `USUARIO` SET `NOMBRE` = NULL ,
+`APELLIDO1` = NULL ,
+`APELLIDO2` = NULL ,
+`NICK` = 'ejemplo',
+`ROL` = '' WHERE `ID` =3 LIMIT 1 ;
+
 ##############################################################################################################################
 # SENTENCIAS SQL TABLA CRITICA
 
