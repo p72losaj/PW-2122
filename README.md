@@ -30,6 +30,10 @@ SELECT *
 FROM `USUARIO`
 WHERE CORREO = 'p72losaj@uco.es';
 
+# 4. ELIMINAR DATOS DE UN USUARIO (EJEMPLO)
+
+DELETE FROM USUARIO WHERE `CORREO` = 'nuevo@gmail.com';
+
 ##############################################################################################################################
 # SENTENCIAS SQL TABLA CRITICA
 
