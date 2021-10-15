@@ -24,6 +24,12 @@ VALUES (
 NULL , 'ralonu@uco.es', 'Ramon', 'Lorenzo', 'Nunez', 'ralonu', 'espectador'
 );
 
+# 3. BUSCAR DATOS DE UN USUARIO BUSCANDO SU CORREO (EJEMPLO)
+
+SELECT *
+FROM `USUARIO`
+WHERE CORREO = 'p72losaj@uco.es';
+
 ##############################################################################################################################
 # SENTENCIAS SQL TABLA CRITICA
 
