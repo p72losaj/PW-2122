@@ -1,5 +1,7 @@
 package es.uco.pw.datos.dao.usuario;
 
+import java.util.Properties;
+
 import es.uco.pw.negocio.usuario.RolUsuarioDTO;
 
 /**
@@ -136,4 +138,25 @@ public class UsuarioDAO {
 	public void setRolUsuario(RolUsuarioDTO rolUsuario) {
 		RolUsuario = rolUsuario;
 	}
+	
+	/**
+	 * Funcion que comprueba la existencia de un correo en la base de datos
+	 * @param correoEspectador Correo del usuario a comprobar su existencia
+	 * @param sql Fichero de propiedades sql
+	 * @return true si el correo esta registrado en la base de datos; false en caso contrario
+	 */
+
+	public Boolean comprobarExistenciaCorreo(String correoEspectador, Properties sql) {
+		
+		
+		try {
+			
+		} catch(Exception ex) {
+			System.out.println("Se ha producido un error al comprobar la existencia del correo del usuario");
+		}
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	
 }

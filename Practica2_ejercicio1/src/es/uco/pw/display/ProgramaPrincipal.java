@@ -2,9 +2,11 @@ package es.uco.pw.display;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.nio.file.FileSystems;
 import java.util.Properties;
 import java.util.Scanner;
 
+import es.uco.pw.datos.dao.usuario.UsuarioDAO;
 import es.uco.pw.display.menus.Menus;
 import es.uco.pw.negocio.critica.Critica;
 import es.uco.pw.negocio.critica.GestorCriticas;
@@ -35,7 +37,10 @@ public class ProgramaPrincipal {
 		
 		// Obtenemos la ubicacion actual de los ficheros
 		
-		String rutaAbsoluta = "./ficheros"; 
+		System.out.println();
+		
+		String rutaAbsoluta = "./ficheros";
+		
 				
 		try {
 			
@@ -112,7 +117,9 @@ public class ProgramaPrincipal {
 						
 						// Comprobamos si el correo esta registrado en la base de datos
 						
+						UsuarioDAO usuarioDAO = new UsuarioDAO();
 						
+						Boolean encontrado = usuarioDAO.comprobarExistenciaCorreo(usuarioDTO.getCorreoEspectador(), sql);
 						
 						
 						
