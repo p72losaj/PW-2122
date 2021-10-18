@@ -1,20 +1,19 @@
 package es.uco.pw.negocio.usuario;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Properties;
 import java.util.Scanner;
-import java.util.StringTokenizer;
+
+import es.uco.pw.datos.dao.comun.conexionBD.ConexionBD;
 
 /**
  * Gestor de espectadores
  * @author Jaime Lorenzo Sanchez
- * @version 1.0
+ * @version 2.0
  */
 
 public class GestorUsuariosDTO {
@@ -23,7 +22,7 @@ public class GestorUsuariosDTO {
 	 * Lista de espectadores
 	 */
 	
-	ArrayList<UsuarioDTO> listaEspectadores = new ArrayList<UsuarioDTO>();
+	ArrayList<UsuarioDTO> listaEspectadores;
 
 	/**
 	 * Constructor de clase vacio
@@ -190,170 +189,21 @@ public class GestorUsuariosDTO {
 		return false; // Por defecto, retornamos false
 	}
 	
-	/**
-	 * Funcion que obtiene los datos registrados de los espectadores
-	 * @param prop fichero de propiedades
-	 */
-	
-	public void leerEspectadores(Properties prop) {
-		
-		
-		String nombreFichero = prop.getProperty("ficheroEspectadores");
-		
-		BufferedReader br = null; // Variable para leer el fichero
-		
-		try {
-			
-			// Abrimos el fichero de texto
-			
-			 br = new BufferedReader(new FileReader(nombreFichero));
-			
-			String texto = br.readLine(); // Leemos la primera linea del fichero
-			
-			// Repetimos mientras no llegue al final del fichero
-			
-			while(texto != null) {
-				
-				UsuarioDTO espectador = new UsuarioDTO(); // Creamos un espectador vacio
-				
-				// Leemos la linea actual
-				
-				StringTokenizer st = new StringTokenizer(texto,":"); // Dividimos la cadena en partes en funcion del limitador <:>
-				
-				// Recorremos la cadena de tokens para extraer los elementos
-				
-				ArrayList<String> linea = new ArrayList<String>();
-				
-				while(st.hasMoreTokens()) {
-					// Almacenamos cada elemento de la linea
-					linea.add(st.nextToken());
-				}
-				
-				// Obtenemos los elementos de la linea
-				
-				for(int i=0; i<linea.size(); i++) {
-					
-					// Guardamos el nombre del espectador
-					
-					if(i==0) {
-						espectador.setNombreEspectador(linea.get(i));
-					}
-					
-					// Guardamos el primer apellido del espectador
-					
-					else if(i==1) {
-						espectador.setPrimerApellidoEspectador(linea.get(i));
-					}
-					
-					// Guardamos el segundo apellido del espectador
-					
-					else if(i==2) {
-						espectador.setSegundoApellidoEspectador(linea.get(i));
-					}
-					
-					// Guardamos el nombre de usuario del espectador
-					
-					else if(i==3) {
-						espectador.setNickEspectador(linea.get(i));
-					}
-					
-					// Guardamos el correo del espectador
-					
-					else if(i==4) {
-						espectador.setCorreoEspectador(linea.get(i));
-					}
-					
-				}
-				
-				// Almacenamos los datos del espectador en la lista de espectadores
-				
-				this.listaEspectadores.add(espectador);
-				
-				// Leemos la siguiente linea
-				
-				texto = br.readLine();
-			}
-			
-		}catch(Exception ex) {
-			System.out.println("No se ha podido abrir el fichero: " + nombreFichero);
-		}
-		finally {
-            try {
-                if(br != null)
-                    br.close();
-            }
-            catch (Exception e) {
-                System.out.println("Error al cerrar el fichero");
-                System.out.println(e.getMessage());
-            }
-        }
-	}
-	
-	/**
-	 * Funcion que guarda los datos de los espectadores en un fichero de texto
-	 * @param prop Fichero de propiedades
-	 */
-	
-	
-	public void RegistrarEspectadores(Properties prop) {
-		
-		FileWriter fichero = null;
-		
-		try {
-			
-			// Abrimos el fichero de espectadores
-			
-			fichero = new FileWriter(prop.getProperty("ficheroEspectadores"));
-			
-			BufferedWriter escritura = new BufferedWriter(fichero);
-			
-			// Escribimos linea a linea en el fichero
-			
-			for(int i=0; i < this.listaEspectadores.size(); i++) {
-				
-				// Nombre del espectador
-				
-				escritura.write(this.listaEspectadores.get(i).getNombreEspectador() + ":");
-				
-				// Primer apellido del espectador
-				
-				escritura.write(this.listaEspectadores.get(i).getPrimerApellidoEspectador()+":");
-				
-				// Segundo apellido del espectador
-				
-				escritura.write(this.listaEspectadores.get(i).getSegundoApellidoEspectador() + ":");
-				
-				// Nick del espectador
-				
-				escritura.write(this.listaEspectadores.get(i).getNickEspectador() + ":");
-				
-				// Correo del espectador
-				
-				escritura.write(this.listaEspectadores.get(i).getCorreoEspectador());
-				
-				escritura.newLine(); // Escribimos una nueva linea
-			}
-			escritura.close(); // Cerramos el fichero
-			
-		}catch(Exception ex) {
-			System.out.println("Se ha producido un error al abrir el fichero: " + fichero);
-			return;
-		}
-	}
 	
 	/**
 	 * Funcion que muestra por pantalla los datos de los espectadores
-	 * @param prop
 	 */
 
-	public void visualizarDatosEspectadores(Properties prop) {
+	public void visualizarDatosEspectadores() {
 		
 		for(int i=0; i<this.listaEspectadores.size(); i++) {
-			System.out.println("Nombre del espectador: " + this.listaEspectadores.get(i).getNombreEspectador());
-			System.out.println("Primer apellido del espectador: " + this.listaEspectadores.get(i).getPrimerApellidoEspectador());
-			System.out.println("Segundo apellido del espectador: " + this.listaEspectadores.get(i).getSegundoApellidoEspectador());
-			System.out.println("Nombre de usuario del espectador: " + this.listaEspectadores.get(i).getNickEspectador());
-			System.out.println("Correo del espectador: " + this.listaEspectadores.get(i).getCorreoEspectador());
+			System.out.println("Identificador del usuario: " + this.listaEspectadores.get(i).getIdUsuario());
+			System.out.println("Nombre del usuario: " + this.listaEspectadores.get(i).getNombreEspectador());
+			System.out.println("Primer apellido del usuario: " + this.listaEspectadores.get(i).getPrimerApellidoEspectador());
+			System.out.println("Segundo apellido del usuario: " + this.listaEspectadores.get(i).getSegundoApellidoEspectador());
+			System.out.println("Nick del usuario: " + this.listaEspectadores.get(i).getNickEspectador());
+			System.out.println("Correo del usuario: " + this.listaEspectadores.get(i).getCorreoEspectador());
+			System.out.println("Rol del usuario: " + this.listaEspectadores.get(i).getRolUsuario());
 		}
 		
 	}
@@ -379,6 +229,52 @@ public class GestorUsuariosDTO {
 			}
 		}
 		return espectador;// Retornamos los datos del usuario registrado
+	}
+	
+	/**
+	 * Funcion que obtiene los datos de los usuarios registrados en la base de datos
+	 * @param sql Fichero de propiedades sql
+	 * @param prop Fichero de propiedades
+	 */
+
+	public void obtenerUsuarios(Properties sql, Properties prop) {
+		
+		try {
+			// Vaciamos la lista
+			this.listaEspectadores  = new ArrayList<UsuarioDTO>();
+			// Conexion con la base de datos
+			Connection con = ConexionBD.getConexion(prop);
+			// Propiedad para obtener los datos de todos los usuarios
+			PreparedStatement ps=con.prepareStatement(sql.getProperty("ConsultarUsuarios"));
+			// Ejecutamos la sentencia sql
+			ResultSet rs = ps.executeQuery();
+			// Recorremos las filas de la base de datos
+			while(rs.next()) {
+				UsuarioDTO usuarioDTO = new UsuarioDTO(); // Creamos un usuario de tipo DTO
+				usuarioDTO.setIdUsuario(rs.getInt("ID")); // Obtenemos el identificador del usuario
+				usuarioDTO.setCorreoEspectador(rs.getString("CORREO"));// Obtenemos el correo del usuario
+				usuarioDTO.setNombreEspectador(rs.getString("NOMBRE"));// Obtenemos el nombre del usuario
+				usuarioDTO.setPrimerApellidoEspectador(rs.getString("APELLIDO1"));// Obtenemos el primer apellido del usuario
+				usuarioDTO.setSegundoApellidoEspectador(rs.getString("APELLIDO2"));// Obtenemos el segundo apellido del usuario
+				usuarioDTO.setNickEspectador(rs.getString("NICK")); // Obtenemos el nick del usuario
+				String rol = rs.getString("ROL");
+				if(rol.contentEquals("administrador")) {
+					usuarioDTO.setRolUsuario(RolUsuarioDTO.administrador);
+				}
+				else if(rol.equals("espectador")) {
+					usuarioDTO.setRolUsuario(RolUsuarioDTO.espectador);
+				}
+				this.listaEspectadores.add(usuarioDTO); // Anadimos el usuario a la lista de usuarios
+			}
+			// Cerramos la sentencia ps
+			ps.close();
+			// Cerramos la conexion con la base de datos
+			if(con != null) {
+				con = null;
+			}
+		}catch(Exception ex) {
+			System.out.println("Se ha producido un error al obtener los datos de la base de datos");
+		}
 	}
 	
 	

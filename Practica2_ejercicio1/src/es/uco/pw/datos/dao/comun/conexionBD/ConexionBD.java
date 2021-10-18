@@ -24,11 +24,12 @@ public class ConexionBD {
 		try 
 		{
 			// Obtenemos el driver de mysql
+			
 			Class.forName(prop.getProperty("Driver"));
 		  
-		  // Obtenemos los datos de conexion con la base de datos
+			// Obtenemos los datos de conexion con la base de datos
 		  
-		  con= DriverManager.getConnection(prop.getProperty("mysql"),prop.getProperty("usuarioUCO"),prop.getProperty("contrasenaUCO"));
+			con= DriverManager.getConnection(prop.getProperty("mysql"),prop.getProperty("usuarioUCO"),prop.getProperty("contrasenaUCO"));
 		  
 		} catch(Exception e) {
 			System.out.println("Los datos de conexion con la base de datos no son correctos o no se esta utilizando una direccion IP de la UCO");

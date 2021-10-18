@@ -2,19 +2,13 @@ package es.uco.pw.display;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.nio.file.FileSystems;
 import java.util.Properties;
 import java.util.Scanner;
 
-import es.uco.pw.datos.dao.usuario.UsuarioDAO;
 import es.uco.pw.display.menus.Menus;
-import es.uco.pw.negocio.critica.Critica;
 import es.uco.pw.negocio.critica.GestorCriticas;
-import es.uco.pw.negocio.espectaculo.GestorEspectaculos;
 import es.uco.pw.negocio.usuario.UsuarioDTO;
 import es.uco.pw.negocio.usuario.GestorUsuariosDTO;
-
-
 
 /**
  * Programa ejecutable 
@@ -37,8 +31,6 @@ public class ProgramaPrincipal {
 		
 		// Obtenemos la ubicacion actual de los ficheros
 		
-		System.out.println();
-		
 		String rutaAbsoluta = "./ficheros";
 		
 				
@@ -54,7 +46,7 @@ public class ProgramaPrincipal {
 			
 			// Obtenemos la ruta del fichero sql
 			
-			String rutaFicheroSQL = rutaAbsoluta + "sql.properties";
+			String rutaFicheroSQL = rutaAbsoluta + "/sql.properties";
 			
 			is = new FileInputStream(rutaFicheroSQL);
 			
@@ -66,7 +58,11 @@ public class ProgramaPrincipal {
 			
 			// Creamos un gestor de espectadores
 			
-			GestorUsuariosDTO espectadores = new GestorUsuariosDTO();
+			GestorUsuariosDTO usuarios = new GestorUsuariosDTO();
+			
+			// Obtenemos los datos de los usuarios
+			
+			usuarios.obtenerUsuarios(sql,prop);
 			
 			int opcionAcceso = -1;
 			
@@ -116,10 +112,6 @@ public class ProgramaPrincipal {
 						usuarioDTO.setCorreoEspectador(correo);
 						
 						// Comprobamos si el correo esta registrado en la base de datos
-						
-						UsuarioDAO usuarioDAO = new UsuarioDAO();
-						
-						Boolean encontrado = usuarioDAO.comprobarExistenciaCorreo(usuarioDTO.getCorreoEspectador(), sql);
 						
 						
 						

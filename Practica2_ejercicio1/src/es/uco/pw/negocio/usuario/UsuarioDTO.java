@@ -12,6 +12,12 @@ import java.util.regex.Pattern;
 public class UsuarioDTO {
 	
 	/**
+	 * Identificador del usuario
+	 */
+	
+	private int idUsuario;
+	
+	/**
 	 * Nombre del espectador
 	 */
 	
@@ -47,7 +53,24 @@ public class UsuarioDTO {
 	
 	private RolUsuarioDTO rolUsuario;
 	
+	/**
+	 * Funcion que obtiene el identificador del usuario
+	 * @return Identificador del usuario
+	 */
 	
+	public int getIdUsuario() {
+		return this.idUsuario;
+	}
+	
+	/**
+	 * Funcion que modifica el identificador del usuario
+	 * @param idUsuario Nuevo identificador del usuario
+	 */
+
+	public void setIdUsuario(int idUsuario) {
+		this.idUsuario = idUsuario;
+	}
+
 	/**
 	 * Funcion que obtiene el nombre del espectador
 	 * @return Nombre del espectador
