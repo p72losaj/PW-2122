@@ -266,6 +266,8 @@ public class GestorUsuariosDTO {
 				}
 				this.listaEspectadores.add(usuarioDTO); // Anadimos el usuario a la lista de usuarios
 			}
+			// Cerramos la sentencia rs
+			rs.close();
 			// Cerramos la sentencia ps
 			ps.close();
 			// Cerramos la conexion con la base de datos

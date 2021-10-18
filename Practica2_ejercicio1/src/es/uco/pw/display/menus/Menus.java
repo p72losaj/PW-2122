@@ -4,7 +4,7 @@ package es.uco.pw.display.menus;
  * Clase que gestiona los distintos menus que se mostraran al usuario
  * @author Jaime Lorenzo Sanchez
  * @author Jose Angel Exposito Fernandez
- * @version 1.0
+ * @version 2.0
  */
 
 public class Menus {
@@ -57,14 +57,11 @@ public class Menus {
 		System.out.println("5. BUSCAR LAS CRITICAS DE UN USUARIO REGISTRADO");
 		System.out.println("INTRODUCE UNA OPCION: ");
 	}
-
-	/**
-	 * Funcion que muestra el menu de usuarios
-	 */
 	
 	/**
 	 * Funcion que muestra el menu de espectaculos
 	 */
+	
 	public void MostrarMenuEspectaculos() {
 		System.out.println("MENU DE ESPECTACULOS");
 		System.out.println("0. SALIR DEL MENU DE ESPECTACULOS");
@@ -83,6 +80,9 @@ public class Menus {
 		
 	}
 	
+	/**
+	 * Funcion que muestra los distintos tipos de espectaculos
+	 */
 	
 	public void MostrarTiposEspectaculos() {
 		System.out.println("TIPOS DE ESPECTACULOS");
@@ -90,6 +90,17 @@ public class Menus {
 		System.out.println("2. MULTIPLE");
 		System.out.println("3. TEMPORADA");	
 		System.out.println("INTRODUCE UNA OPCION: ");
+	}
+	
+	/**
+	 * Funcion que muestra un menu con los roles del usuario
+	 */
+
+	public void MostrarRolUsuario() {
+		System.out.println("MENU DE ROLES DEL USUARIO");
+		System.out.println("1: administrador");
+		System.out.println("2: espectador");
+		System.out.print("Introduce su rol de usuario (1 o 2): ");
 	}
 	
 }

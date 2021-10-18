@@ -1,8 +1,12 @@
 package es.uco.pw.datos.dao.usuario;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.util.Properties;
 
+import es.uco.pw.datos.dao.comun.conexionBD.ConexionBD;
 import es.uco.pw.negocio.usuario.RolUsuarioDTO;
+import es.uco.pw.negocio.usuario.UsuarioDTO;
 
 /**
  * Clase que gestiona la tabla usuario de la base de datos
@@ -138,6 +142,49 @@ public class UsuarioDAO {
 	public void setRolUsuario(RolUsuarioDTO rolUsuario) {
 		RolUsuario = rolUsuario;
 	}
+	
+	/**
+	 * Funcion que inserta los datos de un nuevo usuario en la base de datos
+	 * @param usuarioDTO Usuario a insertar en la base de datos
+	 * @param prop Fichero de propiedades de conexion a la base de datos
+	 * @param sql Fichero de propiedades sql
+	 * @return Numero de filas modificadas de la base de datos
+	 */
+
+	public int insertarUsuario(UsuarioDTO usuarioDTO, Properties prop, Properties sql) {
+		
+		int status = 0; // Numero de filas anadidas en la base de datos
+		
+		try {
+			Connection con = ConexionBD.getConexion(prop); // Conexion con la base de datos
+			// Obtenemos la propiedad del fichero de propiedades
+			PreparedStatement ps=con.prepareStatement(sql.getProperty("InsertarUsuario"));
+			ps.setString(1,usuarioDTO.getCorreoEspectador());// Indicamos en la sentencia ps el correo del usuario
+			ps.setString(2, usuarioDTO.getNombreEspectador());// Indicamos el nombre del usuario en la sentencia ps
+			ps.setString(3, usuarioDTO.getPrimerApellidoEspectador());// Indicamos el primer apellido del usuario en la sentencia ps
+			ps.setString(4, usuarioDTO.getSegundoApellidoEspectador());// Indicamos el segundo apellido del usuario en la sentencia ps
+			ps.setString(5, usuarioDTO.getNickEspectador());// Indicamos el nick del usuario en la sentencia ps
+			if(usuarioDTO.getRolUsuario().equals(RolUsuarioDTO.administrador)) {
+					ps.setString(6, "administrador");
+			}
+			else if(usuarioDTO.getRolUsuario().equals(RolUsuarioDTO.espectador)) {
+				ps.setString(6, "espectador");
+			}
+			
+			status = ps.executeUpdate(); // Actualizamos la base de datos
+			ps.close(); // Cerramos la sentencia ps
+			// Cerramos la conexion con la base de datos
+			if(con != null) {
+				con = null;
+			}
+		}catch(Exception ex) {
+			System.out.println("Se ha producido un error al anadir los datos del usuario en la base de datos");
+		}
+		
+		return status; // Retornamos el numero de filas anadidas a la base de datos
+	}
+	
+	
 	
 
 	
