@@ -17,21 +17,21 @@ import java.util.StringTokenizer;
  * @version 1.0
  */
 
-public class GestorCriticas {
+public class GestorCriticasDTO {
 	
-	ArrayList<Critica> listaCriticas = new ArrayList<Critica>(); // Lista de criticas
+	ArrayList<CriticaDTO> listaCriticas = new ArrayList<CriticaDTO>(); // Lista de criticas
 	
 	/**
 	 *	Instancia unica de clase
 	 */
 	
-	private static GestorCriticas instancia = null;
+	private static GestorCriticasDTO instancia = null;
 	
 	/**
 	 * Constructor de clase
 	 */
 	
-	private GestorCriticas() {
+	private GestorCriticasDTO() {
 		
 	}
 	
@@ -39,9 +39,9 @@ public class GestorCriticas {
 	 * Acceso a un punto de la instancia
 	 */
 	
-	public static GestorCriticas getInstancia() {
+	public static GestorCriticasDTO getInstancia() {
 		if(instancia == null) {
-			instancia = new GestorCriticas();
+			instancia = new GestorCriticasDTO();
 		}
 		return instancia;
 	}
@@ -55,7 +55,7 @@ public class GestorCriticas {
 		
 		// Limpiamos la lista de criticas
 		
-		this.listaCriticas = new ArrayList<Critica>();
+		this.listaCriticas = new ArrayList<CriticaDTO>();
 		
 		String nombreFichero = prop.getProperty("ficheroCriticas");
 		
@@ -75,7 +75,7 @@ public class GestorCriticas {
 				
 				// Creamos una critica vacia
 				
-				Critica critica = new Critica();
+				CriticaDTO critica = new CriticaDTO();
 				
 				/*
 				 *  Leemos la linea actual
@@ -125,9 +125,9 @@ public class GestorCriticas {
 					
 					else if(i == 4) {
 						
-						ArrayList<EvaluacionUtilidadCritica> listaEvaluaciones = new ArrayList<EvaluacionUtilidadCritica>(); // Lista de evaluaciones de utilidad de una critica
+						ArrayList<EvaluacionUtilidadCriticaDTO> listaEvaluaciones = new ArrayList<EvaluacionUtilidadCriticaDTO>(); // Lista de evaluaciones de utilidad de una critica
 						
-						EvaluacionUtilidadCritica evaluacion = new EvaluacionUtilidadCritica();
+						EvaluacionUtilidadCriticaDTO evaluacion = new EvaluacionUtilidadCriticaDTO();
 						
 						StringTokenizer st2 = new StringTokenizer(linea.get(i),","); // Segundo delimitador para separar los elementos de la lista de evaluaciones de la critica
 						
@@ -197,7 +197,7 @@ public class GestorCriticas {
 		
 		// Creamos una critica vacia
 		
-		Critica critica = new Critica();
+		CriticaDTO critica = new CriticaDTO();
 		
 		// Obtenemos el titulo de la critica
 		
@@ -317,7 +317,7 @@ public class GestorCriticas {
 				
 				// Valoraciones de utilidad de la critica
 				
-				ArrayList<EvaluacionUtilidadCritica> lista = this.listaCriticas.get(i).getValoracionesUtilidadCritica();
+				ArrayList<EvaluacionUtilidadCriticaDTO> lista = this.listaCriticas.get(i).getValoracionesUtilidadCritica();
 				
 				// Lista de evaluaciones de utilidad de la critica no esta vacia
 				
@@ -360,11 +360,11 @@ public class GestorCriticas {
 	 * @return 1 si se ha realizado la evaluacion; 0 en caso contrario
 	 */
 
-	public int evaluacionUtilidadCritica(Scanner entrada, Critica critica, String espectador) {
+	public int evaluacionUtilidadCritica(Scanner entrada, CriticaDTO critica, String espectador) {
 		
 		// Creamos una evaluacion de utilidad de la critica vacia
 		
-		EvaluacionUtilidadCritica evaluacion = new EvaluacionUtilidadCritica();
+		EvaluacionUtilidadCriticaDTO evaluacion = new EvaluacionUtilidadCriticaDTO();
 		
 		// Almacenamos en la lista de evaluaciones el nick del espectador
 		
@@ -458,10 +458,10 @@ public class GestorCriticas {
 	 * @return Datos de la critica cuyo titulo es el indicado como parametro
 	 */
 
-	public Critica obtencionDatosCritica(String titulo) {
+	public CriticaDTO obtencionDatosCritica(String titulo) {
 		// Creamos una critica vacia
 		
-		Critica critica = new Critica();
+		CriticaDTO critica = new CriticaDTO();
 		
 		// Almacenamos el titulo de la critica
 		

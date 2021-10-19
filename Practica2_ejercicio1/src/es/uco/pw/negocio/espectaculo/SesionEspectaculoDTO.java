@@ -9,7 +9,7 @@ import java.text.SimpleDateFormat;
  * @version 1.0
  */
 
-public class SesionEspectaculo {
+public class SesionEspectaculoDTO {
 	
 	private int dia; // dia de la fecha de la sesion
 	private int mes; // mes de la fecha de la sesion
@@ -176,7 +176,7 @@ public class SesionEspectaculo {
 	 * Constructor vacio de clase
 	 */
 	
-	public SesionEspectaculo() {
+	public SesionEspectaculoDTO() {
 	}
 	
 }

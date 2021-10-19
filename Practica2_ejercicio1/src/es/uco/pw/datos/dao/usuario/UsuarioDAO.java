@@ -2,6 +2,8 @@ package es.uco.pw.datos.dao.usuario;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.Properties;
 
 import es.uco.pw.datos.dao.comun.conexionBD.ConexionBD;
@@ -183,6 +185,62 @@ public class UsuarioDAO {
 		
 		return status; // Retornamos el numero de filas anadidas a la base de datos
 	}
+
+	/**
+	 * Funcion que obtiene los datos de los usuarios registrados en la base de datos
+	 * @param sql Fichero de propiedades sql
+	 * @param prop Fichero de propiedades
+	 * @return Lista de usuarios de la base de datos
+	 */
+
+	public ArrayList<UsuarioDTO> obtenerUsuarios(Properties sql, Properties prop) {
+		
+		ArrayList<UsuarioDTO> usuarios  = new ArrayList<UsuarioDTO>(); // Lista de usuarios
+		
+		try {
+			
+			
+			// Conexion con la base de datos
+			Connection con = ConexionBD.getConexion(prop);
+			// Propiedad para obtener los datos de todos los usuarios
+			PreparedStatement ps=con.prepareStatement(sql.getProperty("ConsultarUsuarios"));
+			// Ejecutamos la sentencia sql
+			ResultSet rs = ps.executeQuery();
+			// Recorremos las filas de la base de datos
+			while(rs.next()) {
+				UsuarioDTO usuarioDTO = new UsuarioDTO(); // Creamos un usuario de tipo DTO
+				usuarioDTO.setIdUsuario(rs.getInt("ID")); // Obtenemos el identificador del usuario
+				usuarioDTO.setCorreoEspectador(rs.getString("CORREO"));// Obtenemos el correo del usuario
+				usuarioDTO.setNombreEspectador(rs.getString("NOMBRE"));// Obtenemos el nombre del usuario
+				usuarioDTO.setPrimerApellidoEspectador(rs.getString("APELLIDO1"));// Obtenemos el primer apellido del usuario
+				usuarioDTO.setSegundoApellidoEspectador(rs.getString("APELLIDO2"));// Obtenemos el segundo apellido del usuario
+				usuarioDTO.setNickEspectador(rs.getString("NICK")); // Obtenemos el nick del usuario
+				String rol = rs.getString("ROL");
+				if(rol.contentEquals("administrador")) {
+					usuarioDTO.setRolUsuario(RolUsuarioDTO.administrador);
+				}
+				else if(rol.equals("espectador")) {
+					usuarioDTO.setRolUsuario(RolUsuarioDTO.espectador);
+				}
+				usuarios.add(usuarioDTO); // Anadimos el usuario a la lista de usuarios
+			}
+			// Cerramos la sentencia rs
+			rs.close();
+			// Cerramos la sentencia ps
+			ps.close();
+			// Cerramos la conexion con la base de datos
+			if(con != null) {
+				con = null;
+			}
+		}catch(Exception ex) {
+			System.out.println("Se ha producido un error al obtener los datos de la base de datos");
+		}
+		return usuarios;
+		
+		
+	}
+	
+	
 	
 	
 	

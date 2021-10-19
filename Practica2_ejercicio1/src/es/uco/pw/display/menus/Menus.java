@@ -31,19 +31,6 @@ public class Menus {
 	}
 	
 	/**
-	 * Funcion que muestra el menu al usuario cuando se identifica en el sistema
-	 */
-	
-	public void MostrarMenuUsuarioRegistrado() {
-		System.out.println("MENU DE USUARIO");
-		System.out.println("0. SALIR DEL MENU");
-		System.out.println("1. CRITICAS");
-		System.out.println("2. USUARIO");
-		System.out.println("3. ESPECTACULOS");
-		System.out.println("Introduce una opcion: ");
-	}
-	
-	/**
 	 * Funcion que muestra el menu de criticas
 	 */
 
@@ -62,9 +49,9 @@ public class Menus {
 	 * Funcion que muestra el menu de espectaculos
 	 */
 	
-	public void MostrarMenuEspectaculos() {
-		System.out.println("MENU DE ESPECTACULOS");
-		System.out.println("0. SALIR DEL MENU DE ESPECTACULOS");
+	public void MostrarMenuAdministrador() {
+		System.out.println("MENU DE ADMINISTRADOR");
+		System.out.println("0. SALIR DEL MENU DE ADMINISTRADOR");
 		System.out.println("1. REGISTRAR UN ESPECTACULO");
 		System.out.println("2. CANCELAR ESPECTACULO");
 		System.out.println("3. ACTUALIZAR ESPECTACULO");
@@ -82,6 +69,7 @@ public class Menus {
 	
 	/**
 	 * Funcion que muestra los distintos tipos de espectaculos
+	 * @author Jose Angel Exposito Fernandez
 	 */
 	
 	public void MostrarTiposEspectaculos() {
@@ -94,6 +82,7 @@ public class Menus {
 	
 	/**
 	 * Funcion que muestra un menu con los roles del usuario
+	 * @author Jaime Lorenzo Sanchez
 	 */
 
 	public void MostrarRolUsuario() {
@@ -101,6 +90,20 @@ public class Menus {
 		System.out.println("1: administrador");
 		System.out.println("2: espectador");
 		System.out.print("Introduce su rol de usuario (1 o 2): ");
+	}
+	
+	/**
+	 * Funcion que muestra un menu con las funcionalidades de un usuario espectador
+	 * @author Jaime Lorenzo Sanchez
+	 */
+
+	public void MostrarMenuEspectador() {
+		System.out.println("MENU USUARIO ESPECTADOR");
+		System.out.println("0. CERRAR SESION");
+		System.out.println("1. CREAR UNA CRITICA");
+		System.out.println("2. VALORAR LA UTILIDAD DE UNA CRITICA");
+		System.out.println("3. MOSTRAR INFORMACION DE TODOS LOS ESPECTACULOS");
+		System.out.print("Introduce una opcion: ");
 	}
 	
 }

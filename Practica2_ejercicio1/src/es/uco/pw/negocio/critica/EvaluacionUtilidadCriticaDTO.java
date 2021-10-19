@@ -6,7 +6,7 @@ package es.uco.pw.negocio.critica;
  * @version 1.0
  */
 
-public class EvaluacionUtilidadCritica {
+public class EvaluacionUtilidadCriticaDTO {
 
 	private String autorEvaluacion; // Autor de la evaluacion de utilidad
 	
@@ -16,7 +16,7 @@ public class EvaluacionUtilidadCritica {
 	 * Constructor de clase
 	 */
 	
-	public EvaluacionUtilidadCritica() {
+	public EvaluacionUtilidadCriticaDTO() {
 		// TODO Auto-generated constructor stub
 	}
 	

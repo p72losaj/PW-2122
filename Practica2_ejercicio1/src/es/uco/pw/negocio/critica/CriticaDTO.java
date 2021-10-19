@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * @version 1.0
  */
 
-public class Critica {
+public class CriticaDTO {
 	
 	/**
 	 * Titulo de la critica
@@ -32,7 +32,7 @@ public class Critica {
 	 * Valoraciones de la utilidad de una critica
 	 */
 	
-	ArrayList<EvaluacionUtilidadCritica> listaEvaluaciones = new ArrayList<EvaluacionUtilidadCritica>(); // Lista de evaluaciones de utilidad de una critica
+	ArrayList<EvaluacionUtilidadCriticaDTO> listaEvaluaciones = new ArrayList<EvaluacionUtilidadCriticaDTO>(); // Lista de evaluaciones de utilidad de una critica
 	
 	/**
 	 * Autor de la critica
@@ -101,7 +101,7 @@ public class Critica {
 	 * @return Lista de valoraciones de utilidad de una critica
 	 */
 	
-	public ArrayList<EvaluacionUtilidadCritica> getValoracionesUtilidadCritica(){
+	public ArrayList<EvaluacionUtilidadCriticaDTO> getValoracionesUtilidadCritica(){
 		return this.listaEvaluaciones;
 	}
 	
@@ -110,7 +110,7 @@ public class Critica {
 	 * @param valoraciones Nuevas valoraciones de la utilidad de una critica
 	 */
 	
-	public void setValoracionesUtilidadCritica(ArrayList<EvaluacionUtilidadCritica> valoraciones) {
+	public void setValoracionesUtilidadCritica(ArrayList<EvaluacionUtilidadCriticaDTO> valoraciones) {
 		this.listaEvaluaciones = valoraciones;
 	}
 	

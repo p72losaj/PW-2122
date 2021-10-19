@@ -8,15 +8,15 @@ import java.util.ArrayList;
  * @version 1.0
  */
 
-public class EspectaculoMultiple extends FactoriaEspectaculos {
+public class EspectaculoMultipleDTO extends EspectaculoDTO {
 
-	private ArrayList<SesionEspectaculo> sesionesEspectaculo; // Sesiones del espectaculo
+	private ArrayList<SesionEspectaculoDTO> sesionesEspectaculo; // Sesiones del espectaculo
 	
-	public EspectaculoMultiple(String titulo, String descripcion, CategoriaEspectaculo categoria, String tipo,
-			String dia1, String hora1, String dia2, String hora2) {
-		ArrayList<SesionEspectaculo> lista = new ArrayList<SesionEspectaculo>(); // Lista de sesiones del espectaculo
-		SesionEspectaculo sesion1 = new SesionEspectaculo(); // Sesion1 de espectaculo vacia
-		SesionEspectaculo sesion2 = new SesionEspectaculo(); // Sesion2 de espectaculo vacia
+	public EspectaculoMultipleDTO(String titulo, String descripcion, CategoriaEspectaculoDTO categoria, String tipo,
+			String dia1, String hora1, String dia2, String hora2, int aforoLocalidades, int ventasEspectaculo) {
+		ArrayList<SesionEspectaculoDTO> lista = new ArrayList<SesionEspectaculoDTO>(); // Lista de sesiones del espectaculo
+		SesionEspectaculoDTO sesion1 = new SesionEspectaculoDTO(); // Sesion1 de espectaculo vacia
+		SesionEspectaculoDTO sesion2 = new SesionEspectaculoDTO(); // Sesion2 de espectaculo vacia
 		this.setTituloEspectaculo(titulo); // Obtenemos el titulo del espectaculo
 		this.setDescripcionEspectaculo(descripcion);// Obtenemos la descripcion del espectaculo
 		this.setCategoriaEspectaculo(categoria); // Obtenemos la categoria del espectaculo
@@ -28,6 +28,8 @@ public class EspectaculoMultiple extends FactoriaEspectaculos {
 		sesion2.setHoraCompleta(hora2); // Obtenemos la hora completa de la sesion2
 		lista.add(sesion2); // anadimos la sesion2 a la lista
 		this.setSesionesEspectaculo(lista); // Modificamos la lista de sesiones del espectaculo
+		this.setAforoLocalidadesEspectaculo(aforoLocalidades); // Obtenemos el aforo de localidades del espectaculo
+		this.setVentasEspectaculo(ventasEspectaculo); // Obtenemos el numero de ventas del espectaculo
 	}
 
 	/**
@@ -35,7 +37,7 @@ public class EspectaculoMultiple extends FactoriaEspectaculos {
 	 * @return Lista de sesiones del espectaculo
 	 */
 	
-	public ArrayList<SesionEspectaculo> getSesionesEspectaculo() {
+	public ArrayList<SesionEspectaculoDTO> getSesionesEspectaculo() {
 		return this.sesionesEspectaculo;
 	}
 
@@ -44,7 +46,7 @@ public class EspectaculoMultiple extends FactoriaEspectaculos {
 	 * @param sesionesEspectaculo Nueva lista de sesiones de un espectaculo
 	 */
 	
-	public void setSesionesEspectaculo(ArrayList<SesionEspectaculo> sesionesEspectaculo) {
+	public void setSesionesEspectaculo(ArrayList<SesionEspectaculoDTO> sesionesEspectaculo) {
 		this.sesionesEspectaculo = sesionesEspectaculo;
 	}
 

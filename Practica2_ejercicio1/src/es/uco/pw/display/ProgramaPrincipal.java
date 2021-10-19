@@ -7,7 +7,8 @@ import java.util.Scanner;
 
 import es.uco.pw.datos.dao.usuario.UsuarioDAO;
 import es.uco.pw.display.menus.Menus;
-import es.uco.pw.negocio.critica.GestorCriticas;
+import es.uco.pw.negocio.critica.GestorCriticasDTO;
+import es.uco.pw.negocio.espectaculo.GestorEspectaculosDTO;
 import es.uco.pw.negocio.usuario.UsuarioDTO;
 import es.uco.pw.negocio.usuario.GestorUsuariosDTO;
 import es.uco.pw.negocio.usuario.RolUsuarioDTO;
@@ -58,7 +59,7 @@ public class ProgramaPrincipal {
 			
 			// Creamos el gestor de criticas
 			
-			GestorCriticas gestorCriticas = GestorCriticas.getInstancia();
+			GestorCriticasDTO gestorCriticas = GestorCriticasDTO.getInstancia();
 			
 			// Creamos un gestor de espectadores
 			
@@ -66,7 +67,15 @@ public class ProgramaPrincipal {
 			
 			// Obtenemos los datos de los usuarios
 			
-			usuarios.obtenerUsuarios(sql,prop);
+			usuarios.setListaEspectadores(usuarioDAO.obtenerUsuarios(sql,prop));
+			
+			
+			// Creamos el gestor de espectaculos
+			
+			GestorEspectaculosDTO espectaculos = GestorEspectaculosDTO.getInstancia();
+			
+			// Almacenamos en el gestor de espectaculos los espectaculos de tipo puntual
+			
 			
 			int opcionAcceso = -1;
 			
@@ -138,7 +147,7 @@ public class ProgramaPrincipal {
 							
 							// Obtenemos el primer apellido del usuario
 							
-							System.out.print("Introduce su primer apellido: ");
+							System.out.print("Introduc)e su primer apellido: ");
 							
 							String apellido1 = entrada.nextLine();
 							
@@ -209,7 +218,7 @@ public class ProgramaPrincipal {
 								// Usuario anadido en la base de datos
 								if(status != 0) {
 									System.out.println("Usuario anadido en la base de datos");
-									usuarios.obtenerUsuarios(sql, prop);// Actualizamos el gestor de usuarios
+									usuarios.setListaEspectadores(usuarioDAO.obtenerUsuarios(sql,prop));
 								}
 								
 							}
@@ -220,7 +229,78 @@ public class ProgramaPrincipal {
 					// El usuario ha elegido la opcion de identificarse en el sistema
 				
 					else if(opcionAcceso == 2) {
-						
+						// Pedimos al usuario su correo
+						System.out.print("Introduce su correo para acceder a su cuenta: ");
+						String correo = entrada.nextLine();
+						// Comprobamos si el correo esta registrado
+						Boolean encontrado = usuarios.comprobarExistenciaCorreoEspectador(correo);
+						// Correo no registrado
+						if(encontrado == false) {
+							System.out.println("Correo no registrado en la base de datos");
+						}
+						// Correo registrado
+						else {
+							UsuarioDTO usuarioDTO = new UsuarioDTO();
+							usuarioDTO = usuarios.obtenerDatosUsuario(correo); // Obtenemos los datos del usuario
+							// Comprobamos si el usuario es administrador o espectador
+							// Caso 1: Usuario administrador
+							if(usuarioDTO.getRolUsuario().equals(RolUsuarioDTO.administrador)) {
+								int administrador = -1;
+								while(administrador != 0) {
+									// Mostramos el menu del administrador
+									menu.MostrarMenuAdministrador();
+									try {
+										// Obtenemos la funcionalidad deseada por el usuario
+										administrador = entrada.nextInt();
+										entrada = new Scanner(System.in); // Limpiamos el buffer
+
+										// Caso 1: Dar de alta un espectaculo
+										
+										// Caso 2: Cancelar un espectaculo ( todas las sesiones o una en particular)
+										
+										// Caso 3: Actualizar los datos de un espectáculo
+										
+										// Caso 4: Contabilizar la venta de entradas para una sesión de un espectáculo
+										
+										// Caso 5: Consultar las localidades disponibles para un espectáculo, dada una fecha de  representación
+										
+										// caso 6: Búsqueda de espectáculos por título o por categoría
+										
+										// Caso 7: Búsqueda de próximos espectáculos con entradas disponibles, indicando o no una  categoría específica
+										
+										// Caso 8: Publicar una crítica para un espectáculo que ya se ha celebrado
+										
+										// Caso 9: Consultar las críticas de un espectáculo, dado su título
+
+										// Caso 10: Eliminar críticas de un espectáculo, por parte del usuario que la creó
+										
+										// Caso 11: Valorar la utilidad de una crítica publicada por otro usuario
+									}catch(Exception ex) {
+										System.out.println("Se esperaba un valor entero");
+									}
+									
+								}
+							}
+							// Caso 2: Usuario espectador
+							else {
+								int espectador = 1;
+								while(espectador != 0) {
+									menu.MostrarMenuEspectador(); // Mostramos el menu del espectador
+									try {
+										espectador = entrada.nextInt(); // Obtenemos la funcionalidad del espectador
+										// Caso 1: Crear una critica
+										// Caso 2: Valorar una critica
+										// Caso 3: Mostrar informacion espectaculos
+										if(espectador == 3) {
+
+										}
+										entrada = new Scanner(System.in); // Limpiamos el buffer
+									}catch(Exception ex) {
+										System.out.println("Se esperaba un valor entero");
+									}
+								}
+							}
+						}
 					}
 				
 				}catch(Exception ex) {
