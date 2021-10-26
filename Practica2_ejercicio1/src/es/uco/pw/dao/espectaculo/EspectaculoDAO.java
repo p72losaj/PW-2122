@@ -14,6 +14,16 @@ public class EspectaculoDAO {
 	private int localidadesEspectaculo; // Numero de localidades del espectaculo
 	private int ventasEspectaculo; // Numero de ventas de un espectaculo
 	/**
+	 * Funcion que obtiene los datos comunes de un espectaculo
+	 * @param prop
+	 * @param sql
+	 * @return
+	 */
+	public int obtencionEspectaculo(Properties prop, Properties sql) {
+		
+	}
+	
+	/**
 	 * Funcion que obtiene el numero de ventas de un espectaculo
 	 * @return Numero de ventas del espectaculo
 	 */
