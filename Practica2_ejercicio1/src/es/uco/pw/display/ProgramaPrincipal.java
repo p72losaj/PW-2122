@@ -76,6 +76,9 @@ public class ProgramaPrincipal {
 			
 			// Almacenamos en el gestor de espectaculos los espectaculos de tipo puntual
 			
+			// Almacenamos en el gestor de espectaculos los espectaculos de tipo multiple
+			
+			// Almacenamos en el gestor de espectaculos los espectaculos de temporada
 			
 			int opcionAcceso = -1;
 			
