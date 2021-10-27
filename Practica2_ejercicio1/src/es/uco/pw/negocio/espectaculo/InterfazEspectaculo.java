@@ -1,12 +1,24 @@
 package es.uco.pw.negocio.espectaculo;
 
+import java.util.ArrayList;
+
 /**
  * Clase que almacena las declaraciones de las funciones comunes de un espectaculo
  * @author Jaime Lorenzo Sanchez
  * @version 2.0
  */
 
-public interface InterfazEspectaculoDTO {
+public interface InterfazEspectaculo {
+	/**
+	 * Funcion que obtiene el identificador del espectaculo
+	 * @return Identificador del espectaculo
+	 */
+	public int getIdentificadorEspectaculo();
+	/**
+	 * Funcion que modifica el identificador del espectaculo
+	 * @param id Nuevo identificador del espectaculo
+	 */
+	public void setIdentificadorEspectaculo(int id);
 	/**
 	 * Funcion que obtiene el titulo de un espectaculo
 	 * @return Titulo del espectaculo
@@ -40,14 +52,14 @@ public interface InterfazEspectaculoDTO {
 	 * @return Categoria del espectaculo
 	 */
 	
-	public CategoriaEspectaculoDTO getCategoriaEspectaculo();
+	public CategoriaEspectaculo getCategoriaEspectaculo();
 	
 	/**
 	 * Funcion que modifica la categoria de un espectaculo
 	 * @param categoria Nueva categoria del espectaculo
 	 */
 	
-	public void setCategoriaEspectaculo(CategoriaEspectaculoDTO categoria);
+	public void setCategoriaEspectaculo(CategoriaEspectaculo categoria);
 	
 	/**
 	 * Funcion que obtiene el tipo del espectaculo
@@ -104,5 +116,19 @@ public interface InterfazEspectaculoDTO {
 	 */
 	
 	public void setVentasEspectaculo(int ventas);
+	
+	/**
+	 * Funcion que obtiene la lista de sesiones de un espectaculo
+	 * @return Lista de sesiones de un espectaculo
+	 */
+	
+	public ArrayList<SesionEspectaculoDTO> getSesionesEspectaculo();
+	
+	/**
+	 * Funcion que modifica las sesiones de un espectaculo
+	 * @param sesionesEspectaculo Nueva lista de sesiones de un espectaculo
+	 */
+	
+	public void setSesionesEspectaculo(ArrayList<SesionEspectaculoDTO> sesionesEspectaculo);
 	
 }

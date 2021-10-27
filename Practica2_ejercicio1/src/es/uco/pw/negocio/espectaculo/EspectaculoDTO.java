@@ -1,20 +1,23 @@
 package es.uco.pw.negocio.espectaculo;
 
+import java.util.ArrayList;
+
 /**
  * Clase que gestiona las operaciones de un espectaculo
  * @author Jaime Lorenzo Sanchez
  * @version 1.0
  */
 
-public class EspectaculoDTO implements InterfazEspectaculoDTO{
-	
+public class EspectaculoDTO implements InterfazEspectaculo{
+	private int identificadorEspectaculo; // Identificador del espectaculo
 	private String tituloEspectaculo; // Titulo del espectaculo
 	private String descripcionEspectaculo; // Descripcion del espectaculo
-	private CategoriaEspectaculoDTO categoriaEspectaculo; // Categoria del espectaculo
+	private CategoriaEspectaculo categoriaEspectaculo; // Categoria del espectaculo
 	private String tipoEspectaculo; // Tipo del espectaculo
 	private SesionEspectaculoDTO sesionEspectaculo; // sesion del espectaculo
 	private int localidades; // Aforo de localidades del evento
 	private int ventasEspectaculo; // Numero de ventas del espectaculo
+	private ArrayList<SesionEspectaculoDTO> sesionesEspectaculo; // Lista de sesiones del espectaculo
 
 	/**
 	 * Constructor de clase
@@ -23,6 +26,17 @@ public class EspectaculoDTO implements InterfazEspectaculoDTO{
 	
 	public EspectaculoDTO() {
 		
+	}
+	
+	
+	@Override
+	public void setSesionesEspectaculo(ArrayList<SesionEspectaculoDTO> sesionesEspectaculo) {
+		this.sesionesEspectaculo = sesionesEspectaculo;
+	}
+	
+	@Override
+	public ArrayList<SesionEspectaculoDTO> getSesionesEspectaculo() {
+		return this.sesionesEspectaculo;
 	}
 	
 	@Override
@@ -46,12 +60,12 @@ public class EspectaculoDTO implements InterfazEspectaculoDTO{
 	}
 
 	@Override
-	public CategoriaEspectaculoDTO getCategoriaEspectaculo() {
+	public CategoriaEspectaculo getCategoriaEspectaculo() {
 		return this.categoriaEspectaculo;
 	}
 
 	@Override
-	public void setCategoriaEspectaculo(CategoriaEspectaculoDTO categoria) {
+	public void setCategoriaEspectaculo(CategoriaEspectaculo categoria) {
 		this.categoriaEspectaculo = categoria;
 	}
 
@@ -94,6 +108,16 @@ public class EspectaculoDTO implements InterfazEspectaculoDTO{
 	@Override
 	public void setVentasEspectaculo(int ventas) {
 		this.ventasEspectaculo = ventas;
+	}
+
+	@Override
+	public int getIdentificadorEspectaculo() {
+		return this.identificadorEspectaculo;
+	}
+
+	@Override
+	public void setIdentificadorEspectaculo(int id) {
+		this.identificadorEspectaculo = id;
 	}
 
 

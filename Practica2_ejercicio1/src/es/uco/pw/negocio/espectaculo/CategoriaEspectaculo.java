@@ -7,6 +7,6 @@ package es.uco.pw.negocio.espectaculo;
  *
  */
 
-public enum CategoriaEspectaculoDTO {
+public enum CategoriaEspectaculo {
 	concierto, monologo,obraTeatro;
 }

@@ -3,12 +3,12 @@ package es.uco.pw.negocio.espectaculo;
 /**
  * Funcion que crea un espectaculo de tipo puntual
  * @author Jaime Lorenzo Sanchez
- * @version 1.0
+ * @version 2.0
  */
 
 public class EspectaculoPuntualDTO extends EspectaculoDTO {
 
-	public EspectaculoPuntualDTO(String titulo, String descripcion, CategoriaEspectaculoDTO categoria, String tipo, String fecha, String hora, int aforoLocalidades, int ventasEspectaculo) {
+	public EspectaculoPuntualDTO(String titulo, String descripcion, CategoriaEspectaculo categoria, String tipo, String fecha, String hora, int aforoLocalidades, int ventasEspectaculo) {
 		this.setTituloEspectaculo(titulo);// titulo del espectaculo
 		this.setDescripcionEspectaculo(descripcion);// Descripcion del espectaculo
 		this.setCategoriaEspectaculo(categoria);// Categoria del espectaculo

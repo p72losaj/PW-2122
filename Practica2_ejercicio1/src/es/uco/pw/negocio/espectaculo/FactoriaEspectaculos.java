@@ -6,13 +6,13 @@ package es.uco.pw.negocio.espectaculo;
  * @version 2.0
  */
 
-public abstract class FactoriaEspectaculosDTO {
+public abstract class FactoriaEspectaculos {
 	
 	/**
 	 * Constructor vacio de la factoria de espectaculos
 	 */
 	
-	public FactoriaEspectaculosDTO() {
+	public FactoriaEspectaculos() {
 	}
 	
 	/**
@@ -28,7 +28,7 @@ public abstract class FactoriaEspectaculosDTO {
 	 * @return Espectaculo de tipo puntual
 	 */
 	
-	public EspectaculoPuntualDTO crearEspectaculoPuntual(String titulo,String descripcion, CategoriaEspectaculoDTO categoria, String tipo, String fecha, String hora, int aforoLocalidades, int ventasEspectaculo) {
+	public EspectaculoPuntualDTO crearEspectaculoPuntual(String titulo,String descripcion, CategoriaEspectaculo categoria, String tipo, String fecha, String hora, int aforoLocalidades, int ventasEspectaculo) {
 		return new EspectaculoPuntualDTO(titulo,descripcion, categoria, tipo, fecha, hora, aforoLocalidades, ventasEspectaculo);
 	}
 	
@@ -46,7 +46,7 @@ public abstract class FactoriaEspectaculosDTO {
 	 * @return Espectaculo de tipo temporada
 	 */
 	
-	public EspectaculoTemporadaDTO crearEspectaculoTemporada(String titulo, String descripcion, CategoriaEspectaculoDTO categoria, String tipo, String fechaInicio, String fechaFin, String dia, int aforoLocalidades, int ventasEspectaculo) {
+	public EspectaculoTemporadaDTO crearEspectaculoTemporada(String titulo, String descripcion, CategoriaEspectaculo categoria, String tipo, String fechaInicio, String fechaFin, String dia, int aforoLocalidades, int ventasEspectaculo) {
 		return new EspectaculoTemporadaDTO(titulo, descripcion, categoria,tipo,fechaInicio,fechaFin,dia, aforoLocalidades, ventasEspectaculo);
 	}
 
@@ -65,7 +65,7 @@ public abstract class FactoriaEspectaculosDTO {
 	 * @return Espectaculo de tipo multiple
 	 */
 	
-	public EspectaculoMultipleDTO crearEspectaculoMultiple(String titulo,String descripcion, CategoriaEspectaculoDTO categoria, String tipo, String dia1, String hora1, String dia2, String hora2, int aforoLocalidades, int ventasEspectaculo) {
+	public EspectaculoMultipleDTO crearEspectaculoMultiple(String titulo,String descripcion, CategoriaEspectaculo categoria, String tipo, String dia1, String hora1, String dia2, String hora2, int aforoLocalidades, int ventasEspectaculo) {
 		return new EspectaculoMultipleDTO(titulo,descripcion, categoria, tipo, dia1, hora1, dia2, hora2, aforoLocalidades, ventasEspectaculo);
 	}
 	

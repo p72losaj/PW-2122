@@ -199,7 +199,6 @@ public class UsuarioDAO {
 		
 		try {
 			
-			
 			// Conexion con la base de datos
 			Connection con = ConexionBD.getConexion(prop);
 			// Propiedad para obtener los datos de todos los usuarios

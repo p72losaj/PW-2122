@@ -5,14 +5,12 @@ import java.util.ArrayList;
 /**
  * Clase que crea un espectaculo de temporada
  * @author Jaime Lorenzo sanchez
- * @version 1.0
+ * @version 2.0
  */
 
 public class EspectaculoTemporadaDTO extends EspectaculoDTO {
-	
-	private ArrayList<SesionEspectaculoDTO> sesionesEspectaculo; // Lista de sesiones del espectaculo
 
-	public EspectaculoTemporadaDTO(String titulo, String descripcion, CategoriaEspectaculoDTO categoria, String tipo,
+	public EspectaculoTemporadaDTO(String titulo, String descripcion, CategoriaEspectaculo categoria, String tipo,
 			String fechaInicio, String fechaFin, String dia, int aforoLocalidades, int ventasEspectaculo) {
 		ArrayList<SesionEspectaculoDTO> lista = new ArrayList<SesionEspectaculoDTO>(); // Lista de sesiones del espectaculo
 		SesionEspectaculoDTO inicio = new SesionEspectaculoDTO(); // Sesion de inicio del espectaculo
@@ -32,24 +30,6 @@ public class EspectaculoTemporadaDTO extends EspectaculoDTO {
 		this.setVentasEspectaculo(ventasEspectaculo); // Obtenemos el numero de ventas del espectaculo
 		return;
 	}
-
-	/**
-	 * Funcion que obtiene las sesiones de un espectaculo
-	 * @return Lista de sesiones del espectaculo
-	 */
 	
-	public ArrayList<SesionEspectaculoDTO> getSesionesEspectaculo() {
-		return this.sesionesEspectaculo;
-	}
-
-
-	/**
-	 * Funcion que modifica las sesiones de un espectaculo
-	 * @param sesionesEspectaculo Nueva lista de sesiones de un espectaculo
-	 */
-	
-	public void setSesionesEspectaculo(ArrayList<SesionEspectaculoDTO> sesionesEspectaculo) {
-		this.sesionesEspectaculo = sesionesEspectaculo;
-	}
 
 }

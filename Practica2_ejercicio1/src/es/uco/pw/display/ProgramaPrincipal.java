@@ -73,12 +73,9 @@ public class ProgramaPrincipal {
 			// Creamos el gestor de espectaculos
 			
 			GestorEspectaculosDTO espectaculos = GestorEspectaculosDTO.getInstancia();
+						
+			// Almacenamos en el gestor de espectaculos la informacion de todos los espectaculos
 			
-			// Almacenamos en el gestor de espectaculos los espectaculos de tipo puntual
-			
-			// Almacenamos en el gestor de espectaculos los espectaculos de tipo multiple
-			
-			// Almacenamos en el gestor de espectaculos los espectaculos de temporada
 			
 			int opcionAcceso = -1;
 			
@@ -292,6 +289,8 @@ public class ProgramaPrincipal {
 									try {
 										espectador = entrada.nextInt(); // Obtenemos la funcionalidad del espectador
 										// Caso 1: Crear una critica
+										// Mostramos la lista de espectaculos ya realizados
+										
 										// Caso 2: Valorar una critica
 										// Caso 3: Mostrar informacion espectaculos
 										if(espectador == 3) {

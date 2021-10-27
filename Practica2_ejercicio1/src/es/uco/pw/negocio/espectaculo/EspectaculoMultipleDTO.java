@@ -5,14 +5,12 @@ import java.util.ArrayList;
 /**
  * Funcion que crea un espectaculo multiple
  * @author Jaime Lorenzo Sanchez
- * @version 1.0
+ * @version 2.0
  */
 
 public class EspectaculoMultipleDTO extends EspectaculoDTO {
-
-	private ArrayList<SesionEspectaculoDTO> sesionesEspectaculo; // Sesiones del espectaculo
 	
-	public EspectaculoMultipleDTO(String titulo, String descripcion, CategoriaEspectaculoDTO categoria, String tipo,
+	public EspectaculoMultipleDTO(String titulo, String descripcion, CategoriaEspectaculo categoria, String tipo,
 			String dia1, String hora1, String dia2, String hora2, int aforoLocalidades, int ventasEspectaculo) {
 		ArrayList<SesionEspectaculoDTO> lista = new ArrayList<SesionEspectaculoDTO>(); // Lista de sesiones del espectaculo
 		SesionEspectaculoDTO sesion1 = new SesionEspectaculoDTO(); // Sesion1 de espectaculo vacia
@@ -30,24 +28,6 @@ public class EspectaculoMultipleDTO extends EspectaculoDTO {
 		this.setSesionesEspectaculo(lista); // Modificamos la lista de sesiones del espectaculo
 		this.setAforoLocalidadesEspectaculo(aforoLocalidades); // Obtenemos el aforo de localidades del espectaculo
 		this.setVentasEspectaculo(ventasEspectaculo); // Obtenemos el numero de ventas del espectaculo
-	}
-
-	/**
-	 * Funcion que obtiene las sesiones de un espectaculo
-	 * @return Lista de sesiones del espectaculo
-	 */
-	
-	public ArrayList<SesionEspectaculoDTO> getSesionesEspectaculo() {
-		return this.sesionesEspectaculo;
-	}
-
-	/**
-	 * Funcion que modifica las sesiones de un espectaculo
-	 * @param sesionesEspectaculo Nueva lista de sesiones de un espectaculo
-	 */
-	
-	public void setSesionesEspectaculo(ArrayList<SesionEspectaculoDTO> sesionesEspectaculo) {
-		this.sesionesEspectaculo = sesionesEspectaculo;
 	}
 
 }

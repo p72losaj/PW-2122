@@ -12,39 +12,20 @@ import java.util.Scanner;
 
 public class GestorEspectaculosDTO {
 	
-	ArrayList<EspectaculoPuntualDTO> listaEspectaculosPuntual = new ArrayList<EspectaculoPuntualDTO>(); // Lista de espectaculos puntuales
+	ArrayList<EspectaculoDTO> listaEspectaculos = new ArrayList<EspectaculoDTO>(); // Lista de espectaculos
 	
-	ArrayList<EspectaculoMultipleDTO> listaEspectaculosMultiple = new ArrayList<EspectaculoMultipleDTO>(); // Lista de espectaculos multiples
-	
-	ArrayList<EspectaculoTemporadaDTO> listaEspectaculoTemporada = new ArrayList<EspectaculoTemporadaDTO>(); // Lista de espectaculos de temporada
 	
 	/**
-	 * Funcion que obtiene la lista de espectculos puntuales
+	 * Funcion que obtiene la lista de espectaculos del gestor
 	 * @return Lista de espectaculos puntuales
 	 */
 	
-	public ArrayList<EspectaculoPuntualDTO> getListaEspectaculosPuntual() {
-		return listaEspectaculosPuntual;
+	public ArrayList<EspectaculoDTO> getEspectaculos() {
+		return listaEspectaculos;
 	}
 
-	public void setListaEspectaculosPuntual(ArrayList<EspectaculoPuntualDTO> listaEspectaculosPuntual) {
-		this.listaEspectaculosPuntual = listaEspectaculosPuntual;
-	}
-
-	public ArrayList<EspectaculoMultipleDTO> getListaEspectaculosMultiple() {
-		return listaEspectaculosMultiple;
-	}
-
-	public void setListaEspectaculosMultiple(ArrayList<EspectaculoMultipleDTO> listaEspectaculosMultiple) {
-		this.listaEspectaculosMultiple = listaEspectaculosMultiple;
-	}
-
-	public ArrayList<EspectaculoTemporadaDTO> getListaEspectaculoTemporada() {
-		return listaEspectaculoTemporada;
-	}
-
-	public void setListaEspectaculoTemporada(ArrayList<EspectaculoTemporadaDTO> listaEspectaculoTemporada) {
-		this.listaEspectaculoTemporada = listaEspectaculoTemporada;
+	public void setListaEspectaculosPuntual(ArrayList<EspectaculoDTO> listaEspectaculosPuntual) {
+		this.listaEspectaculos = listaEspectaculosPuntual;
 	}
 	
 	/**
@@ -53,7 +34,7 @@ public class GestorEspectaculosDTO {
 	
 	private static GestorEspectaculosDTO instancia = null;
 	
-	private FactoriaEspectaculosDTO factoria; // Factoria de espectaculos
+	private FactoriaEspectaculos factoria; // Factoria de espectaculos
 	
 	/**
 	 * Constructor de clase
@@ -93,7 +74,7 @@ public class GestorEspectaculosDTO {
 	 * @param ventasEspectaculo Numero de ventas del espectaculo
 	 */
 
-	public void CrearEspectaculo(String tituloEspectaculo, String descripcionEspectaculo,CategoriaEspectaculoDTO categoriaEspectaculo,
+	public void CrearEspectaculo(String tituloEspectaculo, String descripcionEspectaculo,CategoriaEspectaculo categoriaEspectaculo,
 			String tipoEspectaculo, String fechaPuntual, String horaPuntual, String diaMultiple1,
 			String horaMultiple1,  String diaMultiple2, String horaMultiple2, String fechaInicioTemporada,
 			String fechaFinTemporada, String diaTemporada, int aforoLocalidades,int ventasEspectaculo) {
@@ -103,7 +84,7 @@ public class GestorEspectaculosDTO {
 		if(tipoEspectaculo.equals("puntual")) {
 			EspectaculoPuntualDTO puntual; // Espectaculo puntual vacio
 			puntual = factoria.crearEspectaculoPuntual(tituloEspectaculo, descripcionEspectaculo, categoriaEspectaculo, tipoEspectaculo, fechaPuntual, horaPuntual,aforoLocalidades,ventasEspectaculo); // Creacion del espectaculo puntual
-			this.listaEspectaculosPuntual.add(puntual); // Anadimos el espectaculo puntual a la lista de espectaculos puntuales
+			this.listaEspectaculos.add(puntual); // Anadimos el espectaculo puntual a la lista de espectaculos puntuales
 		}
 		
 		// caso 2: El espectaculo a crear es de tipo multiple
@@ -111,7 +92,7 @@ public class GestorEspectaculosDTO {
 		else if(tipoEspectaculo.equals("multiple")) {
 			EspectaculoMultipleDTO multiple; // Espectaculo multiple vacio
 			multiple = factoria.crearEspectaculoMultiple(tituloEspectaculo, descripcionEspectaculo, categoriaEspectaculo, tipoEspectaculo, diaMultiple1, horaMultiple1, diaMultiple2, horaMultiple2,aforoLocalidades,ventasEspectaculo);
-			this.listaEspectaculosMultiple.add(multiple); // anadimos el espectaculo multiple a la lista de espectaculos multiple
+			this.listaEspectaculos.add(multiple); // anadimos el espectaculo multiple a la lista de espectaculos multiple
 		}
 		
 		// Caso 3: el espectaculo a crear es de temporada
@@ -119,43 +100,37 @@ public class GestorEspectaculosDTO {
 		else if(tipoEspectaculo.equals("temporada")) {
 			EspectaculoTemporadaDTO temporada; // Espectaculo de temporada vacio
 			temporada = factoria.crearEspectaculoTemporada(tituloEspectaculo, descripcionEspectaculo, categoriaEspectaculo, tipoEspectaculo, fechaInicioTemporada, fechaFinTemporada, diaTemporada,aforoLocalidades,ventasEspectaculo); // Creamos el espectaculo de temporada
-			this.listaEspectaculoTemporada.add(temporada); // anadimos el espectaculo de temporada a la lista de espectaculos de temporada
+			this.listaEspectaculos.add(temporada); // anadimos el espectaculo de temporada a la lista de espectaculos de temporada
 		}
 		
 	}
 	
 	
-	public void cancelarEspectaculo(String tituloEliminar) {
+	public Boolean cancelarEspectaculo(String tituloEliminar) {
 		
-		// Recorremos las listas de espectaculos
+		// Recorremos la lista de espectaculo
 		
-		for(int i=0; i<this.listaEspectaculosPuntual.size(); i++) {
+		for(int i=0; i<this.listaEspectaculos.size(); i++) {
 		
-
-			if(this.listaEspectaculosPuntual.get(i).getTituloEspectaculo().equals(tituloEliminar)) {
-				this.listaEspectaculosPuntual.remove(this.listaEspectaculosPuntual.get(i));
+			// Titulo del espectaculo encontrado
+			
+			if(this.listaEspectaculos.get(i).getTituloEspectaculo().equals(tituloEliminar)) {
+				// Eliminamos el espectaculo de la lista de espectaculos
+				this.listaEspectaculos.remove(this.listaEspectaculos.get(i));
+				// Retornamos true
+				return true;
 			}
 		}
-		for(int i=0; i<this.listaEspectaculosMultiple.size(); i++) {
-			
-
-				if(this.listaEspectaculosMultiple.get(i).getTituloEspectaculo().equals(tituloEliminar)) {
-					this.listaEspectaculosMultiple.remove(this.listaEspectaculosMultiple.get(i));
-				}
-		}
-		for(int i=0; i<this.listaEspectaculoTemporada.size(); i++) {
-					
-
-					if(this.listaEspectaculoTemporada.get(i).getTituloEspectaculo().equals(tituloEliminar)) {
-						this.listaEspectaculoTemporada.remove(this.listaEspectaculoTemporada.get(i));
-					}
-		}
+		
+		// Por defecto, retornamos false
+		
+		return false;
 		
 	}
-	
+	/*
 	public void BuscarEspectaculos(Scanner entrada) {
 		String titulo = "";
-		CategoriaEspectaculoDTO cat = CategoriaEspectaculoDTO.concierto;
+		CategoriaEspectaculo cat = CategoriaEspectaculo.concierto;
 		System.out.print("Buscar por 1 titulo o 2 categoria");
 		int opc = entrada.nextInt();
 		if(opc == 1) {
@@ -201,13 +176,13 @@ public class GestorEspectaculosDTO {
 			System.out.print("Introduce categoria, 1. Concierto, 2. Monologo 3. Teatro ");
 			try{cato = entrada.nextInt();
 			if(cato == 1) {
-				cat = CategoriaEspectaculoDTO.concierto;
+				cat = CategoriaEspectaculo.concierto;
 			}
 			else if(cato == 2) {
-				cat = CategoriaEspectaculoDTO.monologo;
+				cat = CategoriaEspectaculo.monologo;
 			}
 			else if(cato == 3) {
-				cat = CategoriaEspectaculoDTO.obraTeatro;
+				cat = CategoriaEspectaculo.obraTeatro;
 			}}catch(Exception ex){
 				System.out.println(" la opcion indicada no es una categoria valida ");}
 			}
@@ -257,5 +232,5 @@ public class GestorEspectaculosDTO {
 		
 	};
 	
-	
+	*/
 }
