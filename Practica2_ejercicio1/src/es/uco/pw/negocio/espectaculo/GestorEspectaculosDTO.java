@@ -24,7 +24,7 @@ public class GestorEspectaculosDTO {
 		return listaEspectaculos;
 	}
 
-	public void setListaEspectaculosPuntual(ArrayList<EspectaculoDTO> listaEspectaculosPuntual) {
+	public void setListaEspectaculos(ArrayList<EspectaculoDTO> listaEspectaculosPuntual) {
 		this.listaEspectaculos = listaEspectaculosPuntual;
 	}
 	
