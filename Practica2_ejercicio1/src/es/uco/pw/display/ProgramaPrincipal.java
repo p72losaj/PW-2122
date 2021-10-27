@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.util.Properties;
 import java.util.Scanner;
 
+import es.uco.pw.dao.espectaculo.EspectaculoDAO;
 import es.uco.pw.datos.dao.usuario.UsuarioDAO;
 import es.uco.pw.display.menus.Menus;
 import es.uco.pw.negocio.critica.GestorCriticasDTO;
@@ -29,6 +30,8 @@ public class ProgramaPrincipal {
 		Properties sql = new Properties(); // Clase properties para el fichero de propiedades sql
 		
 		UsuarioDAO usuarioDAO = new UsuarioDAO(); // Anadimos un usuario de tipo dao
+		
+		EspectaculoDAO espectaculoDAO = new EspectaculoDAO(); // Creamos un espectaculo de tipo DAO
 		
 		Scanner entrada = new Scanner (System.in); // Clase scanner es necesaria para obtener datos por teclado
 		
@@ -69,13 +72,17 @@ public class ProgramaPrincipal {
 			
 			usuarios.setListaEspectadores(usuarioDAO.obtenerUsuarios(sql,prop));
 			
-			
 			// Creamos el gestor de espectaculos
 			
 			GestorEspectaculosDTO espectaculos = GestorEspectaculosDTO.getInstancia();
 						
 			// Almacenamos en el gestor de espectaculos la informacion de todos los espectaculos
 			
+			espectaculos.setListaEspectaculos(espectaculoDAO.obtencionEspectaculos(prop, sql));
+			
+			// Mostramos la informacion de los espectaculos
+			
+			espectaculos.imprimirEspectaculos();
 			
 			int opcionAcceso = -1;
 			

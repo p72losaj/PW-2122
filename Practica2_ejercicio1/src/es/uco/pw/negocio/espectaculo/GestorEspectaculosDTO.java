@@ -1,7 +1,6 @@
 package es.uco.pw.negocio.espectaculo;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 /**
  * Clase que crea y gestiona un gestor de espectaculos
@@ -233,4 +232,31 @@ public class GestorEspectaculosDTO {
 	};
 	
 	*/
+	
+	/**
+	 * Funcion que muestra por pantalla la informacion de todos los espectaculos almacenados en el gestor
+	 */
+
+	public void imprimirEspectaculos() {
+		// Recorremos la lista de espectaculos
+		for(int i=0; i < this.listaEspectaculos.size(); i++) {
+			System.out.println("Espectaculo " + this.listaEspectaculos.get(i).getIdentificadorEspectaculo()); // Imprimimos el identificador del espectaculo
+			System.out.println("\tTitulo del espectaculo: " + this.listaEspectaculos.get(i).getTituloEspectaculo()); // Mostramos el titulo del espectaculo
+			System.out.println("\tDescripcion del espectaculo: " + this.listaEspectaculos.get(i).getDescripcionEspectaculo());// Mostramos la descripcion del espectaculo
+			System.out.println("\tCategoria del espectaculo: " + this.listaEspectaculos.get(i).getCategoriaEspectaculo());// Mostramos la categoria del espectaculo
+			System.out.println("\tTipo del espectaculo: " + this.listaEspectaculos.get(i).getTipoEspectaculo());// Mostramos el tipo del espectaculo
+			System.out.println("\tAforo de localidades del espectaculo: " + this.listaEspectaculos.get(i).getAforoLocalidadesEspectaculo());// Mostramos el aforo de localidades del espectaculo
+			System.out.println("\tNumero de ventas del espectaculo: " + this.listaEspectaculos.get(i).getVentasEspectaculo());// Mostramos el numero de ventas del espectaculo
+			// Caso 1: el espectaculo es de tipo puntual
+			if(this.listaEspectaculos.get(i).getTipoEspectaculo().equals("PUNTUAL")) {
+				System.out.println("Fecha de la sesion: " + this.listaEspectaculos.get(i).getSesionEspectaculo().getFechaCompletaSesion());// Imprimimos la fecha completa de la sesion
+				System.out.println("Hora completa de la sesion: " + this.listaEspectaculos.get(i).getSesionEspectaculo().getHoraCompleta());// Imprimimos la hora completa de la sesion
+				
+			}
+			// Caso 2: El espectaculo es de tipo multiple
+			
+			// Caso 3: El espectaculo es de temporada
+		}
+		
+	}
 }

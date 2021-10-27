@@ -25,10 +25,10 @@ public class EspectaculoDAO {
 	private int localidadesEspectaculo; // Numero de localidades del espectaculo
 	private int ventasEspectaculo; // Numero de ventas de un espectaculo
 	/**
-	 * Funcion que obtiene los datos comunes de un espectaculo
+	 * Funcion que obtiene todos los datos de un espectaculo
 	 * @param prop Fichero de propiedades para la conexion con la base de datos
 	 * @param sql Fichero de propiedades
-	 * @return
+	 * @return Informacion de los espectaculos registrados en el sistema
 	 */
 	public ArrayList<EspectaculoDTO> obtencionEspectaculos(Properties prop, Properties sql) {
 		ArrayList<EspectaculoDTO> espectaculos = new ArrayList<EspectaculoDTO>(); // Lista de espectaculos
@@ -69,15 +69,19 @@ public class EspectaculoDAO {
 					// Indicamos en la sentencia ps2 el titulo del espectaculo
 					ps2.setString(1, espectaculo.getTituloEspectaculo());
 					// Ejecutamos la sentencia sql
-					ResultSet rs2 = ps.executeQuery();
+					ResultSet rs2 = ps2.executeQuery();
 					// Obtenemos toda la informacion del espectaculo puntual
 					while(rs2.next()) {
 						SesionEspectaculoDTO sesion = new SesionEspectaculoDTO();// Inicalizamos una sesion vacia
 						sesion.setDiaSesion(rs2.getInt("DIA"));// Obtenemos el dia del espectaculo
 						sesion.setMesSesion(rs2.getInt("MES"));// Obtenemos el mes del espectaculo
 						sesion.setAnoSesion(rs2.getInt("ANO"));// Obtenemos el ano del espectaculo
+						String fecha = Integer.toString(sesion.getAnoSesion()) + "-" + Integer.toString(sesion.getMesSesion()) + "-" + Integer.toString(sesion.getDiaSesion());// Obtenemos la fecha completa del espectaculo
+						sesion.setFechaCompletaSesion(fecha);// Obtenemos la fecha completa de la sesion
 						sesion.setHoraSesion(rs2.getInt("HORA"));// Obtenemos la hora de la sesion
 						sesion.setHoraSesion(rs2.getInt("MINUTOS"));// Obtenemos los minutos de la hora de la sesion
+						String horaCompleta = Integer.toString(sesion.getHoraSesion()) + ":" + Integer.toString(sesion.getMinutosSesion()); // Obtenemos la hora completa de la sesion
+						sesion.setHoraCompleta(horaCompleta);// Obtenemos la hora completa de la sesion
 						espectaculo.setSesionEspectaculo(sesion);// Anadimos la sesion del espectaculo
 					}
 					// Cerramos la sentencia rs2
