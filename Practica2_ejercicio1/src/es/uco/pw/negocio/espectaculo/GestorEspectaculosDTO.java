@@ -263,6 +263,18 @@ public class GestorEspectaculosDTO {
 				}
 			}
 			// Caso 3: El espectaculo es de temporada
+			else if(this.listaEspectaculos.get(i).getTipoEspectaculo().equals("temporada")) {
+				for(int j=0; j < this.listaEspectaculos.get(i).getSesionesEspectaculo().size(); j++) {
+					if(j == 0) {
+						System.out.println("\tSesion " + (j + 1)); // Imprimimos el numero de la sesion
+						System.out.println("\tDia de la semana: " + this.listaEspectaculos.get(i).getSesionesEspectaculo().get(j).getDiaSemana()); // Imprimimos el dia de la semana de la sesion
+						System.out.println("\tHora de inicio de la sesion de la semana: " + this.listaEspectaculos.get(i).getSesionesEspectaculo().get(j).getHoraCompleta()); // Imprimimos la hora de inicio completa de la sesion
+					}
+					else {
+						System.out.println("\tHora de finalizacion de la sesion de la semana: " + this.listaEspectaculos.get(i).getSesionesEspectaculo().get(j).getHoraCompleta()); // Imprimimos la hora de finalizacion completa de la sesion
+					}
+				}
+			}
 		}
 		
 	}
