@@ -1,4 +1,4 @@
-package es.uco.pw.display;
+package es.uco.pw.interfaz;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
