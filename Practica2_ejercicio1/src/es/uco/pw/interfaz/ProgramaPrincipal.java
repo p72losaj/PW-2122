@@ -46,7 +46,7 @@ public class ProgramaPrincipal {
 			
 			// Obtenemos la ruta del fichero de propiedades
 			
-			String rutaFicheroPropiedades = rutaAbsoluta + "/propiedades.properties";
+			String rutaFicheroPropiedades = rutaAbsoluta + "/config.properties";
 			
 			InputStream is = new FileInputStream(rutaFicheroPropiedades);
 			
