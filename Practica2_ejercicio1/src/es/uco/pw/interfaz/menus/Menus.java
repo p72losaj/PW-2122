@@ -94,7 +94,6 @@ public class Menus {
 	
 	/**
 	 * Funcion que muestra un menu con las funcionalidades de un usuario espectador
-	 * @author Jaime Lorenzo Sanchez
 	 */
 
 	public void MostrarMenuEspectador() {

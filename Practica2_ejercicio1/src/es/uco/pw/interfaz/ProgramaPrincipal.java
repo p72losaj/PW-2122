@@ -301,7 +301,7 @@ public class ProgramaPrincipal {
 										// Caso 2: Valorar una critica
 										// Caso 3: Mostrar informacion espectaculos
 										if(espectador == 3) {
-
+											
 										}
 										entrada = new Scanner(System.in); // Limpiamos el buffer
 									}catch(Exception ex) {
