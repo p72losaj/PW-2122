@@ -40,7 +40,6 @@ public class ProgramaPrincipal {
 		// Obtenemos la ubicacion actual de los ficheros
 		
 		String rutaAbsoluta = "./ficheros";
-		
 				
 		try {
 			
@@ -318,7 +317,7 @@ public class ProgramaPrincipal {
 			}
 			
 		}catch(Exception ex) {
-			System.out.println("Se ha producido un error al obtener la informacion del fichero <propiedades.properties> y/o <sql.properties>");
+			System.out.println("Se ha producido un error al obtener la informacion del fichero <config.properties> y/o <sql.properties>");
 			return;
 		}
 		

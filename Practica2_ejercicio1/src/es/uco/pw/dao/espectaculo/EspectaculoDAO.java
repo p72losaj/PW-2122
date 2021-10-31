@@ -49,21 +49,23 @@ public class EspectaculoDAO {
 				String categoria = rs.getString("CATEGORIA");// Obtenemos la categoria del espectaculo
 				// Comprobamos cual es la categoria del espectaculo
 				// Caso 1: El espectaculo es un concierto
-				if(categoria.equals("CONCIERTO")) {
+				if(categoria.equals("concierto")) {
 					espectaculo.setCategoriaEspectaculo(CategoriaEspectaculo.concierto);
 				}
 				// Caso 2: El espectaculo es un monologo
-				else if(categoria.equals("MONOLOGO")) {
+				else if(categoria.equals("monologo")) {
 					espectaculo.setCategoriaEspectaculo(CategoriaEspectaculo.monologo);
 				}
 				// Caso 3: El espectaculo es una obra de teatro
-				else if(categoria.equals("OBRA DE TEATRO")){
+				else if(categoria.equals("obra de teatro")){
 					espectaculo.setCategoriaEspectaculo(CategoriaEspectaculo.obraTeatro);
-				}
+				}		
+				espectaculo.setAforoLocalidadesEspectaculo(rs.getInt("LOCALIDADES")); // Obtenemos el numero de localidades del espectaculo
+				espectaculo.setVentasEspectaculo(rs.getInt("VENTAS"));// Obtenemos el numero de ventas del espectaculo
 				// Obtenemos el resto de la informacion del espectaculo en funcion del tipo del espectaculo
 				
 				// Caso1: El espectaculo es de tipo puntual
-				if(espectaculo.getTipoEspectaculo().equals("PUNTUAL")) {
+				if(espectaculo.getTipoEspectaculo().equals("puntual")) {
 					// Sentencia del fichero sql para obtener los datos del espectaculo puntual
 					PreparedStatement ps2=con.prepareStatement(sql.getProperty("ObtencionEspectaculoPuntual"));
 					// Indicamos en la sentencia ps2 el titulo del espectaculo
@@ -90,6 +92,38 @@ public class EspectaculoDAO {
 					ps2.close();
 				}
 				// Caso 2: El espectaculo es de tipo multiple
+				
+				else if(espectaculo.getTipoEspectaculo().equals("multiple")) {
+					// Sentencia del fichero sql para obtener los datos del fichero multiple
+					PreparedStatement ps2=con.prepareStatement(sql.getProperty("ObtencionEspectaculoMultiple"));
+					// Indicamos en la sentencia ps2 el titulo del espectaculo
+					ps2.setString(1, espectaculo.getTituloEspectaculo());
+					// Ejecutamos la sentencia sql
+					ResultSet rs2 = ps2.executeQuery();
+					// Obtenemos toda la informacion del espectaculo puntual
+					while(rs2.next()) {
+						ArrayList<SesionEspectaculoDTO> sesiones = new ArrayList<SesionEspectaculoDTO>(); // Creamos una lista de sesiones
+						SesionEspectaculoDTO sesion1 = new SesionEspectaculoDTO();// Inicializamos una sesion vacia
+						sesion1.setDiaSemana(rs2.getString("DIA_SEMANA1"));// Obtenemos el dia de la semana del espectaculo
+						sesion1.setHoraSesion(rs2.getInt("HORA1"));// Obtenemos la hora de la sesion
+						sesion1.setMinutos(rs2.getInt("MINUTOS1"));// Obtenemos los minutos de la sesion1
+						String horaCompleta = Integer.toString(sesion1.getHoraSesion()) + ":" + Integer.toString(sesion1.getMinutosSesion()); // Obtenemos la hora completa de la sesion
+						sesion1.setHoraCompleta(horaCompleta);// Obtenemos la hora completa de la sesion
+						sesiones.add(sesion1); // Anadimos la sesion a la lista de sesiones
+						SesionEspectaculoDTO sesion2 = new SesionEspectaculoDTO(); // Creamos una nueva sesion
+						sesion2.setDiaSemana(rs2.getString("DIA_SEMANA2")); // Obtenemos el dia de la semana de la nueva sesion
+						sesion2.setHoraSesion(rs2.getInt("HORA2")); // Obtenemos la hora de la sesion2
+						sesion2.setMinutos(rs2.getInt("MINUTOS2")); // Obtenemos los minutos de la sesion 2
+						String horaCompleta2 = Integer.toString(sesion2.getHoraSesion()) + ":" + Integer.toString(sesion2.getMinutosSesion()); // Obtenemos la hora completa de la nueva sesion
+						sesion2.setHoraCompleta(horaCompleta2);// Obtenemos la hora completa de la sesion2
+						sesiones.add(sesion2); // Anadimos la sesion2 a la lista de sesiones
+						espectaculo.setSesionesEspectaculo(sesiones);// Anadimos la lista de sesiones
+					}
+					// Cerramos la sentencia rs2
+					rs2.close();
+					// Cerramos la sentencia ps2
+					ps2.close();
+				}
 				
 				// Caso 3: El espectaculo es de tipo temporada
 				

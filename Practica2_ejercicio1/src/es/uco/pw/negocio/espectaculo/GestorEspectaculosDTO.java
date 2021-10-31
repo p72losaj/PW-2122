@@ -248,13 +248,20 @@ public class GestorEspectaculosDTO {
 			System.out.println("\tAforo de localidades del espectaculo: " + this.listaEspectaculos.get(i).getAforoLocalidadesEspectaculo());// Mostramos el aforo de localidades del espectaculo
 			System.out.println("\tNumero de ventas del espectaculo: " + this.listaEspectaculos.get(i).getVentasEspectaculo());// Mostramos el numero de ventas del espectaculo
 			// Caso 1: el espectaculo es de tipo puntual
-			if(this.listaEspectaculos.get(i).getTipoEspectaculo().equals("PUNTUAL")) {
-				System.out.println("Fecha de la sesion: " + this.listaEspectaculos.get(i).getSesionEspectaculo().getFechaCompletaSesion());// Imprimimos la fecha completa de la sesion
-				System.out.println("Hora completa de la sesion: " + this.listaEspectaculos.get(i).getSesionEspectaculo().getHoraCompleta());// Imprimimos la hora completa de la sesion
+			if(this.listaEspectaculos.get(i).getTipoEspectaculo().equals("puntual")) {
+				System.out.println("\tFecha de la sesion: " + this.listaEspectaculos.get(i).getSesionEspectaculo().getFechaCompletaSesion());// Imprimimos la fecha completa de la sesion
+				System.out.println("\tHora completa de la sesion: " + this.listaEspectaculos.get(i).getSesionEspectaculo().getHoraCompleta());// Imprimimos la hora completa de la sesion
 				
 			}
 			// Caso 2: El espectaculo es de tipo multiple
-			
+			else if(this.listaEspectaculos.get(i).getTipoEspectaculo().equals("multiple")) {
+				// Recorremos las listas de sesiones
+				for(int j=0; j < this.listaEspectaculos.get(i).getSesionesEspectaculo().size(); j++) {
+					System.out.println("\tSesion " + (j + 1)); // Imprimimos el numero de la sesion
+					System.out.println("\tDia de la semana: " + this.listaEspectaculos.get(i).getSesionesEspectaculo().get(j).getDiaSemana()); // Imprimimos el dia de la semana de la sesion
+					System.out.println("\tHora de la semana: " + this.listaEspectaculos.get(i).getSesionesEspectaculo().get(j).getHoraCompleta()); // Imprimimos la hora completa de la sesion
+				}
+			}
 			// Caso 3: El espectaculo es de temporada
 		}
 		
