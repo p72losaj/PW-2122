@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 import es.uco.pw.dao.espectaculo.EspectaculoDAO;
 import es.uco.pw.datos.dao.usuario.UsuarioDAO;
-import es.uco.pw.display.menus.Menus;
+import es.uco.pw.interfaz.menus.Menus;
 import es.uco.pw.negocio.critica.GestorCriticasDTO;
 import es.uco.pw.negocio.espectaculo.GestorEspectaculosDTO;
 import es.uco.pw.negocio.usuario.UsuarioDTO;

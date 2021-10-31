@@ -1,4 +1,4 @@
-package es.uco.pw.display.menus;
+package es.uco.pw.interfaz.menus;
 
 /**
  * Clase que gestiona los distintos menus que se mostraran al usuario
