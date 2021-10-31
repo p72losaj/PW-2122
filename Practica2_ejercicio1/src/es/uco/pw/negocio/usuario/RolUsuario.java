@@ -6,6 +6,6 @@ package es.uco.pw.negocio.usuario;
  * @version 1.0
  */
 
-public enum RolUsuarioDTO {
+public enum RolUsuario {
 	administrador, espectador
 }

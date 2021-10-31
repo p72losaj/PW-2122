@@ -12,7 +12,7 @@ import es.uco.pw.negocio.critica.GestorCriticasDTO;
 import es.uco.pw.negocio.espectaculo.GestorEspectaculosDTO;
 import es.uco.pw.negocio.usuario.UsuarioDTO;
 import es.uco.pw.negocio.usuario.GestorUsuariosDTO;
-import es.uco.pw.negocio.usuario.RolUsuarioDTO;
+import es.uco.pw.negocio.usuario.RolUsuario;
 
 /**
  * Programa ejecutable 
@@ -200,11 +200,11 @@ public class ProgramaPrincipal {
 										entrada = new Scanner(System.in); // Limpiamos el buffer
 										// El rol del usuario es administrador
 										if(rol == 1) {
-											usuarioDTO.setRolUsuario(RolUsuarioDTO.administrador);
+											usuarioDTO.setRolUsuario(RolUsuario.administrador);
 										}
 										// El rol del usuario es espectador
 										else if(rol == 2) {
-											usuarioDTO.setRolUsuario(RolUsuarioDTO.espectador);
+											usuarioDTO.setRolUsuario(RolUsuario.espectador);
 										}
 										// Opcion no disponible
 										else {
@@ -251,7 +251,7 @@ public class ProgramaPrincipal {
 							usuarioDTO = usuarios.obtenerDatosUsuario(correo); // Obtenemos los datos del usuario
 							// Comprobamos si el usuario es administrador o espectador
 							// Caso 1: Usuario administrador
-							if(usuarioDTO.getRolUsuario().equals(RolUsuarioDTO.administrador)) {
+							if(usuarioDTO.getRolUsuario().equals(RolUsuario.administrador)) {
 								int administrador = -1;
 								while(administrador != 0) {
 									// Mostramos el menu del administrador

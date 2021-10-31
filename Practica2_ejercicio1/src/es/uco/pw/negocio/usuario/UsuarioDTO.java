@@ -51,7 +51,7 @@ public class UsuarioDTO {
 	 * Rol del usuario
 	 */
 	
-	private RolUsuarioDTO rolUsuario;
+	private RolUsuario rolUsuario;
 	
 	/**
 	 * Funcion que obtiene el identificador del usuario
@@ -190,7 +190,7 @@ public class UsuarioDTO {
 	 * Funcion que obtiene el rol del usuario
 	 * @return Rol del usuario
 	 */
-	public RolUsuarioDTO getRolUsuario() {
+	public RolUsuario getRolUsuario() {
 		return this.rolUsuario;
 	}
 
@@ -198,7 +198,7 @@ public class UsuarioDTO {
 	 * Funcion que modifica el rol del usuario
 	 * @param rolUsuario Nuevo rol del usuario
 	 */
-	public void setRolUsuario(RolUsuarioDTO rolUsuario) {
+	public void setRolUsuario(RolUsuario rolUsuario) {
 		this.rolUsuario = rolUsuario;
 	}
 

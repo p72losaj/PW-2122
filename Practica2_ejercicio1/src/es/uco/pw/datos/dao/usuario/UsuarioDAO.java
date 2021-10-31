@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Properties;
 
 import es.uco.pw.datos.dao.comun.conexionBD.ConexionBD;
-import es.uco.pw.negocio.usuario.RolUsuarioDTO;
+import es.uco.pw.negocio.usuario.RolUsuario;
 import es.uco.pw.negocio.usuario.UsuarioDTO;
 
 /**
@@ -23,7 +23,7 @@ public class UsuarioDAO {
 	private String PrimerApellidoUsuario;// Primer apellido del usuario
 	private String SegundoApellidoUsuario;// Segundo apellido del usuario
 	private String NickUsuario;// Nombre de usuario del usuario
-	private RolUsuarioDTO RolUsuario;// Rol del usuario
+	private RolUsuario RolUsuario;// Rol del usuario
 	
 	
 	
@@ -133,7 +133,7 @@ public class UsuarioDAO {
 	 * Funcion que obtiene el rol del usuario
 	 * @return Rol del usuario
 	 */
-	public RolUsuarioDTO getRolUsuario() {
+	public RolUsuario getRolUsuario() {
 		return this.RolUsuario;
 	}
 
@@ -141,7 +141,7 @@ public class UsuarioDAO {
 	 * Funcion que modifica el rol del usuario
 	 * @param rolUsuario Nuevo rol del usuario
 	 */
-	public void setRolUsuario(RolUsuarioDTO rolUsuario) {
+	public void setRolUsuario(RolUsuario rolUsuario) {
 		RolUsuario = rolUsuario;
 	}
 	
@@ -166,10 +166,10 @@ public class UsuarioDAO {
 			ps.setString(3, usuarioDTO.getPrimerApellidoEspectador());// Indicamos el primer apellido del usuario en la sentencia ps
 			ps.setString(4, usuarioDTO.getSegundoApellidoEspectador());// Indicamos el segundo apellido del usuario en la sentencia ps
 			ps.setString(5, usuarioDTO.getNickEspectador());// Indicamos el nick del usuario en la sentencia ps
-			if(usuarioDTO.getRolUsuario().equals(RolUsuarioDTO.administrador)) {
+			if(usuarioDTO.getRolUsuario().equals(RolUsuario.administrador)) {
 					ps.setString(6, "administrador");
 			}
-			else if(usuarioDTO.getRolUsuario().equals(RolUsuarioDTO.espectador)) {
+			else if(usuarioDTO.getRolUsuario().equals(RolUsuario.espectador)) {
 				ps.setString(6, "espectador");
 			}
 			
@@ -216,10 +216,10 @@ public class UsuarioDAO {
 				usuarioDTO.setNickEspectador(rs.getString("NICK")); // Obtenemos el nick del usuario
 				String rol = rs.getString("ROL");
 				if(rol.contentEquals("administrador")) {
-					usuarioDTO.setRolUsuario(RolUsuarioDTO.administrador);
+					usuarioDTO.setRolUsuario(RolUsuario.administrador);
 				}
 				else if(rol.equals("espectador")) {
-					usuarioDTO.setRolUsuario(RolUsuarioDTO.espectador);
+					usuarioDTO.setRolUsuario(RolUsuario.espectador);
 				}
 				usuarios.add(usuarioDTO); // Anadimos el usuario a la lista de usuarios
 			}
