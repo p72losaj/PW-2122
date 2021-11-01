@@ -20,6 +20,20 @@ import java.util.StringTokenizer;
 public class GestorCriticasDTO {
 	
 	ArrayList<CriticaDTO> listaCriticas = new ArrayList<CriticaDTO>(); // Lista de criticas
+	/**
+	 * Funcion que obtiene la lista de criticas del gestor de criticas
+	 * @return Lista de criticas del gestor
+	 */
+	public ArrayList<CriticaDTO> getListaCriticas(){
+		return this.listaCriticas;
+	}
+	/**
+	 * Funcion que modifica la lista de criticas del gestor de criticas
+	 * @param criticas Nueva lista de criticas del gestor de criticas
+	 */
+	public void setListaCriticas(ArrayList<CriticaDTO> criticas) {
+		this.listaCriticas = criticas;
+	}
 	
 	/**
 	 *	Instancia unica de clase

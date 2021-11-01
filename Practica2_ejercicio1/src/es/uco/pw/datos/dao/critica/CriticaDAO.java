@@ -90,7 +90,14 @@ public class CriticaDAO {
 			ResultSet rs = ps.executeQuery(); // Ejecucion de la sentencia sql
 			while(rs.next()) { // Recorremos las filas de la tabla de la base de datos
 				CriticaDTO critica = new CriticaDTO(); // Creacion de una critica vacia
+				critica.setIdentificadorCritica(rs.getInt("ID")); // Obtenemos el identificador de la critica
+				critica.setTituloCritica(rs.getString("TITULO")); // Obtenemos el titulo de la critica
+				critica.setResenaEspectaculo(rs.getString("RESENA")); // Obtenemos la resena de la critica
+				critica.setAutorCritica(rs.getString("AUTOR")); // Obtenemos el autor de la critica
+				criticas.add(critica); // Guardamos la informacion de la critica en el gestor
 			}
+			rs.close(); // Finalizacion de la ejecucion de la sentencia sql
+			ps.close(); // Cierre de la sentencia sql
 			if(con != null) {
 				con = null; // Cierre de la conexion con la base de datos
 			}
