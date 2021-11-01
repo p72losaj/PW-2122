@@ -294,13 +294,13 @@ public class ProgramaPrincipal {
 									menu.MostrarMenuEspectador(); // Mostramos el menu del espectador
 									try {
 										espectador = entrada.nextInt(); // Obtenemos la funcionalidad del espectador
+										entrada = new Scanner(System.in); // Limpiamos el buffer de entrada
 										// Caso 1: Crear una critica
-										// Mostramos la lista de espectaculos ya realizados
 										
 										// Caso 2: Valorar una critica
 										// Caso 3: Mostrar informacion espectaculos
 										if(espectador == 3) {
-											
+											espectaculos.imprimirEspectaculos();
 										}
 										entrada = new Scanner(System.in); // Limpiamos el buffer
 									}catch(Exception ex) {
