@@ -201,6 +201,17 @@ public class UsuarioDTO {
 	public void setRolUsuario(RolUsuario rolUsuario) {
 		this.rolUsuario = rolUsuario;
 	}
+	/**
+	 * Funcion que muestra los datos de un usuario
+	 */
+	public void imprimirUsuario() {
+		System.out.println("\tIdentificador del usuario: " + this.idUsuario); // Mostramos el identificador del usuario
+		System.out.println("\tNombre del usuario: " + this.nombre); // Mostramos el nombre del usuario
+		System.out.println("\tPrimer apellido del usuario: " + this.apellido1); // Mostramos el primer apellido del usuario
+		System.out.println("\tSegundo apellido del usuario: " + this.apellido2); // Mostramos el segundo apellido del usuario
+		System.out.println("\tNick del usuario: " + this.nick); // Mostramos el nick del usuario
+		System.out.println("\tCorreo del usuario: " + this.correo); // Mostramos el correo del usuario
+	}
 
 	
 	

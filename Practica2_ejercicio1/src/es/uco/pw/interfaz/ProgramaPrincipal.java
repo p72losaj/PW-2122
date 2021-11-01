@@ -6,6 +6,7 @@ import java.util.Properties;
 import java.util.Scanner;
 
 import es.uco.pw.dao.espectaculo.EspectaculoDAO;
+import es.uco.pw.data.dao.relacion.UsuarioCriticaDAO;
 import es.uco.pw.datos.dao.critica.CriticaDAO;
 import es.uco.pw.datos.dao.usuario.UsuarioDAO;
 import es.uco.pw.interfaz.menus.Menus;
@@ -352,7 +353,56 @@ public class ProgramaPrincipal {
 												
 											}
 										}
-										// Caso 2: Valorar una critica
+										// Caso 2: Valorar la utilidad una critica
+										else if(espectador == 2) {
+											UsuarioCriticaDAO relacion = new UsuarioCriticaDAO();
+											// Mostramos las criticas al usuario
+											gestorCriticas.visualizacionCriticas();
+											// Pedimos al usuario el identificador de la critica
+											System.out.print("Introduce el identificador de la critica: ");
+											int identificadorCritica = entrada.nextInt();
+											entrada = new Scanner(System.in); // Limpiamos el buffer de entrada
+											// Comprobamos si el identificador de la critica esta registrado
+											if(gestorCriticas.comprobacionExistenciaIdentificadorCritica(identificadorCritica) == false) {
+												System.out.println("El identificador de la critica no esta registrado en la base de datos");
+											}
+											else {
+												CriticaDTO critica = new CriticaDTO();
+												critica = gestorCriticas.obtencionDatosCritica(identificadorCritica); // Obtenemos la informacion de la critica
+												// Comprobamos si el autor de la critica coincide con el usuario registrado
+												if(critica.getAutorCritica().equals(usuarioDTO.getCorreoEspectador())) {
+													System.out.println("No se puede valorar la utilidad de una critica propia");
+												}
+												else {
+													// Pedimos al usuario su valoracion de utilidad de la critica
+												int valoracion = -1;
+												while(valoracion < 0 || valoracion > 10) {
+													try {
+														System.out.print("Introduce una valoracion de utilidad en el rango [0,10]: ");
+														valoracion = entrada.nextInt(); // Obtenemos la valoracion de utilidad indicada por el usuario
+														entrada = new Scanner(System.in); // Limpiamos el buffer de entrada
+														if(valoracion < 0) {
+															System.out.println("La valoracion de utilidad introducida <" + valoracion + "> es inferior a 0");
+														}
+														else if(valoracion > 10) {
+															System.out.println("La valoracion de utilidad introducida <" + valoracion + "> es superior a 10");
+														}
+													}catch(Exception ex) {
+														System.out.println("Se esperaba un valor entero");
+													}
+												}
+												int status = relacion.valoracionUtilidadCritica(prop,sql,critica.getIdentificadorCritica(),usuarioDTO.getIdUsuario(),valoracion); // Registramos la valoracion de utilidad de la critica
+												// Comprobamos si se ha modificador la base de datos
+												if(status == 0) { // No se ha modificado la base de datos
+													System.out.println("No se ha registrado la valoracion de utilidad de la critica");
+												}
+												else {// Se ha modificador la base de datos
+													System.out.println("Se ha registrado la valoracion de utilidad de la critica");
+												}
+												}
+											}
+
+										}
 										// Caso 3: Mostrar informacion espectaculos
 										else if(espectador == 3) {
 											espectaculos.imprimirEspectaculos();

@@ -133,5 +133,35 @@ public class GestorCriticasDTO {
 	public void insercionCriticaGestor(CriticaDTO critica) {
 		this.listaCriticas.add(critica);
 	}
+	/**
+	 * Funcion que obtiene los datos de una critica en funcion de su identificador
+	 * @param identificadorCritica Identificador de la critica
+	 * @return Datos de la critica
+	 */
+	public CriticaDTO obtencionDatosCritica(int identificadorCritica) {
+		CriticaDTO critica = new CriticaDTO(); // Critica vacia
+		for(int i=0; i < this.listaCriticas.size(); i++) { // Recorremos la lista de criticas almacenadas en el gestor de criticas
+			if(this.listaCriticas.get(i).getIdentificadorCritica() == identificadorCritica) { // Critica encontrada
+				critica.setIdentificadorCritica(this.listaCriticas.get(i).getIdentificadorCritica()); // Obtenemos el identificador de la critica
+				critica.setAutorCritica(this.listaCriticas.get(i).getAutorCritica()); // Obtenemos el autor de la critica
+				critica.setResenaCritica(this.listaCriticas.get(i).getResenaCritica()); // Obtenemos la resena de la critica
+				critica.setTituloCritica(this.listaCriticas.get(i).getTituloCritica()); // Obtenemos el titulo de la critica
+			}
+		}
+		return critica; // Retornamos los datos de la critica
+	}
+	/**
+	 * Funcion que comprueba la existencia de una critica dado su identificador
+	 * @param identificadorCritica Identificador de la critica
+	 * @return true si el identificador esta registrado; false en caso contrario
+	 */
+	public boolean comprobacionExistenciaIdentificadorCritica(int identificadorCritica) {
+		for(int i=0; i < this.listaCriticas.size(); i++) { // Recorremos la lista de criticas almacenadas en el gestor de criticas
+			if(this.listaCriticas.get(i).getIdentificadorCritica() == identificadorCritica) { // Identificador de la critica encontrado
+				return true;
+			}
+		}
+		return false; // Por defecto, retornamos false
+	}
 
 }

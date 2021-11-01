@@ -117,6 +117,7 @@ public class GestorUsuariosDTO {
 		for(int i=0; i < this.listaEspectadores.size(); i++) {
 			// Obtenemos los datos del espectador
 			if(this.listaEspectadores.get(i).getCorreoEspectador().equals(correo)) {
+				espectador.setIdUsuario(this.listaEspectadores.get(i).getIdUsuario());
 				espectador.setNombreEspectador(this.listaEspectadores.get(i).getNombreEspectador());
 				espectador.setPrimerApellidoEspectador(this.listaEspectadores.get(i).getPrimerApellidoEspectador());
 				espectador.setSegundoApellidoEspectador(this.listaEspectadores.get(i).getSegundoApellidoEspectador());
