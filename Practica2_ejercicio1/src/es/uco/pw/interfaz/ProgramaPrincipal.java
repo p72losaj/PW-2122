@@ -6,6 +6,7 @@ import java.util.Properties;
 import java.util.Scanner;
 
 import es.uco.pw.dao.espectaculo.EspectaculoDAO;
+import es.uco.pw.datos.dao.critica.CriticaDAO;
 import es.uco.pw.datos.dao.usuario.UsuarioDAO;
 import es.uco.pw.interfaz.menus.Menus;
 import es.uco.pw.negocio.critica.GestorCriticasDTO;
@@ -30,6 +31,8 @@ public class ProgramaPrincipal {
 		Properties sql = new Properties(); // Clase properties para el fichero de propiedades sql
 		
 		UsuarioDAO usuarioDAO = new UsuarioDAO(); // Anadimos un usuario de tipo dao
+		
+		CriticaDAO criticaDAO = new CriticaDAO(); // Critica de tipo DAO
 		
 		EspectaculoDAO espectaculoDAO = new EspectaculoDAO(); // Creamos un espectaculo de tipo DAO
 		
@@ -62,6 +65,10 @@ public class ProgramaPrincipal {
 			// Creamos el gestor de criticas
 			
 			GestorCriticasDTO gestorCriticas = GestorCriticasDTO.getInstancia();
+			
+			// Obtenemos la informacion de las criticas registradas en la base de datos
+			
+			gestorCriticas.setListaCriticas(criticaDAO.obtencionCriticas(prop, sql));
 			
 			// Creamos un gestor de espectadores
 			
@@ -292,13 +299,14 @@ public class ProgramaPrincipal {
 										espectador = entrada.nextInt(); // Obtenemos la funcionalidad del espectador
 										entrada = new Scanner(System.in); // Limpiamos el buffer de entrada
 										// Caso 1: Crear una critica
-										
+										if(espectador == 1) {
+											
+										}
 										// Caso 2: Valorar una critica
 										// Caso 3: Mostrar informacion espectaculos
-										if(espectador == 3) {
+										else if(espectador == 3) {
 											espectaculos.imprimirEspectaculos();
 										}
-										entrada = new Scanner(System.in); // Limpiamos el buffer
 									}catch(Exception ex) {
 										System.out.println("Se esperaba un valor entero");
 									}
