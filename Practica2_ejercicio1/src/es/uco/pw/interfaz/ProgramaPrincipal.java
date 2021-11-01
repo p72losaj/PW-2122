@@ -79,10 +79,6 @@ public class ProgramaPrincipal {
 			
 			espectaculos.setListaEspectaculos(espectaculoDAO.obtencionEspectaculos(prop, sql));
 			
-			// Mostramos la informacion de los espectaculos
-			
-			espectaculos.imprimirEspectaculos();
-			
 			int opcionAcceso = -1;
 			
 			// Obtenemos la opcion indicada por el usuario
