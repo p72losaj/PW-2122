@@ -12,7 +12,7 @@ import es.uco.pw.datos.dao.comun.conexionBD.ConexionBD;
  * @version 1.0
  */
 
-public class Espectaculo_criticaDAO {
+public class EspectaculoCriticaDAO {
 	private int id; // Identificador de la tabla
 	private int idCritica; // Identificador de la critica
 	private String tituloEspectaculo; // Titulo del espectaculo
@@ -84,6 +84,29 @@ public class Espectaculo_criticaDAO {
 			System.out.println("Se ha producido un error al registrar la puntuacion del espectaculo");
 		}
 		return status;
+	}
+	/**
+	 * Funcion que elimina la puntuacion del espectaculo en funcion del identificador de la critica
+	 * @param prop Fichero de configuracion
+	 * @param sql Fichero de sentencias sql
+	 * @param identificadorCritica Identificador de la critica
+	 * @return Numero de filas modificadas de la base de datos
+	 */
+	public int eliminacionPuntuacionEspectaculoCritica(Properties prop, Properties sql, int identificadorCritica) {
+		int status = 0; // Numero de filas modificadas de la base de datos
+		try {
+			Connection con = ConexionBD.getConexion(prop); // Conexion con la base de datos
+			PreparedStatement ps=con.prepareStatement(sql.getProperty("EliminacionPuntuacionEspectaculo_Critica")); // Sentencia sql que elimina la puntuacion del espectaculo en funcion del identificador de la critica
+			ps.setInt(1, identificadorCritica); // Indicamos en la sentencia sql el identificador de la critica a eliminar
+			status = ps.executeUpdate(); // Ejecutamos la sentencia sql
+			ps.close(); // Cerramos la sentencia sql
+			if(con != null) {
+				con = null; // cierre de la conexion con la base de datos
+			}
+		}catch(Exception ex) {
+			System.out.println("Se ha producido un error al eliminar la puntuacion del espectaculo");
+		}
+		return status; // Retornamos el numero de filas modificadas de la base de datos
 	}
 	
 	

@@ -85,4 +85,28 @@ public class UsuarioCriticaDAO {
 		}
 		return status;
 	}
+	
+	/**
+	 * Funcion que elimina la valoracion de la utilidad de una critica en funcion del identificador de la critica
+	 * @param prop Fichero de configuracion
+	 * @param sql Fichero de sentencias sql
+	 * @param identificadorCritica Identificador de la critica eliminada
+	 * @return Numero de filas modificadas de la base de datos
+	 */
+	public int eliminarValoracionUtilidadIdentificadorCritica(Properties prop, Properties sql, int identificadorCritica) {
+		int status = 0; // Numero de filas modificadas de la base de datos
+		try {
+			Connection con = ConexionBD.getConexion(prop); // Conexion con la base de datos
+			PreparedStatement ps=con.prepareStatement(sql.getProperty("EliminacionValoracionUtilidadCritica")); // Sentencia sql para eliminar la valoracion de utilidad de una critica en funcion del identificador de la critica
+			ps.setInt(1, identificadorCritica); // Indicamos en la sentencia sql el identificador de la critica
+			status = ps.executeUpdate(); // Ejecutamos la sentencia sql
+			ps.close(); // Cerremos la sentencia sql
+			if(con != null) {
+				con = null; // Cerramos la conexion con la base de datos
+			}
+		}catch(Exception ex) {
+			System.out.println("Se ha producido un error al eliminar la valoracion de utilidad de la critica");
+		}
+		return status;
+	}
 }
