@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Properties;
 
+
+import es.uco.pw.data.dao.relacion.Espectaculo_criticaDAO;
 import es.uco.pw.datos.dao.comun.conexionBD.ConexionBD;
 import es.uco.pw.negocio.critica.CriticaDTO;
 
@@ -92,7 +94,7 @@ public class CriticaDAO {
 				CriticaDTO critica = new CriticaDTO(); // Creacion de una critica vacia
 				critica.setIdentificadorCritica(rs.getInt("ID")); // Obtenemos el identificador de la critica
 				critica.setTituloCritica(rs.getString("TITULO")); // Obtenemos el titulo de la critica
-				critica.setResenaEspectaculo(rs.getString("RESENA")); // Obtenemos la resena de la critica
+				critica.setResenaCritica(rs.getString("RESENA")); // Obtenemos la resena de la critica
 				critica.setAutorCritica(rs.getString("AUTOR")); // Obtenemos el autor de la critica
 				criticas.add(critica); // Guardamos la informacion de la critica en el gestor
 			}
@@ -105,6 +107,117 @@ public class CriticaDAO {
 			System.out.println("Se ha producido un error al obtener los datos de las criticas");
 		}
 		return criticas; // Retornamos la lista de criticas
+	}
+	/**
+	 * Funcion que anade los datos de una critica en la base de datos
+	 * @param prop Fichero de configuracion
+	 * @param sql Fichero de sentencias sql
+	 * @param criticaDTO Critica a insertar en la base de datos
+	 * @param tituloEspectaculo Titulo del espectaculo que referencia la critica
+	 * @param puntuacion Puntuacion del espectaculo
+	 * @return Numero de filas insertadas en la base de datos
+	 */
+	public int insercionCritica(Properties prop, Properties sql, CriticaDTO criticaDTO,String tituloEspectaculo, int puntuacion) {
+		int status = 0; // Numero de filas modificadas de la base de datos
+		try {
+			Connection con = ConexionBD.getConexion(prop); // Conexion con la base de datos
+			PreparedStatement ps=con.prepareStatement(sql.getProperty("InsercionCritica")); // Sentencia sql para insertar una critica en la base de datos
+			ps.setString(1,criticaDTO.getTituloCritica()); // Indicamos en la sentencia sql el titulo de la critica a insertar
+			ps.setString(2, criticaDTO.getResenaCritica()); // Indicamos en la sentencia sql la resena de la critica a insertar
+			ps.setString(3, criticaDTO.getAutorCritica()); // Indicamos en la sentencia sql el autor de la critica
+			status = ps.executeUpdate(); // Ejecutamos la sentencia sql
+			ps.close(); // finalizacion de la sentencia sql
+			if(con != null) {
+				con = null; // Cerramos la conexion con la base de datos
+			}
+			if(status != 0) {
+				int identificador = 0; // Identificador de la critica
+				identificador = obtencionIdentificadorCritica(prop,sql,criticaDTO.getTituloCritica());// Obtenemos el identificador de la critica
+				// Identificador es 0
+				if(identificador == 0) {
+					System.out.println("Identificador de la critica no registrado en la base de datos"); 
+					status = eliminacionCritica(prop,sql,criticaDTO.getTituloCritica()); // Eliminamos los datos de la critica
+					if(status == 0) {
+						System.out.println("Critica no eliminada de la base de datos. Notifique este error al administrador del sistema");
+					}
+					else {
+						System.out.println("Critica eliminada de la base de datos");
+						status = 0; // Indicamos que el numero de filas insertadas en la base de datos es 0
+					}
+				}
+				// Identificador distinto de 0
+				else {
+					criticaDTO.setIdentificadorCritica(identificador); // almacenamos el identificador de la critica
+					Espectaculo_criticaDAO relacion = new Espectaculo_criticaDAO();
+					status = relacion.creacionRelacion(prop,sql,criticaDTO.getIdentificadorCritica(), tituloEspectaculo, puntuacion); // Registramos la puntuacion del espectaculo
+					if(status == 0) { // Puntuacion del espectaculo no registrado en la base de datos
+						System.out.println("Puntuacion del espectaculo no registrada");
+						status = eliminacionCritica(prop,sql,criticaDTO.getTituloCritica()); // Eliminamos los datos de la critica
+						if(status == 0) {
+							System.out.println("Critica no eliminada de la base de datos. Notifique este error al administrador del sistema");
+						}
+						else {
+							System.out.println("Critica eliminada de la base de datos");
+							status = 0; // Indicamos que el numero de filas insertadas en la base de datos es 0
+						}
+					}
+					
+				}
+			}
+		}catch(Exception ex) {
+			System.out.println("Se ha producido un error al insertar los datos de la critica en la base de datos");
+		}
+		return status; // Retornamos el numero de filas modificadas de la base de datos
+	}
+	/**
+	 * Funcion que elimina los datos de una critica
+	 * @param prop Fichero de configuracion
+	 * @param sql Fichero de propiedades
+	 * @param tituloCritica Titulo de la critica a eliminar de la base de datos
+	 * @return Numero de filas modificadas de la base de datos
+	 */
+	public int eliminacionCritica(Properties prop, Properties sql, String tituloCritica) {
+		int status = 0; // Numero de filas modificadas de la base de datos
+		try {
+			Connection con = ConexionBD.getConexion(prop); // Conexion con la base de datos
+			PreparedStatement ps=con.prepareStatement(sql.getProperty("EliminacionCriticaTitulo")); // Sentencia sql para eliminar una critica en funcion de su titulo
+			ps.setString(1, tituloCritica); // Indicamos en la sentencia sql el titulo de la critica a eliminar
+			status = ps.executeUpdate(); // Ejecutamos la sentencia sql
+			ps.close(); // Cerramos la sentencia sql
+			if(con != null) {
+				con = null; // Cierre de la conexion con la base de datos
+			}
+		}catch(Exception ex) {
+			System.out.println("Se ha producido un error al eliminar los datos de la critica");
+		}
+		return status; // Retornamos el numero de filas modificadas de la base de datos
+	}
+	/**
+	 * Funcion que obtiene el identificador de una critica
+	 * @param prop Fichero de configuracion
+	 * @param sql Fichero de sentencias sql
+	 * @param tituloCritica Titulo de la critica
+	 * @return Identificador de la critica
+	 */
+	public int obtencionIdentificadorCritica(Properties prop, Properties sql, String tituloCritica) {
+		int identificador = 0; // Identificador de la critica
+		try {
+			Connection con = ConexionBD.getConexion(prop); // Conexion con la base de datos
+			PreparedStatement ps=con.prepareStatement(sql.getProperty("BusquedaCriticaTitulo")); // Sentencia sql para obtener la informacion de una critica dado su titulo
+			ps.setString(1, tituloCritica); // Indicamos en la sentencia sql el titulo de la critica
+			ResultSet rs = ps.executeQuery(); // Ejecucion de la sentencia sql
+			while(rs.next()) { // Recorremos las filas obtenidas al ejecutar la sentencia sql
+				identificador = rs.getInt("ID");
+			}
+			rs.close(); // Cierre de la ejecucion de la sentencia sql
+			ps.close(); // Cierre de la sentencia sql
+			if(con != null) {
+				con = null; // Cierre de la conexion
+			}
+		}catch(Exception ex) {
+			System.out.println("Se ha producido un error al obtener el identificador de la critica");
+		}
+		return identificador; // Retornamos el identificador de la critica
 	}
 	
 }

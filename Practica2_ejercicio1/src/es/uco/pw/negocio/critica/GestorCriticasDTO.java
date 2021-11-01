@@ -94,7 +94,7 @@ public class GestorCriticasDTO {
 			if(this.listaCriticas.get(i).getTituloCritica().equals(titulo) ) { // titulo de critica encontrada
 				critica.setIdentificadorCritica(this.listaCriticas.get(i).getIdentificadorCritica()); // Obtenemos el identificador de la critica
 				critica.setTituloCritica(titulo); // Titulo de la critica
-				critica.setResenaEspectaculo(this.listaCriticas.get(i).getResenaEspectaculo()); // Obtenemos la resena de la critica
+				critica.setResenaCritica(this.listaCriticas.get(i).getResenaCritica()); // Obtenemos la resena de la critica
 				critica.setAutorCritica(this.listaCriticas.get(i).getAutorCritica()); // Obtenemos el autor de la critica
 			}
 		}
@@ -125,6 +125,13 @@ public class GestorCriticasDTO {
 				this.listaCriticas.get(i).mostrarCritica(); // Mostramos por pantalla la critica del usuario
 			}
 		}
+	}
+	/**
+	 * Funcion que inserta una critica en el gestor de criticas
+	 * @param critica Critica a insertar en el gestor de criticas
+	 */
+	public void insercionCriticaGestor(CriticaDTO critica) {
+		this.listaCriticas.add(critica);
 	}
 
 }

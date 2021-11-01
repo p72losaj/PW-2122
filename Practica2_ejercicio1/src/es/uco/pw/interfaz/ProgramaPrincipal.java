@@ -9,6 +9,7 @@ import es.uco.pw.dao.espectaculo.EspectaculoDAO;
 import es.uco.pw.datos.dao.critica.CriticaDAO;
 import es.uco.pw.datos.dao.usuario.UsuarioDAO;
 import es.uco.pw.interfaz.menus.Menus;
+import es.uco.pw.negocio.critica.CriticaDTO;
 import es.uco.pw.negocio.critica.GestorCriticasDTO;
 import es.uco.pw.negocio.espectaculo.GestorEspectaculosDTO;
 import es.uco.pw.negocio.usuario.UsuarioDTO;
@@ -300,7 +301,56 @@ public class ProgramaPrincipal {
 										entrada = new Scanner(System.in); // Limpiamos el buffer de entrada
 										// Caso 1: Crear una critica
 										if(espectador == 1) {
-											
+											CriticaDTO criticaDTO = new CriticaDTO(); // Creamos una critica vacia
+											criticaDTO.setAutorCritica(usuarioDTO.getCorreoEspectador()); // Almacenamos el correo del autor de la critica
+											// Pedimos al usuario el titulo de la critica
+											System.out.print("Introduce el titulo de la critica: ");
+											String tituloCritica = entrada.nextLine();
+											if(gestorCriticas.comprobacionExistenciaTituloCritica(tituloCritica) == true) { // Titulo de critica ya registrado
+												System.out.println("El titulo de la critica <" + tituloCritica + "> ya esta registrado en la base de datos");
+											}
+											else { // Critica no registrada en la base de datos
+												criticaDTO.setTituloCritica(tituloCritica); // Almacenamos el titulo de la critica
+												// Pedimos al usuario la resena de la critica
+												System.out.print("Introduce la resena de la critica: ");
+												String resenaCritica = entrada.nextLine();
+												criticaDTO.setResenaCritica(resenaCritica); // Almacenamos la resena de la critica
+												// Pedimos al usuario el titulo del espectaculo
+												System.out.print("Introduce el titulo del espectaculo: ");
+												String tituloEspectaculo = entrada.nextLine();
+												if(espectaculos.comprobarExistenciaTituloEspectaculo(tituloEspectaculo) == false ) {
+													// Espectaculo no  registrado en la base de datos
+													System.out.println("Espectaculo no registrado en la base de datos");
+												}
+												else {
+													// Pedimos al usuario la puntuacion del espectaculo
+													int puntuacion = -1;
+													while(puntuacion < 0 || puntuacion > 10) {
+														try {
+															System.out.print("Introduce una puntuacion para el espectaculo en el rango [0,10]: ");
+															puntuacion = entrada.nextInt(); // Obtenemos la puntuacion del espectaculo
+															entrada = new Scanner(System.in); // Limpiamos el buffer de entrada
+															if(puntuacion < 0) { // Error. Puntuacion inferior a 0
+																System.out.println("La puntuacion introducida <" + puntuacion + "> es inferior a 0");
+															}
+															else if(puntuacion > 10) { // Error. Puntuacion superior a 10
+																System.out.println("La puntuacion introducida <" + puntuacion + "> es superior a 10");
+															}
+														} catch(Exception ex) {
+															System.out.println("El valor introducido no es un valor entero");
+														}
+													}
+													int status = criticaDAO.insercionCritica(prop,sql,criticaDTO,tituloEspectaculo,puntuacion); // Insertamos la critica en la base de datos
+													if(status == 0) { // Critica no registrada en la base de datos
+														System.out.println("No se han registrado los datos de la critica en la base de datos");
+													}
+													else { // Critica registrada en la base de datos
+														gestorCriticas.insercionCriticaGestor(criticaDTO); // Anadimos la critica en el gestor de criticas
+														System.out.println("Critica registrada en la base de datos y anadida al gestor de criticas");
+													}
+												}
+												
+											}
 										}
 										// Caso 2: Valorar una critica
 										// Caso 3: Mostrar informacion espectaculos

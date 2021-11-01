@@ -278,4 +278,18 @@ public class GestorEspectaculosDTO {
 		}
 		
 	}
+
+	/**
+	 * Funcion que comprueba si un espectaculo esta registrado en la base de datos
+	 * @param tituloEspectaculo Titulo del espectaculo
+	 * @return true si el espectaculo esta registrado en la base de datos; false en caso contrario
+	 */
+	public boolean comprobarExistenciaTituloEspectaculo(String tituloEspectaculo) {
+		for(int i=0; i  < this.listaEspectaculos.size(); i++) { // Recorremos la lista de espectaculos
+			if(this.listaEspectaculos.get(i).getTituloEspectaculo().equals(tituloEspectaculo)) { // Titulo del espectaculo encontrado
+				return true; // Retornamos true pues hemos encontrado el titulo del espectaculo
+			}
+		}
+		return false; // Por defecto, retorna false
+	}
 }

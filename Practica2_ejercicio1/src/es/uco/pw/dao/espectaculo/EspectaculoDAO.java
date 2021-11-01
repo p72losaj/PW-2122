@@ -261,4 +261,32 @@ public class EspectaculoDAO {
 	public void setIdentificadorEspectaculo(int id) {
 		this.identificadorEspectaculo = id;
 	}
+
+	/**
+	 * Funcion que obtiene el identificador de un espectaculo
+	 * @param prop Fichero de configuracion
+	 * @param sql Fichero de sentencias sql
+	 * @param tituloEspectaculo Titulo del espectaculo
+	 * @return Identificador del espectaculo
+	 */
+	public int obtencionEspectaculoIdentificador(Properties prop, Properties sql, String tituloEspectaculo) {
+		int identificador = 0; // Identificador del espectaculo
+		try {
+			Connection con = ConexionBD.getConexion(prop); // Conexion con la base de datos
+			PreparedStatement ps=con.prepareStatement(sql.getProperty("ObtencionEspectaculoTitulo")); // Sentencia sql para obtener la informacion del espectaculo buscado en funcion de su titulo
+			ps.setString(1, tituloEspectaculo); // Indicamos en la sentencia sql el titulo del espectaculo
+			ResultSet rs = ps.executeQuery(); // Ejecucion de la sentencia sql
+			while(rs.next()) {
+				identificador = rs.getInt("ID"); // Obtenemos el identificador del espectaculo
+			}
+			rs.close(); // Cerramos la ejecucion de la sentencia sql
+			ps.close(); // Cierre de la sentencia sql
+			if(con != null) {
+				con = null; // Cierre de la conexion con la base de datos
+			}
+		}catch(Exception ex) {
+			System.out.println("Se ha producido un error al obtener el identificador del espectaculo");
+		}
+		return identificador; // Retornamos el identificador del espectaculo
+	}
 }
