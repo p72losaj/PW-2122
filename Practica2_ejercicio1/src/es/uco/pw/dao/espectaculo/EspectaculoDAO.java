@@ -14,7 +14,8 @@ import es.uco.pw.negocio.espectaculo.SesionEspectaculoDTO;
 /**
  * Clase que obtiene/modifica los datos de la tabla ESPECTACULO de la base de datos
  * @author Jaime Lorenzo Sanchez
- * @version 1.0
+ * @author Jose Angel Exposito Fernandez
+ * @version 1.2
  */
 
 public class EspectaculoDAO {
@@ -290,3 +291,122 @@ public class EspectaculoDAO {
 		return identificador; // Retornamos el identificador del espectaculo
 	}
 }
+
+
+
+/**
+ * Funcion que anade los datos de una critica en la base de datos
+ * @param prop Fichero de configuracion
+ * @param sql Fichero de sentencias sql
+ * @param espectaculoDTO Espectaculo a insertar en la base de datos
+ * @param tituloEspectaculo Titulo del espectaculo
+ * @return Numero de filas insertadas en la base de datos
+ */
+public int insercionEspectaculo(Properties prop, Properties sql, EspectaculoDTO espectaculoDTO,String tituloEspectaculo) {
+	int status = 0; // Numero de filas modificadas de la base de datos
+	try {
+		Connection con = ConexionBD.getConexion(prop); // Conexion con la base de datos
+		PreparedStatement ps=con.prepareStatement(sql.getProperty("InsercionEspectaculoComun")); // Sentencia sql para insertar un espectaculo en la base de datos
+		ps.setString(1,espectaculoDTO.getTituloEspectaculo()); // Indicamos en la sentencia sql el titulo del espectaculo insertar
+		ps.setString(2, espectaculoDTO.getTipoEspectaculo()); // Indicamos en la sentencia sql el tipo del espectaculo a insertar
+		ps.setString(3, espectaculoDTO.getDescripcionEspectaculo()); // Indicamos en la sentencia sql la descripcion del espectaculo a insertar
+		//Categoria del espectaculo
+		try {
+		if(CategoriaEspectaculo.concierto==EspectaculoDTO.getCategoriaEspectaculo()) {
+			ps.setString(4,"concierto"); // Indicamos en la sentencia sql la categoria del espectaculo insertar
+		}
+		// Caso 2: El espectaculo es un monologo
+		else if(CategoriaEspectaculo.monologo==EspectaculoDTO.getCategoriaEspectaculo()) {
+			ps.setString(4,"monologo"); // Indicamos en la sentencia sql la categoria del espectaculo insertar
+		}
+		// Caso 3: El espectaculo es una obra de teatro
+		else if(CategoriaEspectaculo.obraTeatro==EspectaculoDTO.getCategoriaEspectaculo()){
+			ps.setString(4,"obra de teatro"); // Indicamos en la sentencia sql la categoria del espectaculo insertar
+		
+		}
+		}catch(Exception ex) {
+			System.out.println("Se ha producido un error al insertar la categoria del espectaculo");
+		}
+		//ps.setString(4,espectaculoDTO.getCategoriaEspectaculo()); // Indicamos en la sentencia sql el titulo del espectaculo insertar
+		ps.setInt(5, espectaculoDTO.getAforoLocalidadesEspectaculo()); // Indicamos en la sentencia sql el aforo del espectaculo a insertar
+		ps.setInt(6, espectaculoDTO.getVentasEspectaculo()); // Indicamos en la sentencia sql la venta de entradas del espectaculo a insertar
+		
+		status = ps.executeUpdate(); // Ejecutamos la sentencia sql
+		ps.close(); // finalizacion de la sentencia sql
+		if(con != null) {
+			con = null; // Cerramos la conexion con la base de datos
+		}
+		
+		
+	//	InsercionEspectaculoPuntual: INSERT INTO `ESPECTACULO_PUNTUAL` ( `TITULO` , `DIA` , `MES` , `ANO` , `HORA` , `MINUTOS` ) VALUES (?, ?, ?, ?, ?, ?);
+
+		if(espectaculoDTO.getTipoEspectaculo().equals("puntual")) {
+		
+			
+			
+			con = ConexionBD.getConexion(prop); // Conexion con la base de datos
+			PreparedStatement ps2=con.prepareStatement(sql.getProperty("InsercionEspectaculoPuntual")); // Sentencia sql para insertar un espectaculo puntual en la base de datos
+			ps2.setString(1,espectaculoDTO.getTituloEspectaculo()); // Indicamos en la sentencia sql el titulo del espectaculo insertar
+			ps2.setString(2, "Dia");
+			ps2.setString(3, "Mes");
+			ps2.setString(4, "Ano");
+			ps2.setString(5, "Horas");
+			ps2.setString(6, "Minutos");
+			status = ps2.executeUpdate(); // Ejecutamos la sentencia sql
+			ps2.close(); // finalizacion de la sentencia sql
+			if(con != null) {
+				con = null; // Cerramos la conexion con la base de datos
+			}
+		
+		}
+		
+//		InsercionEspectaculoMultiple: INSERT INTO `ESPECTACULO_MULTIPLE` ( `TITULO` , `DIA_SEMANA1` , `HORA1` , `MINUTOS1` , `DIA_SEMANA2` , `HORA2` , `MINUTOS2` ) VALUES (?, ?, ?, ?, ?, ?, ?);
+
+		// Caso 2: El espectaculo es de tipo multiple
+		
+		else if(espectaculoDTO.getTipoEspectaculo().equals("multiple")) {
+		
+			con = ConexionBD.getConexion(prop); // Conexion con la base de datos
+			PreparedStatement ps2=con.prepareStatement(sql.getProperty("InsercionEspectaculoMultiple")); // Sentencia sql para insertar un espectaculo multiple en la base de datos
+			ps2.setString(1,espectaculoDTO.getTituloEspectaculo()); // Indicamos en la sentencia sql el titulo del espectaculo insertar
+			ps2.setString(2, "Diasemana1");
+			ps2.setString(3, "hora1");
+			ps2.setString(4, "minutos1");
+			ps2.setString(5, "diasemana2");
+			ps2.setString(6, "hora2");
+			ps2.setString(7, "Minutos2");
+			status = ps2.executeUpdate(); // Ejecutamos la sentencia sql
+			ps2.close(); // finalizacion de la sentencia sql
+			if(con != null) {
+				con = null; // Cerramos la conexion con la base de datos
+			}
+		
+		
+		
+		}
+		
+		
+		//InsercionEspectaculoTemporada: INSERT INTO `ESPECTACULO_TEMPORADA` ( `TITULO` , `DIA_SEMANA` , `HORA_INICIO` , `MINUTOS_INICIO` , `HORA_FIN` , `MINUTOS_FIN` ) VALUES (?, ?, ?, ?, ?, ?);
+
+		// Caso 3: El espectaculo es de tipo temporada
+		
+		else if(espectaculoDTO.getTipoEspectaculo().equals("temporada")) {
+		
+			con = ConexionBD.getConexion(prop); // Conexion con la base de datos
+			PreparedStatement ps2=con.prepareStatement(sql.getProperty("InsercionEspectaculoTemporada")); // Sentencia sql para insertar un espectaculo de temporada en la base de datos
+			ps2.setString(1,espectaculoDTO.getTituloEspectaculo()); // Indicamos en la sentencia sql el titulo del espectaculo insertar
+			ps2.setString(2, "Diasemana");
+			ps2.setString(3, "hora");
+			ps2.setString(4, "minutos");
+			ps2.setString(5, "hora fin");
+			ps2.setString(6, "minutos fin");
+			status = ps2.executeUpdate(); // Ejecutamos la sentencia sql
+			ps2.close(); // finalizacion de la sentencia sql
+			if(con != null) {
+				con = null; // Cerramos la conexion con la base de datos
+			}
+		
+			
+			
+		}
+		
