@@ -6,10 +6,9 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Properties;
 
-
-import es.uco.pw.data.dao.relacion.EspectaculoCriticaDAO;
-import es.uco.pw.data.dao.relacion.UsuarioCriticaDAO;
 import es.uco.pw.datos.dao.comun.conexionBD.ConexionBD;
+import es.uco.pw.datos.dao.relacion.EspectaculoCriticaDAO;
+import es.uco.pw.datos.dao.relacion.UsuarioCriticaDAO;
 import es.uco.pw.negocio.critica.CriticaDTO;
 
 /**

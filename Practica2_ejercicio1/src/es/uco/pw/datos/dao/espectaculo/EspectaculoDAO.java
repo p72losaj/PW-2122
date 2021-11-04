@@ -1,4 +1,4 @@
-package es.uco.pw.dao.espectaculo;
+package es.uco.pw.datos.dao.espectaculo;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

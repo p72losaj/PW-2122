@@ -1,4 +1,4 @@
-package es.uco.pw.data.dao.relacion;
+package es.uco.pw.datos.dao.relacion;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
