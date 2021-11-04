@@ -270,7 +270,10 @@ public class EspectaculoDAO {
 	 * @param tituloEspectaculo Titulo del espectaculo
 	 * @return Identificador del espectaculo
 	 */
-	public int obtencionEspectaculoIdentificador(Properties prop, Properties sql, String tituloEspectaculo) {
+	
+	
+	public int obtencionEspectaculoIdentificador(Properties prop, Properties sql, String tituloEspectaculo) 
+	{
 		int identificador = 0; // Identificador del espectaculo
 		try {
 			Connection con = ConexionBD.getConexion(prop); // Conexion con la base de datos
@@ -290,9 +293,6 @@ public class EspectaculoDAO {
 		}
 		return identificador; // Retornamos el identificador del espectaculo
 	}
-}
-
-
 
 /**
  * Funcion que anade los datos de una critica en la base de datos

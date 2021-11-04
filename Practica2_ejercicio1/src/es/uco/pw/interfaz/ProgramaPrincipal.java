@@ -283,7 +283,9 @@ public class ProgramaPrincipal {
 										
 										// Caso 9: Consultar las críticas de un espectáculo, dado su título
 
-										// Caso 10: Eliminar críticas de un espectáculo, por parte del usuario que la creó
+										// Caso 10: Eliminar criticas de un espectaculo, por parte del usuario que la creo
+										
+										
 										
 										// Caso 11: Valorar la utilidad de una crítica publicada por otro usuario
 									}catch(Exception ex) {
