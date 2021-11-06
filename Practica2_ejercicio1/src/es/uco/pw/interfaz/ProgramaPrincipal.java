@@ -12,10 +12,10 @@ import es.uco.pw.datos.dao.relacion.UsuarioCriticaDAO;
 import es.uco.pw.datos.dao.usuario.UsuarioDAO;
 import es.uco.pw.interfaz.menus.Menus;
 import es.uco.pw.negocio.critica.CriticaDTO;
+import es.uco.pw.negocio.critica.EvaluacionUtilidadCriticaDTO;
 import es.uco.pw.negocio.critica.GestorCriticasDTO;
 import es.uco.pw.negocio.espectaculo.GestorEspectaculosDTO;
 import es.uco.pw.negocio.usuario.UsuarioDTO;
-import es.uco.pw.negocio.valoracion.ValoracionUtilidadCriticaDTO;
 import es.uco.pw.negocio.usuario.GestorUsuariosDTO;
 import es.uco.pw.negocio.usuario.RolUsuario;
 
@@ -42,6 +42,10 @@ public class ProgramaPrincipal {
 		CriticaDAO criticaDAO = new CriticaDAO(); 
 		// Creamos un espectaculo vacio de tipo DAO
 		EspectaculoDAO espectaculoDAO = new EspectaculoDAO();
+		// Creamos una relacion Espectaculo-critica de tipo DAO
+		EspectaculoCriticaDAO puntuacionEspectaculo = new EspectaculoCriticaDAO();
+		// Relacion criticas-usuario
+		UsuarioCriticaDAO evaluacionCritica = new UsuarioCriticaDAO();
 		// Limpiamos el buffer de entrada
 		Scanner entrada = new Scanner (System.in);
 		// Anadimos la clase menu para obtener los distintos menus a mostrar al usuario
@@ -63,6 +67,13 @@ public class ProgramaPrincipal {
 			GestorCriticasDTO gestorCriticas = GestorCriticasDTO.getInstancia();
 			// Obtenemos la informacion de las criticas registradas en la base de datos
 			gestorCriticas.setListaCriticas(criticaDAO.obtencionCriticas(prop, sql));
+			// Obtenemos el resto de datos de la critica
+			for(int i=0; i < gestorCriticas.getListaCriticas().size(); i++) {
+				gestorCriticas.getListaCriticas().get(i).setTituloEspectaculo(puntuacionEspectaculo.obtencionTituloEspectaculo(prop,sql,gestorCriticas.getListaCriticas().get(i).getIdentificadorCritica())); // Obtenemos el identificador del espectaculo
+				gestorCriticas.getListaCriticas().get(i).setPuntuacionEspectaculo(puntuacionEspectaculo.obtencionPuntuacionEspectaculo(prop,sql,gestorCriticas.getListaCriticas().get(i).getIdentificadorCritica())); // Obtenemos la puntuacion del espectaculo
+				gestorCriticas.getListaCriticas().get(i).setListaEvaluacionesCritica(evaluacionCritica.obtencionEvaluacionesCritica(prop,sql,gestorCriticas.getListaCriticas().get(i).getIdentificadorCritica())); // Obtenemos las evaluaciones de utilidad de las criticas
+			}
+			
 			// Creamos un gestor de usuarios
 			GestorUsuariosDTO usuarios = new GestorUsuariosDTO();
 			// Obtenemos los datos de los usuarios
@@ -309,10 +320,8 @@ public class ProgramaPrincipal {
 														else {
 															// Almacenamos el identificador de la critica
 															criticaDTO.setIdentificadorCritica(identificador);
-															// Creamos una relacion entre los espectaculos-criticas vacia
-															EspectaculoCriticaDAO relacion = new EspectaculoCriticaDAO();
 															// Registramos la puntuacion del espectaculo
-															status = relacion.creacionRelacion(prop,sql,criticaDTO.getIdentificadorCritica(), tituloEspectaculo, puntuacion);
+															status = puntuacionEspectaculo.creacionRelacion(prop,sql,criticaDTO.getIdentificadorCritica(), tituloEspectaculo, puntuacion);
 															// Caso de error: Puntuacion del espectaculo no registrado en la base de datos
 															if(status == 0) { 
 																System.out.println("Puntuacion del espectaculo no registrada en la base de datos");
@@ -339,9 +348,7 @@ public class ProgramaPrincipal {
 										
 										else if(espectador == 2) {
 											// creamos una valoracion de utilidad de la critica vacia
-											ValoracionUtilidadCriticaDTO valoracionCritica = new ValoracionUtilidadCriticaDTO();
-											// Creamos una relacion DAO usuario-critica vacia
-											UsuarioCriticaDAO relacion = new UsuarioCriticaDAO();
+											EvaluacionUtilidadCriticaDTO valoracionCritica = new EvaluacionUtilidadCriticaDTO();
 											// Mostramos las criticas registradas en la base de datos
 											gestorCriticas.visualizacionCriticas();
 											// Pedimos al usuario el identificador de la critica
@@ -364,7 +371,7 @@ public class ProgramaPrincipal {
 													// Caso exito: El usuario no es el autor de la critica
 													else {
 														// Obtenemos la evaluacion de utilidad de la critica por parte del usuario
-														valoracionCritica = relacion.obtencionValoracionCriticaUsuario(prop, sql, identificadorCritica,usuarioDTO.getIdUsuario());
+														valoracionCritica = evaluacionCritica.obtencionValoracionCriticaUsuario(prop, sql, identificadorCritica,usuarioDTO.getIdUsuario());
 														// Caso de error: El usuario ya ha evaluado la utilidad de la critica
 														if(valoracionCritica.getValoracionCritica() != -1) { System.out.println("El usuario ya ha evaluado la utilidad de la critica"); }
 														// Caso de exito: el usuario todavia no ha realizado la evaluacion de utilidad de la critica
@@ -386,7 +393,7 @@ public class ProgramaPrincipal {
 																}catch(Exception ex) { System.out.println("Se esperaba un valor entero");}
 															}
 															// Registramos la valoracion de utilidad de la critica
-															int status = relacion.valoracionUtilidadCritica(prop,sql,critica.getIdentificadorCritica(),usuarioDTO.getIdUsuario(),valoracion);
+															int status = evaluacionCritica.registrovaloracionUtilidadCritica(prop,sql,critica.getIdentificadorCritica(),usuarioDTO.getIdUsuario(),valoracion);
 															// Caso de error: No se ha modificado la base de datos
 															if(status == 0) { System.out.println("No se ha registrado la valoracion de utilidad de la critica");	}
 															// Caso de exito: Se ha modificado la base de datos

@@ -3,10 +3,11 @@ package es.uco.pw.datos.dao.relacion;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.Properties;
 
 import es.uco.pw.datos.dao.comun.conexionBD.ConexionBD;
-import es.uco.pw.negocio.valoracion.ValoracionUtilidadCriticaDTO;
+import es.uco.pw.negocio.critica.EvaluacionUtilidadCriticaDTO;
 
 /**
  * Clase que gestiona la tabla de relacion de los usuarios y las criticas de la base de datos
@@ -68,7 +69,7 @@ public class UsuarioCriticaDAO {
 	 * @param valoracion Valoracion de utilidad del usuario
 	 * @return Numero de filas modificadas de la base de datos
 	 */
-	public int valoracionUtilidadCritica(Properties prop, Properties sql, int identificadorCritica, int idUsuario,
+	public int registrovaloracionUtilidadCritica(Properties prop, Properties sql, int identificadorCritica, int idUsuario,
 			int valoracion) {
 		int status = 0; // Numero de filas modificadas de la base de datos
 		try {
@@ -119,19 +120,14 @@ public class UsuarioCriticaDAO {
 	 * @param idUsuario Identificador del usuario
 	 * @return Datos de la valoracion de utilidad de la critica por el usuario
 	 */
-	public ValoracionUtilidadCriticaDTO obtencionValoracionCriticaUsuario(Properties prop, Properties sql,
+	public EvaluacionUtilidadCriticaDTO obtencionValoracionCriticaUsuario(Properties prop, Properties sql,
 			int identificadorCritica, int idUsuario) {
-		// Creamos una nueva valoracion de utilidad de la critica
-		ValoracionUtilidadCriticaDTO valoracion = new ValoracionUtilidadCriticaDTO();
-		// almacenamos el identificador de la critica
-		valoracion.setIdentificadorCritica(identificadorCritica);
-		// Almacenamos el identificador del usuario
-		valoracion.setIdentificadorAutor(idUsuario);
-		// Por defecto, la valoracion de utilidad de la critica es -1
-		valoracion.setValoracionUtilidadCritica(-1);
+		EvaluacionUtilidadCriticaDTO valoracion = new EvaluacionUtilidadCriticaDTO(); // Creamos una nueva valoracion de utilidad de la critica
+		valoracion.setIdentificadorCritica(identificadorCritica); // almacenamos el identificador de la critica
+		valoracion.setIdentificadorAutor(idUsuario); // Almacenamos el identificador del usuario
+		valoracion.setValoracionUtilidadCritica(-1); // Por defecto, la valoracion de utilidad de la critica es -1
 		try {
-			// Conexion con la base de datos
-			Connection con = ConexionBD.getConexion(prop);
+			Connection con = ConexionBD.getConexion(prop); // Conexion con la base de datos
 			PreparedStatement ps=con.prepareStatement(sql.getProperty("ObtencionValoracionesCritica")); // Sentencia sql para obtener las valoraciones de utilidad de una critica
 			ps.setInt(1, identificadorCritica); // Indicamos en la sentencia sql el identificador de la critica
 			ResultSet rs = ps.executeQuery(); // Ejecutamos la sentencia sql
@@ -145,6 +141,37 @@ public class UsuarioCriticaDAO {
 			if(con != null) {con = null;} // Cierre de la conexion
 		}catch(Exception ex) {System.out.println("Se ha producido un error al obtener los datos de valoracion de utilidad de una critica");}
 		return valoracion; // Retornamos los datos de la valoracion de utilidad
+	}
+	/**
+	 * Funcion que obtiene la lista de evaluaciones de utilidad de una critica
+	 * @param prop fichero de configuracion
+	 * @param sql fichero de sentencias sql
+	 * @param identificadorCritica Identificador de la critica
+	 * @return Evaluaciones de utilidad de una critica
+	 */
+	public ArrayList<EvaluacionUtilidadCriticaDTO> obtencionEvaluacionesCritica(Properties prop, Properties sql,
+			int identificadorCritica) {
+		ArrayList<EvaluacionUtilidadCriticaDTO> listaEvaluaciones = new ArrayList<EvaluacionUtilidadCriticaDTO>(); // Lista de evaluaciones de utilidad de la critica
+		try {
+			Connection con = ConexionBD.getConexion(prop); // Conexion con la base de datos
+			PreparedStatement ps=con.prepareStatement(sql.getProperty("ObtencionValoracionesCritica")); // Sentencia sql para obtener las valoraciones de utilidad de una critica
+			ps.setInt(1, identificadorCritica); // Indicamos en la sentencia sql el identificador de la critica
+			ResultSet rs = ps.executeQuery(); // Ejecutamos la sentencia sql
+			while(rs.next() ) { // Recorremos las filas obtenidas en la ejecucion de la sentencia sql
+				EvaluacionUtilidadCriticaDTO evaluacion = new EvaluacionUtilidadCriticaDTO(); // Creamos una evaluacion de utilidad de la critica vacia
+				evaluacion.setIdentificadorValoracion(rs.getInt("ID"));// Obtenemos el identificador de la evaluacion
+				evaluacion.setIdentificadorCritica(identificadorCritica); // Obtenemos el identificador de la critica
+				evaluacion.setIdentificadorAutor(rs.getInt("ID_AUTOR")); // Obtenemos el identificador del autor de la critica
+				evaluacion.setValoracionUtilidadCritica(rs.getInt("VALORACION_UTILIDAd")); // Obtenemos la valoracion de utilidad de la critica
+				listaEvaluaciones.add(evaluacion); // Anadimos los datos de la evaluacion a la lista de evaluaciones de utilidad
+			}
+			rs.close(); // Cierre de la ejecucion de la sentencia sql
+			ps.close(); // cierre de la sentencia sql
+			if(con != null) { con = null; } // cierre de la conexion con la base de datos
+		}catch(Exception ex) {
+			System.out.println("Se ha producido un error al obtener la lista de evaluaciones de utilidad de la critica");
+		}
+		return listaEvaluaciones; // Recornamos los datos de las evaluaciones de utilidad de la critica
 	}
 	
 	
