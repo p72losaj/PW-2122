@@ -26,11 +26,6 @@ public class EspectaculoDAO {
 	private int localidadesEspectaculo; // Numero de localidades del espectaculo
 	private int ventasEspectaculo; // Numero de ventas de un espectaculo
 	/**
-	 * Funcion que obtiene todos los datos de un espectaculo
-	 * @param prop Fichero de propiedades para la conexion con la base de datos
-	 * @param sql Fichero de propiedades
-	 * @return Informacion de los espectaculos registrados en el sistema
-	 */
 	public ArrayList<EspectaculoDTO> obtencionEspectaculos(Properties prop, Properties sql) {
 		ArrayList<EspectaculoDTO> espectaculos = new ArrayList<EspectaculoDTO>(); // Lista de espectaculos
 		try {
@@ -177,7 +172,7 @@ public class EspectaculoDAO {
 		
 		return espectaculos;
 	}
-	
+	*/
 	/**
 	 * Funcion que obtiene el numero de ventas de un espectaculo
 	 * @return Numero de ventas del espectaculo
@@ -271,7 +266,7 @@ public class EspectaculoDAO {
 	 * @return Identificador del espectaculo
 	 */
 	
-	
+/*	
 	public int obtencionEspectaculoIdentificador(Properties prop, Properties sql, String tituloEspectaculo) 
 	{
 		int identificador = 0; // Identificador del espectaculo
@@ -293,7 +288,7 @@ public class EspectaculoDAO {
 		}
 		return identificador; // Retornamos el identificador del espectaculo
 	}
-
+*/
 /**
  * Funcion que anade los datos de una critica en la base de datos
  * @param prop Fichero de configuracion
@@ -311,6 +306,7 @@ public int insercionEspectaculo(Properties prop, Properties sql, EspectaculoDTO 
 		ps.setString(2, espectaculoDTO.getTipoEspectaculo()); // Indicamos en la sentencia sql el tipo del espectaculo a insertar
 		ps.setString(3, espectaculoDTO.getDescripcionEspectaculo()); // Indicamos en la sentencia sql la descripcion del espectaculo a insertar
 		//Categoria del espectaculo
+		/*
 		try {
 		if(CategoriaEspectaculo.concierto==EspectaculoDTO.getCategoriaEspectaculo()) {
 			ps.setString(4,"concierto"); // Indicamos en la sentencia sql la categoria del espectaculo insertar
@@ -327,6 +323,7 @@ public int insercionEspectaculo(Properties prop, Properties sql, EspectaculoDTO 
 		}catch(Exception ex) {
 			System.out.println("Se ha producido un error al insertar la categoria del espectaculo");
 		}
+		*/
 		//ps.setString(4,espectaculoDTO.getCategoriaEspectaculo()); // Indicamos en la sentencia sql el titulo del espectaculo insertar
 		ps.setInt(5, espectaculoDTO.getAforoLocalidadesEspectaculo()); // Indicamos en la sentencia sql el aforo del espectaculo a insertar
 		ps.setInt(6, espectaculoDTO.getVentasEspectaculo()); // Indicamos en la sentencia sql la venta de entradas del espectaculo a insertar
@@ -336,77 +333,11 @@ public int insercionEspectaculo(Properties prop, Properties sql, EspectaculoDTO 
 		if(con != null) {
 			con = null; // Cerramos la conexion con la base de datos
 		}
+	} catch(Exception ex) {
 		
-		
-	//	InsercionEspectaculoPuntual: INSERT INTO `ESPECTACULO_PUNTUAL` ( `TITULO` , `DIA` , `MES` , `ANO` , `HORA` , `MINUTOS` ) VALUES (?, ?, ?, ?, ?, ?);
+	}
+	return status;
+}
+}
 
-		if(espectaculoDTO.getTipoEspectaculo().equals("puntual")) {
-		
-			
-			
-			con = ConexionBD.getConexion(prop); // Conexion con la base de datos
-			PreparedStatement ps2=con.prepareStatement(sql.getProperty("InsercionEspectaculoPuntual")); // Sentencia sql para insertar un espectaculo puntual en la base de datos
-			ps2.setString(1,espectaculoDTO.getTituloEspectaculo()); // Indicamos en la sentencia sql el titulo del espectaculo insertar
-			ps2.setString(2, "Dia");
-			ps2.setString(3, "Mes");
-			ps2.setString(4, "Ano");
-			ps2.setString(5, "Horas");
-			ps2.setString(6, "Minutos");
-			status = ps2.executeUpdate(); // Ejecutamos la sentencia sql
-			ps2.close(); // finalizacion de la sentencia sql
-			if(con != null) {
-				con = null; // Cerramos la conexion con la base de datos
-			}
-		
-		}
-		
-//		InsercionEspectaculoMultiple: INSERT INTO `ESPECTACULO_MULTIPLE` ( `TITULO` , `DIA_SEMANA1` , `HORA1` , `MINUTOS1` , `DIA_SEMANA2` , `HORA2` , `MINUTOS2` ) VALUES (?, ?, ?, ?, ?, ?, ?);
-
-		// Caso 2: El espectaculo es de tipo multiple
-		
-		else if(espectaculoDTO.getTipoEspectaculo().equals("multiple")) {
-		
-			con = ConexionBD.getConexion(prop); // Conexion con la base de datos
-			PreparedStatement ps2=con.prepareStatement(sql.getProperty("InsercionEspectaculoMultiple")); // Sentencia sql para insertar un espectaculo multiple en la base de datos
-			ps2.setString(1,espectaculoDTO.getTituloEspectaculo()); // Indicamos en la sentencia sql el titulo del espectaculo insertar
-			ps2.setString(2, "Diasemana1");
-			ps2.setString(3, "hora1");
-			ps2.setString(4, "minutos1");
-			ps2.setString(5, "diasemana2");
-			ps2.setString(6, "hora2");
-			ps2.setString(7, "Minutos2");
-			status = ps2.executeUpdate(); // Ejecutamos la sentencia sql
-			ps2.close(); // finalizacion de la sentencia sql
-			if(con != null) {
-				con = null; // Cerramos la conexion con la base de datos
-			}
-		
-		
-		
-		}
-		
-		
-		//InsercionEspectaculoTemporada: INSERT INTO `ESPECTACULO_TEMPORADA` ( `TITULO` , `DIA_SEMANA` , `HORA_INICIO` , `MINUTOS_INICIO` , `HORA_FIN` , `MINUTOS_FIN` ) VALUES (?, ?, ?, ?, ?, ?);
-
-		// Caso 3: El espectaculo es de tipo temporada
-		
-		else if(espectaculoDTO.getTipoEspectaculo().equals("temporada")) {
-		
-			con = ConexionBD.getConexion(prop); // Conexion con la base de datos
-			PreparedStatement ps2=con.prepareStatement(sql.getProperty("InsercionEspectaculoTemporada")); // Sentencia sql para insertar un espectaculo de temporada en la base de datos
-			ps2.setString(1,espectaculoDTO.getTituloEspectaculo()); // Indicamos en la sentencia sql el titulo del espectaculo insertar
-			ps2.setString(2, "Diasemana");
-			ps2.setString(3, "hora");
-			ps2.setString(4, "minutos");
-			ps2.setString(5, "hora fin");
-			ps2.setString(6, "minutos fin");
-			status = ps2.executeUpdate(); // Ejecutamos la sentencia sql
-			ps2.close(); // finalizacion de la sentencia sql
-			if(con != null) {
-				con = null; // Cerramos la conexion con la base de datos
-			}
-		
-			
-			
-		}
 		

@@ -113,11 +113,9 @@ public class CriticaDAO {
 	 * @param prop Fichero de configuracion
 	 * @param sql Fichero de sentencias sql
 	 * @param criticaDTO Critica a insertar en la base de datos
-	 * @param tituloEspectaculo Titulo del espectaculo que referencia la critica
-	 * @param puntuacion Puntuacion del espectaculo
 	 * @return Numero de filas insertadas en la base de datos
 	 */
-	public int insercionCritica(Properties prop, Properties sql, CriticaDTO criticaDTO,String tituloEspectaculo, int puntuacion) {
+	public int insercionCritica(Properties prop, Properties sql, CriticaDTO criticaDTO) {
 		int status = 0; // Numero de filas modificadas de la base de datos
 		try {
 			Connection con = ConexionBD.getConexion(prop); // Conexion con la base de datos
@@ -129,40 +127,6 @@ public class CriticaDAO {
 			ps.close(); // finalizacion de la sentencia sql
 			if(con != null) {
 				con = null; // Cerramos la conexion con la base de datos
-			}
-			if(status != 0) {
-				int identificador = 0; // Identificador de la critica
-				identificador = obtencionIdentificadorCritica(prop,sql,criticaDTO.getTituloCritica());// Obtenemos el identificador de la critica
-				// Identificador es 0
-				if(identificador == 0) {
-					System.out.println("Identificador de la critica no registrado en la base de datos"); 
-					status = eliminacionCritica(prop,sql,criticaDTO.getTituloCritica()); // Eliminamos los datos de la critica
-					if(status == 0) {
-						System.out.println("Critica no eliminada de la base de datos. Notifique este error al administrador del sistema");
-					}
-					else {
-						System.out.println("Critica eliminada de la base de datos");
-						status = 0; // Indicamos que el numero de filas insertadas en la base de datos es 0
-					}
-				}
-				// Identificador distinto de 0
-				else {
-					criticaDTO.setIdentificadorCritica(identificador); // almacenamos el identificador de la critica
-					EspectaculoCriticaDAO relacion = new EspectaculoCriticaDAO();
-					status = relacion.creacionRelacion(prop,sql,criticaDTO.getIdentificadorCritica(), tituloEspectaculo, puntuacion); // Registramos la puntuacion del espectaculo
-					if(status == 0) { // Puntuacion del espectaculo no registrado en la base de datos
-						System.out.println("Puntuacion del espectaculo no registrada");
-						status = eliminacionCritica(prop,sql,criticaDTO.getTituloCritica()); // Eliminamos los datos de la critica
-						if(status == 0) {
-							System.out.println("Critica no eliminada de la base de datos. Notifique este error al administrador del sistema");
-						}
-						else {
-							System.out.println("Critica eliminada de la base de datos");
-							status = 0; // Indicamos que el numero de filas insertadas en la base de datos es 0
-						}
-					}
-					
-				}
 			}
 		}catch(Exception ex) {
 			System.out.println("Se ha producido un error al insertar los datos de la critica en la base de datos");

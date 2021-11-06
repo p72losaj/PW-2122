@@ -2,9 +2,11 @@ package es.uco.pw.datos.dao.relacion;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.Properties;
 
 import es.uco.pw.datos.dao.comun.conexionBD.ConexionBD;
+import es.uco.pw.negocio.valoracion.ValoracionUtilidadCriticaDTO;
 
 /**
  * Clase que gestiona la tabla de relacion de los usuarios y las criticas de la base de datos
@@ -109,4 +111,41 @@ public class UsuarioCriticaDAO {
 		}
 		return status;
 	}
+	/**
+	 * Funcion que obtiene la valoracion de utilidad de la critica por un usuario
+	 * @param prop Fichero de configuracion
+	 * @param sql Fichero de sentencias sql
+	 * @param identificadorCritica Identificador de la critica
+	 * @param idUsuario Identificador del usuario
+	 * @return Datos de la valoracion de utilidad de la critica por el usuario
+	 */
+	public ValoracionUtilidadCriticaDTO obtencionValoracionCriticaUsuario(Properties prop, Properties sql,
+			int identificadorCritica, int idUsuario) {
+		// Creamos una nueva valoracion de utilidad de la critica
+		ValoracionUtilidadCriticaDTO valoracion = new ValoracionUtilidadCriticaDTO();
+		// almacenamos el identificador de la critica
+		valoracion.setIdentificadorCritica(identificadorCritica);
+		// Almacenamos el identificador del usuario
+		valoracion.setIdentificadorAutor(idUsuario);
+		// Por defecto, la valoracion de utilidad de la critica es -1
+		valoracion.setValoracionUtilidadCritica(-1);
+		try {
+			// Conexion con la base de datos
+			Connection con = ConexionBD.getConexion(prop);
+			PreparedStatement ps=con.prepareStatement(sql.getProperty("ObtencionValoracionesCritica")); // Sentencia sql para obtener las valoraciones de utilidad de una critica
+			ps.setInt(1, identificadorCritica); // Indicamos en la sentencia sql el identificador de la critica
+			ResultSet rs = ps.executeQuery(); // Ejecutamos la sentencia sql
+			while(rs.next() ) { // Recorremos las filas obtenidas en la ejecucion de la sentencia sql
+				if(rs.getInt("ID_AUTOR") == idUsuario) { // Identificador del usuario encontrado
+					valoracion.setValoracionUtilidadCritica(rs.getInt("VALORACION_UTILIDAD")); // Obtenemos la valoracion de utilidad de la critica
+				}
+			}
+			rs.close(); // Cierre de la ejecucion de la sentencia sql
+			ps.close(); // cierre de la sentencia sql
+			if(con != null) {con = null;} // Cierre de la conexion
+		}catch(Exception ex) {System.out.println("Se ha producido un error al obtener los datos de valoracion de utilidad de una critica");}
+		return valoracion; // Retornamos los datos de la valoracion de utilidad
+	}
+	
+	
 }

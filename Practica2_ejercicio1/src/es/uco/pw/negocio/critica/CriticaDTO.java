@@ -12,6 +12,7 @@ public class CriticaDTO {
 	private String tituloCritica; // Titulo de la critica
 	private String resenaCritica; // Resena de la critica
 	private String autorCritica; // Autor de la critica
+	
 	/**
 	 * Funcion que obtiene el identificador de la critica
 	 * @return Identificador de la critica
