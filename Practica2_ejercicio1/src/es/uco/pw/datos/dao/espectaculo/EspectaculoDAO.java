@@ -384,6 +384,52 @@ public ArrayList<EspectaculoDTO> obtencionEspectaculos(Properties prop, Properti
 	return listaEspectaculos; // Retornamos la lista de espectaculos
 }
 
-}
 
+
+
+/**
+ * Funcion que anade los datos de un espectaculo en la base de datos
+ * @param prop Fichero de configuracion
+ * @param sql Fichero de sentencias sql
+ * @param espectaculoDTO Espectaculo a insertar en la base de datos
+ * @return Numero de filas insertadas en la base de datos
+ */
+public int insercionEspectaculo(Properties prop, Properties sql, EspectaculoDTO espectaculoDTO) {
+	int status = 0; // Numero de filas modificadas de la base de datos
+	try {
+		Connection con = ConexionBD.getConexion(prop); // Conexion con la base de datos
+		PreparedStatement ps=con.prepareStatement(sql.getProperty("InsercionEspectaculoComun")); // Sentencia sql para insertar un espectaculo en la base de datos
+		ps.setString(1,espectaculoDTO.getTituloEspectaculo()); // Indicamos en la sentencia sql el titulo del espectaculo insertar
+		ps.setString(2, espectaculoDTO.getTipoEspectaculo()); // Indicamos en la sentencia sql el tipo del espectaculo a insertar
+		ps.setString(3, espectaculoDTO.getDescripcionEspectaculo()); // Indicamos en la sentencia sql la descripcion del espectaculo a insertar
+		//Categoria del espectaculo
+		String cat = espectaculoDTO.getCategoriaEspectaculo().toString(); 
 		
+		if(cat.equals("concierto")) {
+			ps.setString(4,"concierto"); // Indicamos en la sentencia sql la categoria del espectaculo insertar
+		}
+		// Caso 2: El espectaculo es un monologo
+		else if(cat.equals("monologo")) {
+			ps.setString(4,"monologo"); // Indicamos en la sentencia sql la categoria del espectaculo insertar
+		}
+		// Caso 3: El espectaculo es una obra de teatro
+		else if(cat.equals("obraTeatro")){
+			ps.setString(4,"obra de teatro"); // Indicamos en la sentencia sql la categoria del espectaculo insertar
+		
+		}
+		
+		//ps.setString(4,espectaculoDTO.getCategoriaEspectaculo()); // Indicamos en la sentencia sql el titulo del espectaculo insertar
+		ps.setInt(5, espectaculoDTO.getAforoLocalidadesEspectaculo()); // Indicamos en la sentencia sql el aforo del espectaculo a insertar
+		ps.setInt(6, espectaculoDTO.getVentasEspectaculo()); // Indicamos en la sentencia sql la venta de entradas del espectaculo a insertar
+		
+		status = ps.executeUpdate(); // Ejecutamos la sentencia sql
+		ps.close(); // finalizacion de la sentencia sql
+		if(con != null) {
+			con = null; // Cerramos la conexion con la base de datos
+		}
+		
+}catch(Exception ex) {
+		System.out.println("Se ha producido un error al insertar los datos del espectaculo en la base de datos");
+	}
+	return status; // Retornamos el numero de filas modificadas de la base de datos
+}}
