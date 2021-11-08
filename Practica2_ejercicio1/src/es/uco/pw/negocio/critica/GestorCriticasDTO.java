@@ -11,6 +11,10 @@ import java.util.Properties;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 
+import es.uco.pw.datos.dao.critica.CriticaDAO;
+import es.uco.pw.datos.dao.relacion.EspectaculoCriticaDAO;
+import es.uco.pw.datos.dao.relacion.UsuarioCriticaDAO;
+
 /**
  * Gestor de criticas, disenado mediante el patron de diseno Singleton
  * @author Jaime Lorenzo Sanchez
@@ -127,11 +131,32 @@ public class GestorCriticasDTO {
 		}
 	}
 	/**
-	 * Funcion que inserta una critica en el gestor de criticas
-	 * @param critica Critica a insertar en el gestor de criticas
+	 * Funcion que inserta una critica en la base de datos
+	 * @param prop Fichero de configuracion
+	 * @param sql Fichero de sentencias sql
+	 * @param critica Datos de la critica ha insertar en la base de datos
+	 * @param tituloEspectaculo Titulo del espectaculo a insertar en la base de datos
+	 * @param puntuacion Puntuacion del espectaculo
+	 * @return Estado de la insercion de los datos de la critica en la base de datos
 	 */
-	public void insercionCriticaGestor(CriticaDTO critica) {
-		this.listaCriticas.add(critica);
+	public int insercionCriticaGestor(Properties prop, Properties sql,CriticaDTO critica, String tituloEspectaculo, int puntuacion) {
+		int status = 0; // Numero de filas modificadas de la base de datos
+		CriticaDAO criticaDAO = new CriticaDAO();
+		EspectaculoCriticaDAO puntuacionEspectaculo = new EspectaculoCriticaDAO();
+		status = criticaDAO.insercionCritica(prop,sql,critica); // Insertamos los datos de la critica en la base de datos
+		if(status != 0) { // Caso 1: Datos de la critica insertada en la base de datos
+			int identificador = criticaDAO.obtencionIdentificadorCritica(prop,sql,critica.getTituloCritica()); // Obtenemos el identificador de la critica registrada en la base de datos
+			// Caso de error: Identificador de la critica no obtenido
+			if(identificador == 0) {status = criticaDAO.eliminacionCritica(prop,sql,critica.getTituloCritica());} // Eliminamos los datos de la critica de la base de datos
+			else { // Caso de exito: Identificador de la critica obtenido
+				critica.setIdentificadorCritica(identificador); // Almacenamos el identificador de la critica
+				status = puntuacionEspectaculo.creacionRelacion(prop,sql,critica.getIdentificadorCritica(), tituloEspectaculo, puntuacion); // Registramos la puntuacion del espectaculo
+				// Caso de error: Puntuacion del espectaculo no registrado en la base de datos
+				if(status == 0) { status = criticaDAO.eliminacionCritica(prop,sql,critica.getTituloCritica());} // Eliminamos los datos de la critica 
+				else { this.listaCriticas.add(critica); }// Caso de exito: Anadimos la critica en el gestor de criticas
+			}
+		}
+		return status; // Insercion de los datos de la critica en la base de datos
 	}
 	/**
 	 * Funcion que obtiene los datos de una critica en funcion de su identificador
@@ -162,6 +187,23 @@ public class GestorCriticasDTO {
 			}
 		}
 		return false; // Por defecto, retornamos false
+	}
+	/**
+	 * Funcion que obtiene los datos de todas las criticas registradas en la base de datos
+	 * @param prop Fichero de configuracion
+	 * @param sql Fichero de propiedades
+	 */
+	public void obtencionDatosCriticas(Properties prop, Properties sql) {
+		CriticaDAO criticaDAO = new CriticaDAO();
+		EspectaculoCriticaDAO puntuacionEspectaculo = new EspectaculoCriticaDAO();
+		UsuarioCriticaDAO evaluacionCritica = new UsuarioCriticaDAO();
+		this.setListaCriticas(criticaDAO.obtencionCriticas(prop, sql)); // Obtenemos la lista de criticas registradas en la base de datos
+		// Obtenemos el resto de datos de la critica
+		for(int i=0; i < this.getListaCriticas().size(); i++) {
+			this.getListaCriticas().get(i).setTituloEspectaculo(puntuacionEspectaculo.obtencionTituloEspectaculo(prop,sql,this.getListaCriticas().get(i).getIdentificadorCritica())); // Obtenemos el identificador del espectaculo
+			this.getListaCriticas().get(i).setPuntuacionEspectaculo(puntuacionEspectaculo.obtencionPuntuacionEspectaculo(prop,sql,this.getListaCriticas().get(i).getIdentificadorCritica())); // Obtenemos la puntuacion del espectaculo
+			this.getListaCriticas().get(i).setListaEvaluacionesCritica(evaluacionCritica.obtencionEvaluacionesCritica(prop,sql,this.getListaCriticas().get(i).getIdentificadorCritica())); // Obtenemos las evaluaciones de utilidad de las criticas
+		}
 	}
 
 }

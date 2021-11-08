@@ -9,6 +9,7 @@ import java.util.Properties;
 import java.util.Scanner;
 
 import es.uco.pw.datos.dao.comun.conexionBD.ConexionBD;
+import es.uco.pw.datos.dao.usuario.UsuarioDAO;
 
 /**
  * Gestor de espectadores
@@ -145,6 +146,75 @@ public class GestorUsuariosDTO {
 
 	public void setListaEspectadores(ArrayList<UsuarioDTO> listaEspectadores) {
 		this.listaEspectadores = listaEspectadores;
+	}
+
+	/**
+	 * Funcion que registra los datos de un usuario en la base de datos
+	 * @param prop Fichero de configuracion
+	 * @param sql Fichero de sentencias sql
+	 * @param correo Correo del usuario
+	 * @param nombre Nombre del usuario
+	 * @param apellido1 Primer apellido del usuario
+	 * @param apellido2 segundo apellido del usuario
+	 * @param nick Nick del usuario
+	 * @param rol Rol del usuario 
+	 * @return Estado de la insercion de los datos del usuario
+	 */
+
+	public String registrarUsuario(Properties prop, Properties sql, String correo, String nombre, String apellido1, String apellido2, String nick, String rol) {
+		UsuarioDTO usuarioDTO = new UsuarioDTO(); 
+		UsuarioDAO usuarioDAO = new UsuarioDAO();
+		String estado = new String(); // Estado del registro de los datos del usuario
+		/*
+		 * DATOS UNICOS DEL USUARIO
+		 */
+		Boolean validezCorreo = usuarioDTO.comprobarValidezCorreo(correo); // Comprobamos si el correo es valido
+		Boolean encontrado = comprobarExistenciaCorreoEspectador(correo); // Comprobamos si el correo ya esta registrado en la base de datos
+		Boolean existenciaNick = comprobarExistenciaNickUsuario(nick); // Comprobamos si el nick ya esta registrado en la base de datos 
+		/*
+		 * Caso 1: Correo no valido
+		 */
+		if(validezCorreo == false) {estado = "Correo " + correo + " no es valido"; }
+		/*
+		 * Caso 2: Correo ya registrado
+		 */
+		else if(encontrado == true) { estado = "Correo del usuario " + correo + " ya estaba registrado"; }
+		/*
+		 * Caso 3: Nick ya registrado
+		 */
+		else if(existenciaNick == true) { estado = "Nick del usuario " + nick + " ya estaba registrado";}
+		/*
+		 * DATOS UNICOS DEL USUARIO NO REGISTRADOS EN LA BASE DE DATOS
+		 */
+		else {
+			usuarioDTO.setCorreoEspectador(correo); // Almacenamos el correo del usuario
+			usuarioDTO.setNombreEspectador(nombre); // Almacenamos el nombre del usuario
+			usuarioDTO.setPrimerApellidoEspectador(apellido1); // Almacenamos el primer apellido del usuario
+			usuarioDTO.setSegundoApellidoEspectador(apellido2); // Almacenamos el segundo apellido del usuario
+			usuarioDTO.setNickEspectador(nick); // Almacenamos el nick del usuario
+			if(rol.equals("administrador")) { usuarioDTO.setRolUsuario(RolUsuario.administrador);} // El rol del usuario es administrador
+			else if(rol.equals("espectador")) { usuarioDTO.setRolUsuario(RolUsuario.espectador); } // El rol del usuario es espectador
+			int status = usuarioDAO.insertarUsuario(usuarioDTO,prop,sql); // Almacenamos los datos en la base de datos
+			/*
+			 * USUARIO ANADIDO A LA BASE DE DATOS
+			 */
+			if(status != 0) {
+				/*
+				 * OBTENCION DEL IDENTIFICADOR DEL USUARIO REGISTRADO
+				 */
+				int identificador = usuarioDAO.obtencionIdentificadorUsuario(prop,sql,usuarioDTO.getCorreoEspectador());
+				// Caso de error: Identificador del usuario no obtenido
+				if(identificador == 0) { estado = "Identificador del usuario registrado no obtenido"; }
+				// Identificador del usuario obtenido
+				else {
+					usuarioDTO.setIdUsuario(identificador); // Almacenamos el identificador del usuario
+					this.listaEspectadores.add(usuarioDTO); // Anadimos los datos del usuario al gestor de usuarios
+					estado = "Registro del usuario en la base de datos ha sido un exito"; // Indicamos el estado del registro del usuario
+				}
+			}
+			else { estado = "Error al registrar los datos del usuario en la base de datos"; }
+		}
+		return estado; // Retornamos el estado del registro de los datos del usuario
 	}
 
 

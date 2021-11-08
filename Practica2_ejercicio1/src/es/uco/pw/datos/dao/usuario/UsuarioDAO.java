@@ -239,6 +239,33 @@ public class UsuarioDAO {
 		
 		
 	}
+	/**
+	 * Funcion que obtiene el identificador del usuario registrado en la base de datos
+	 * @param prop Fichero de configuracion
+	 * @param sql Fichero de sentencias sql
+	 * @param correoEspectador Correo del usuario
+	 * @return Identificador del usuario
+	 */
+	public int obtencionIdentificadorUsuario(Properties prop, Properties sql, String correoEspectador) {
+		int identificador = 0; // Identificador por defecto del usuario
+		try {
+			Connection con = ConexionBD.getConexion(prop); // conexion con la base de datos
+			PreparedStatement ps=con.prepareStatement(sql.getProperty("ObtencionUsuario")); // Sentencia sql para obtener los datos del usuario
+			ps.setString(1, correoEspectador); // Indicamos en la sentencia sql el correo del usuario ha obtener
+			ResultSet rs = ps.executeQuery(); // Ejecutamos la sentencia sql
+			while(rs.next()) {
+				identificador = rs.getInt("ID"); // Obtenemos el identificador del usuario
+			}
+			rs.close(); // Cierre de la ejecucion de la sentencia sql
+			ps.close(); // Cierre de la sentencia sql
+			if(con != null) { con = null; } // Cierre de la conexion con la base de datos
+		}catch(Exception ex) {
+			System.out.println("Se ha producido un error al obtener el identificador del usuario");
+		}
+		return identificador; // Retornamos el identificador del usuario
+	}
+	
+	
 	
 	
 	
