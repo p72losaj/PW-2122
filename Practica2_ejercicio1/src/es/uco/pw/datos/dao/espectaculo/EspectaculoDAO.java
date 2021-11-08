@@ -432,4 +432,29 @@ public int insercionEspectaculo(Properties prop, Properties sql, EspectaculoDTO 
 		System.out.println("Se ha producido un error al insertar los datos del espectaculo en la base de datos");
 	}
 	return status; // Retornamos el numero de filas modificadas de la base de datos
-}}
+}
+/**
+ * Funcion que comprueba la existencia de un espectaculo en funcion de su titulo
+ * @param prop Fichero de configuracion
+ * @param sql Fichero de sentencias sql
+ * @param tituloEspectaculo Titulo del espectaculo
+ * @return True si ha encontrado el espectaculo, false en caso contrario
+ */
+public Boolean comprobacionExistenciaTituloEspectaculo(Properties prop, Properties sql, String tituloEspectaculo) {
+	Boolean encontrado = false; // Por defecto, el titulo del espectaculo no se ha encontrado
+	try {
+		Connection con = ConexionBD.getConexion(prop); // Conexion con la base de datos
+		PreparedStatement ps=con.prepareStatement(sql.getProperty("ObtencionEspectaculoTitulo")); // Sentencia sql para obtener los datos del espectaculo en funcion de su titulo
+		ps.setString(1, tituloEspectaculo); // Indicamos en la sentencia sql el titulo del espectaculo
+		ResultSet rs = ps.executeQuery(); // Ejecutamos la sentencia sql
+		while(rs.next()) { encontrado = true; } // Titulo del espectaculo registrado en la base de datos
+		rs.close(); // Cierre de la ejecucion de la sentencia sql
+		ps.close(); // Cierre de la sentencia sql
+		if(con != null) { con = null; } // Cierre de la conexion con la base de datos
+	}catch(Exception ex) {
+		System.out. println("Se ha producido un error al comprobar la existencia del titulo del espectaculo");
+	}
+	return encontrado; // Retornamos la comprobacion de la existencia del titulo del espectaculo
+}
+
+}

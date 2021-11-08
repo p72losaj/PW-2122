@@ -126,34 +126,43 @@ public class ProgramaPrincipal {
 						}
 					}
 					
-					// El usuario ha elegido la opcion de identificarse en el sistema
-				
+					/*
+					 * INICIO DE SESION EN EL SISTEMA
+					 */
+					
 					else if(opcionAcceso == 2) {
-						// Pedimos al usuario su correo
-						System.out.print("Introduce su correo para acceder a su cuenta: ");
-						// Obtenemos el correo del usuario
-						String correo = entrada.nextLine();
-						// Comprobamos si el correo esta registrado
-						Boolean encontrado = usuarios.comprobarExistenciaCorreoEspectador(correo);
-						// Caso de error: Correo no registrado en la base de datos
+						/*
+						 * COMPROBACION DE LOS DATOS DE INICIO DE SESION DEL USUARIO
+						 */
+						System.out.print("Introduce su correo para acceder a su cuenta: "); // Pedimos al usuario su correo
+						String correoUsuario = entrada.nextLine(); // Obtenemos el correo del usuario
+						Boolean encontrado = usuarios.comprobarExistenciaCorreoEspectador(correoUsuario); // Comprobamos si el correo esta registrado
+						/*
+						 * DATOS DE ACCESO DEL USUARIO INCORRECTOS
+						 */
 						if(encontrado == false) { System.out.println("Correo no registrado en la base de datos"); }
-						// Caso de exito: Correo registrado en la base de datos
+						/*
+						 * DATOS DE ACCESO DEL USUARIO CORRECTOS
+						 */
 						else {
-							// Creamos un usuario DTO vacio
-							UsuarioDTO usuarioDTO = new UsuarioDTO();
-							// Obtenemos los datos del usuario
-							usuarioDTO = usuarios.obtenerDatosUsuario(correo); 
-							// Caso 1: Usuario administrador
-							if(usuarioDTO.getRolUsuario().equals(RolUsuario.administrador)) {
-								int administrador = -1;
+							int idUsuario = usuarios.obtencionIdentificadorUsuario(correoUsuario); // Obtencion del identificador del usuario
+							/*
+							 * ROL DEL USUARIO
+							 */
+							String rol = usuarios.obtencionRolUsuario(correoUsuario);
+							/*
+							 * USUARIO ADMINISTRADOR
+							 */
+							if(rol.equals("administrador")) {
+								/*
+								 * MENU DE ADMINISTRADOR
+								 */
+								int administrador = -1; // Opcion por defecto del menu de administrador
 								while(administrador != 0) {
-									// Mostramos el menu del administrador
-									menu.MostrarMenuAdministrador();
+									menu.MostrarMenuAdministrador(); // Mostramos el menu del administrador
 									try {
-										// Obtenemos la funcionalidad deseada por el usuario
-										administrador = entrada.nextInt();
-										 // Limpiamos el buffer
-										entrada = new Scanner(System.in);
+										administrador = entrada.nextInt(); // Obtenemos la funcionalidad deseada por el usuario
+										entrada = new Scanner(System.in); // Limpiamos el buffer
 										// Caso 1: Dar de alta un espectaculo
 										// Caso 2: Cancelar un espectaculo ( todas las sesiones o una en particular)
 										// Caso 3: Actualizar los datos de un espectáculo
@@ -166,84 +175,60 @@ public class ProgramaPrincipal {
 										// Caso 10: Eliminar criticas de un espectaculo, por parte del usuario que la creo
 										// Caso 11: Valorar la utilidad de una crítica publicada por otro usuario
 									}
-									// Recogemos la excepcion producida -> El usuario no ha introducido un valor entero
 									catch(Exception ex) {System.out.println("Se esperaba un valor entero"); }
-								// Cierre de sesion
 								}
 							}
+						
+							/*
+							 * USUARIO ESPECTADOR
+							 */
 							
-							// Caso 2: Usuario espectador
-							
-							else {
-								int espectador = 1;
-								// Limpiamos el buffer de entrada
-								entrada = new Scanner(System.in); 
+							else{
+								/*
+								 * MENU DE FUNCIONALIDADES DEL ESPECTADOR
+								 */
+								int espectador = 1; // Opcion por defecto de las funcionalidades del menu
+								entrada = new Scanner(System.in);  // Limpiamos el buffer de entrada
 								while(espectador != 0) {
-									// Mostramos el menu del espectador
-									menu.MostrarMenuEspectador(); 
+									menu.MostrarMenuEspectador(); // Mostramos el menu del espectador 
 									try {
-										// Obtenemos la funcionalidad del espectador
-										espectador = entrada.nextInt(); 
-										// Limpiamos el buffer de entrada
-										entrada = new Scanner(System.in); 
-										// Caso 1: Funcionalidad de creacion de una critica
+										espectador = entrada.nextInt(); // Obtenemos la funcionalidad del espectador 
+										entrada = new Scanner(System.in); // Limpiamos el buffer de entrada
 										
-										if(espectador == 1) {
-											// Creamos una critica DTO vacia
-											CriticaDTO criticaDTO = new CriticaDTO(); 
-											// Almacenamos el correo del autor de la critica
-											criticaDTO.setAutorCritica(usuarioDTO.getCorreoEspectador()); 
-											// Pedimos al usuario el titulo de la critica
-											System.out.print("Introduce el titulo de la critica: ");
-											// Obtenemos el titulo de la critica
-											String tituloCritica = entrada.nextLine();
-											// Caso de error: Critica ya registrada en la base de datos
-											if(gestorCriticas.comprobacionExistenciaTituloCritica(tituloCritica) == true) { System.out.println("El titulo de la critica <" + tituloCritica + "> ya esta registrado en la base de datos"); }
-											// Caso de exito: Critica no registrada en la base de datos
-											else {
-												// Almacenamos el titulo de la critica
-												criticaDTO.setTituloCritica(tituloCritica); 
-												// Pedimos al usuario la resena de la critica
-												System.out.print("Introduce la resena de la critica: ");
-												// Obtenemos la resena de la critica
-												String resenaCritica = entrada.nextLine();
-												// Almacenamos la resena de la critica
-												criticaDTO.setResenaCritica(resenaCritica); 
-												// Pedimos al usuario el titulo del espectaculo
-												System.out.print("Introduce el titulo del espectaculo: ");
-												// Obtenemos el titulo del espectaculo
-												String tituloEspectaculo = entrada.nextLine();
-												// Caso de error: Espectaculo no esta registrado en la base de datos
-												if(espectaculos.comprobarExistenciaTituloEspectaculo(tituloEspectaculo) == false ) { System.out.println("Espectaculo no registrado en la base de datos");}
-												// Caso de exito: Espectaculo esta registrado en la base de datos
-												else {
-													int puntuacion = -1;
-													// La puntuacion del espectaculo debe estar contenida en el rango [0,10]
-													while(puntuacion < 0 || puntuacion > 10) {
-														try {
-															// Pedimos al usuario la puntuacion del espectaculo
-															System.out.print("Introduce una puntuacion para el espectaculo en el rango [0,10]: ");
-															// Obtenemos la puntuacion del espectaculo
-															puntuacion = entrada.nextInt(); 
-															// Limpiamos el buffer de entrada
-															entrada = new Scanner(System.in);
-															// Caso de error: Puntuacion inferior a 0
-															if(puntuacion < 0) {System.out.println("La puntuacion introducida <" + puntuacion + "> es inferior a 0");}
-															// Caso de error: Puntuacion superior a 10
-															else if(puntuacion > 10) { System.out.println("La puntuacion introducida <" + puntuacion + "> es superior a 10");}
-														}
-														// Recogemos la excepcion -> Valor introducido por el usuario no es un valor entero
-														catch(Exception ex) {System.out.println("El valor introducido no es un valor entero");}
-													}
-													// Insertamos la critica en la base de datos
-													int status = gestorCriticas.insercionCriticaGestor(prop,sql,criticaDTO, tituloEspectaculo, puntuacion); 
-													// Caso de error: Critica no ha sido registrada en la base de datos
-													if(status == 0) { System.out.println("No se han registrado los datos de la critica en la base de datos");}
-													// Caso de exito: Critica registrada en la base de datos
-													else { 
-														System.out.println("Critica anadida a la base de datos y al gestor de criticas");
-													}
-												}
+										/*
+										 * CREACION DE UNA NUEVA CRITICA
+										 */
+										
+										if(espectador == 1) {											
+											/*
+											 * OBTENCION DE LOS DATOS DE LA CRITICA
+											 */
+											System.out.print("Introduce el titulo de la critica: "); // Pedimos al usuario el titulo de la critica
+											String titulo = entrada.nextLine(); // Obtenemos el titulo de la critica
+											System.out.print("Introduce la resena de la critica: "); // Pedimos al usuario la resena de la critica
+											String resenaCritica = entrada.nextLine(); // Obtenemos la resena de la critica
+											/*
+											 * OBTENCION DATOS DEL ESPECTACULO
+											 */
+											System.out.print("Introduce el titulo del espectaculo: "); // Pedimos al usuario el titulo del espectaculo
+											String tituloEspectaculo = entrada.nextLine();// Obtenemos el titulo del espectaculo
+											// Puntuacion del espectaculo
+											int puntuacion = -1; 
+											try {
+												System.out.print("Introduce una puntuacion del espectaculo: "); // Pedimos la puntuacion del espectaculo
+												puntuacion = entrada.nextInt(); // Obtenemos la puntuacion del espectaculo
+											}catch(Exception ex) {
+												System.out.println("La puntuacion del espectaculo debe ser un entero");
+											}
+											/*
+											 * Puntuacion del espectaculo debe ser distinta a -1
+											 */
+											if(puntuacion != -1) {
+												/*
+												 * REGISTRO DE LA CRITICA
+												 */
+												String registroCritica = gestorCriticas.registroCritica(prop, sql, correoUsuario, titulo,resenaCritica,tituloEspectaculo,puntuacion); // Realizamos el registro de la critica
+												System.out.println(registroCritica); // Mostramos el estado del registro de la critica	
 											}
 										}
 										
@@ -270,11 +255,11 @@ public class ProgramaPrincipal {
 													// Obtenemos la informacion de la critica
 													critica = gestorCriticas.obtencionDatosCritica(identificadorCritica); 
 													// Caso de error: El usuario es el autor de la critica 
-													if(critica.getAutorCritica().equals(usuarioDTO.getCorreoEspectador())) {System.out.println("No se puede valorar la utilidad de una critica propia");}
+													if(critica.getAutorCritica().equals(correoUsuario)) {System.out.println("No se puede valorar la utilidad de una critica propia");}
 													// Caso exito: El usuario no es el autor de la critica
 													else {
 														// Obtenemos la evaluacion de utilidad de la critica por parte del usuario
-														valoracionCritica = evaluacionCritica.obtencionValoracionCriticaUsuario(prop, sql, identificadorCritica,usuarioDTO.getIdUsuario());
+														valoracionCritica = evaluacionCritica.obtencionValoracionCriticaUsuario(prop, sql, identificadorCritica,idUsuario);
 														// Caso de error: El usuario ya ha evaluado la utilidad de la critica
 														if(valoracionCritica.getValoracionCritica() != -1) { System.out.println("El usuario ya ha evaluado la utilidad de la critica"); }
 														// Caso de exito: el usuario todavia no ha realizado la evaluacion de utilidad de la critica
@@ -296,7 +281,7 @@ public class ProgramaPrincipal {
 																}catch(Exception ex) { System.out.println("Se esperaba un valor entero");}
 															}
 															// Registramos la valoracion de utilidad de la critica
-															int status = evaluacionCritica.registrovaloracionUtilidadCritica(prop,sql,critica.getIdentificadorCritica(),usuarioDTO.getIdUsuario(),valoracion);
+															int status = evaluacionCritica.registrovaloracionUtilidadCritica(prop,sql,critica.getIdentificadorCritica(),idUsuario,valoracion);
 															// Caso de error: No se ha modificado la base de datos
 															if(status == 0) { System.out.println("No se ha registrado la valoracion de utilidad de la critica");	}
 															// Caso de exito: Se ha modificado la base de datos

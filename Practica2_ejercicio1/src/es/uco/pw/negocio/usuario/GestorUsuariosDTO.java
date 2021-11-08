@@ -217,6 +217,36 @@ public class GestorUsuariosDTO {
 		return estado; // Retornamos el estado del registro de los datos del usuario
 	}
 
+	/**
+	 * Funcion que obtiene el rol del usuario almacenado en el gestor
+	 * @param correoUsuario Correo del usuario
+	 * @return Rol del usuario
+	 */
+
+	public String obtencionRolUsuario(String correoUsuario) {
+		String rol = null; // Rol por defecto del usuario
+		for(int i=0; i < this.listaEspectadores.size(); i++) { // Recorremos la lista de usuarios
+			if(this.listaEspectadores.get(i).getCorreoEspectador().equals(correoUsuario)) { rol = this.listaEspectadores.get(i).getRolUsuario().toString(); } // Obtenemos el rol del usuario
+		}
+		return rol; // Retornamos el rol del usuario
+	}
+
+	/**
+	 * Funcion que obtiene el identificador del usuario registrado en el gestor de usuarios
+	 * @param correo Correo del usuario
+	 * @return Identificador del usuario registrado en el gestor de usuarios
+	 */
+
+	public int obtencionIdentificadorUsuario(String correo) {
+		int identificador = 0;
+		for(int i=0; i < this.listaEspectadores.size(); i++) {
+			if(this.listaEspectadores.get(i).getCorreoEspectador().equals(correo)) {
+				identificador = this.listaEspectadores.get(i).getIdUsuario();
+			}
+		}
+		return identificador;
+	}
+
 
 	
 

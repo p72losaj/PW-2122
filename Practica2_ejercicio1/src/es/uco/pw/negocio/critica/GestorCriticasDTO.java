@@ -12,6 +12,7 @@ import java.util.Scanner;
 import java.util.StringTokenizer;
 
 import es.uco.pw.datos.dao.critica.CriticaDAO;
+import es.uco.pw.datos.dao.espectaculo.EspectaculoDAO;
 import es.uco.pw.datos.dao.relacion.EspectaculoCriticaDAO;
 import es.uco.pw.datos.dao.relacion.UsuarioCriticaDAO;
 
@@ -134,29 +135,93 @@ public class GestorCriticasDTO {
 	 * Funcion que inserta una critica en la base de datos
 	 * @param prop Fichero de configuracion
 	 * @param sql Fichero de sentencias sql
-	 * @param critica Datos de la critica ha insertar en la base de datos
-	 * @param tituloEspectaculo Titulo del espectaculo a insertar en la base de datos
-	 * @param puntuacion Puntuacion del espectaculo
+	 * @param correo Correo del usuario
+	 * @param tituloCritica Titulo de la critica
+	 * @param resenaCritica Resena de la critica
+	 * @param tituloEspectaculo Titulo del espectaculo
+	 * @param puntuacion 
 	 * @return Estado de la insercion de los datos de la critica en la base de datos
 	 */
-	public int insercionCriticaGestor(Properties prop, Properties sql,CriticaDTO critica, String tituloEspectaculo, int puntuacion) {
-		int status = 0; // Numero de filas modificadas de la base de datos
+	public String registroCritica(Properties prop, Properties sql,String correo, String tituloCritica, String resenaCritica, String tituloEspectaculo, int puntuacion) {
+		String estado = null; // Estado del registro de la critica
+		CriticaDTO criticaDTO = new CriticaDTO();
 		CriticaDAO criticaDAO = new CriticaDAO();
+		EspectaculoDAO espectaculoDAO = new EspectaculoDAO();
 		EspectaculoCriticaDAO puntuacionEspectaculo = new EspectaculoCriticaDAO();
-		status = criticaDAO.insercionCritica(prop,sql,critica); // Insertamos los datos de la critica en la base de datos
-		if(status != 0) { // Caso 1: Datos de la critica insertada en la base de datos
-			int identificador = criticaDAO.obtencionIdentificadorCritica(prop,sql,critica.getTituloCritica()); // Obtenemos el identificador de la critica registrada en la base de datos
-			// Caso de error: Identificador de la critica no obtenido
-			if(identificador == 0) {status = criticaDAO.eliminacionCritica(prop,sql,critica.getTituloCritica());} // Eliminamos los datos de la critica de la base de datos
-			else { // Caso de exito: Identificador de la critica obtenido
-				critica.setIdentificadorCritica(identificador); // Almacenamos el identificador de la critica
-				status = puntuacionEspectaculo.creacionRelacion(prop,sql,critica.getIdentificadorCritica(), tituloEspectaculo, puntuacion); // Registramos la puntuacion del espectaculo
-				// Caso de error: Puntuacion del espectaculo no registrado en la base de datos
-				if(status == 0) { status = criticaDAO.eliminacionCritica(prop,sql,critica.getTituloCritica());} // Eliminamos los datos de la critica 
-				else { this.listaCriticas.add(critica); }// Caso de exito: Anadimos la critica en el gestor de criticas
+		int status = 0; // Numero de filas modificadas de la base de datos
+		/*
+		 * COMPROBACION DE LOS DATOS UNICOS DE LA CRITICA
+		 */
+		Boolean existenciaCritica = comprobacionExistenciaTituloCritica(tituloCritica); // Comprobacion de la existencia del titulo de la critica
+		Boolean existenciaEspectaculo = espectaculoDAO.comprobacionExistenciaTituloEspectaculo(prop,sql,tituloEspectaculo); // Comprobacion de la existencia del titulo del espectaculo
+		/*
+		 * TITULO DE LA CRITICA YA REGISTRADO
+		 */
+		if(existenciaCritica == true) { estado = "Titulo de la critica ya registrado. No se ha realizado el registro de la critica"; } // Indicamos el estado del registro de la critica
+		/*
+		 * TITULO DEL ESPECTACULO NO REGISTRADO EN LA BASE DE DATOS
+		 */
+		else if(existenciaEspectaculo == false) { estado = "Titulo del espectaculo no registrado. No se ha realizado el registro de la critica"; }
+		// Puntuacion del espectaculo es negativo
+		else if(puntuacion < 0) { estado = "Puntuacion del espectaculo" + puntuacion + " negativa. No se ha realizado el registro de la critica"; }
+		// Puntuacion del espectaculo es superior a 10
+		else if(puntuacion > 10) { estado = "Puntuacion del espectaculo superior a 10. No se ha realizado el registro de la critica"; }
+		/*
+		 * DATOS UNICOS DE LA CRITICA NO REGISTRADOS
+		 */
+		else {
+			criticaDTO.setAutorCritica(correo); // Almacenamos el autor de la critica
+			criticaDTO.setTituloCritica(tituloCritica); // Almacenamos el titulo de la critica
+			criticaDTO.setResenaCritica(resenaCritica); // Almacenamos la resena de la critica
+			criticaDTO.setTituloEspectaculo(tituloEspectaculo); // Almacenamos el titulo del espectaculo
+			criticaDTO.setPuntuacionEspectaculo(puntuacion); // Almacenamos la puntuacion del espectaculo
+			status = criticaDAO.insercionCritica(prop,sql,criticaDTO); // Insertamos los datos de la critica en la base de datos
+			/*
+			 * CRITICA NO INSERTADA EN LA BASE DE DATOS
+			 */
+			if(status == 0) { estado = "Se ha producido un error al anadir los datos unicos de la critica en la base de datos";}
+			/*
+			 * CRITICA INSERTADA EN LA BASE DE DATOS
+			 */
+			
+			else{
+				int identificador = criticaDAO.obtencionIdentificadorCritica(prop,sql,criticaDTO.getTituloCritica()); // Obtenemos el identificador de la critica registrada en la base de datos
+				/*
+				 * IDENTIFICADOR DE LA CRITICA NO OBTENIDO
+				 */
+				if(identificador == 0) {
+					estado = "Se ha producido un error al obtener el identificador de la critica.";
+					status = criticaDAO.eliminacionCritica(prop,sql,criticaDTO.getTituloCritica()); // Eliminamos los datos de la critica de la base de datos
+					if(status == 0) { estado = estado + "Se ha producido un error al eliminar los datos de critica";}
+					else { estado = estado + " Se han eliminado los datos de la critica almacenados en la base de datos";}
+				} 
+				/*
+				 * IDENTIFICADOR DE LA CRITICA OBTENIDO
+				 */
+				else {
+					criticaDTO.setIdentificadorCritica(identificador); // Almacenamos el identificador de la critica
+					status = puntuacionEspectaculo.creacionRelacion(prop,sql,criticaDTO.getIdentificadorCritica(), criticaDTO.getTituloCritica(),criticaDTO.getPuntuacionEspectaculo()); // Registramos la puntuacion del espectaculo
+					/*
+					 * PUNTUACION DEL ESPECTACULO NO REGISTRADO
+					 */
+					if(status == 0) {
+						estado = "Se ha producido un error al registrar la puntuacion del espectaculo.";
+						status = criticaDAO.eliminacionCritica(prop,sql,criticaDTO.getTituloCritica()); // Eliminamos los datos de la critica de la base de datos
+						if(status == 0) { estado = estado + "Se ha producido un error al eliminar los datos de critica";}
+						else { estado = estado + " Se han eliminado los datos de la critica registrados en la base de datos";}
+					}
+					/*
+					 * PUNTUACION DEL ESPECTACULO REGISTRADO
+					 */
+					else {
+						estado = "Se han registrado correctamente los datos de la critica";
+						this.listaCriticas.add(criticaDTO); // Anadimos los datos de la critica al gestor de criticas
+					}
+				}
 			}
 		}
-		return status; // Insercion de los datos de la critica en la base de datos
+
+		return estado; // Retornamos el estado del registro de la critica
 	}
 	/**
 	 * Funcion que obtiene los datos de una critica en funcion de su identificador
@@ -205,5 +270,6 @@ public class GestorCriticasDTO {
 			this.getListaCriticas().get(i).setListaEvaluacionesCritica(evaluacionCritica.obtencionEvaluacionesCritica(prop,sql,this.getListaCriticas().get(i).getIdentificadorCritica())); // Obtenemos las evaluaciones de utilidad de las criticas
 		}
 	}
+	
 
 }
