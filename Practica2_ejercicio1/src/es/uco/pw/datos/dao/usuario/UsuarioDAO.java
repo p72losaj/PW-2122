@@ -166,10 +166,11 @@ public class UsuarioDAO {
 			ps.setString(3, usuarioDTO.getPrimerApellidoEspectador());// Indicamos el primer apellido del usuario en la sentencia ps
 			ps.setString(4, usuarioDTO.getSegundoApellidoEspectador());// Indicamos el segundo apellido del usuario en la sentencia ps
 			ps.setString(5, usuarioDTO.getNickEspectador());// Indicamos el nick del usuario en la sentencia ps
-			if(usuarioDTO.getRolUsuario().equals(RolUsuario.administrador)) {
+			String rolUsuario = usuarioDTO.getRolUsuario().toString();
+			if(rolUsuario.equals("administrador")) {
 					ps.setString(6, "administrador");
 			}
-			else if(usuarioDTO.getRolUsuario().equals(RolUsuario.espectador)) {
+			else if(rolUsuario.equals("espectador")) {
 				ps.setString(6, "espectador");
 			}
 			
@@ -215,7 +216,7 @@ public class UsuarioDAO {
 				usuarioDTO.setSegundoApellidoEspectador(rs.getString("APELLIDO2"));// Obtenemos el segundo apellido del usuario
 				usuarioDTO.setNickEspectador(rs.getString("NICK")); // Obtenemos el nick del usuario
 				String rol = rs.getString("ROL");
-				if(rol.contentEquals("administrador")) {
+				if(rol.equals("administrador")) {
 					usuarioDTO.setRolUsuario(RolUsuario.administrador);
 				}
 				else if(rol.equals("espectador")) {

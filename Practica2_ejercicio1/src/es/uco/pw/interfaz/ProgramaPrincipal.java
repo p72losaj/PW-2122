@@ -73,7 +73,6 @@ public class ProgramaPrincipal {
 				gestorCriticas.getListaCriticas().get(i).setPuntuacionEspectaculo(puntuacionEspectaculo.obtencionPuntuacionEspectaculo(prop,sql,gestorCriticas.getListaCriticas().get(i).getIdentificadorCritica())); // Obtenemos la puntuacion del espectaculo
 				gestorCriticas.getListaCriticas().get(i).setListaEvaluacionesCritica(evaluacionCritica.obtencionEvaluacionesCritica(prop,sql,gestorCriticas.getListaCriticas().get(i).getIdentificadorCritica())); // Obtenemos las evaluaciones de utilidad de las criticas
 			}
-			
 			// Creamos un gestor de usuarios
 			GestorUsuariosDTO usuarios = new GestorUsuariosDTO();
 			// Obtenemos los datos de los usuarios
@@ -81,7 +80,8 @@ public class ProgramaPrincipal {
 			// Creamos el gestor de espectaculos
 			GestorEspectaculosDTO espectaculos = GestorEspectaculosDTO.getInstancia();
 			// Almacenamos en el gestor de espectaculos la informacion de todos los espectaculos
-			
+			espectaculos.setListaEspectaculos(espectaculoDAO.obtencionEspectaculos(prop,sql));
+			// Almacenamos en el gestor de espectaculos las sesiones de los espectaculos
 			int opcionAcceso = -1;
 			// Obtenemos la opcion indicada por el usuario
 			while(opcionAcceso != 0) {

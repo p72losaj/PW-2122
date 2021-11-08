@@ -9,7 +9,6 @@ import java.util.Properties;
 import es.uco.pw.datos.dao.comun.conexionBD.ConexionBD;
 import es.uco.pw.negocio.espectaculo.CategoriaEspectaculo;
 import es.uco.pw.negocio.espectaculo.EspectaculoDTO;
-import es.uco.pw.negocio.espectaculo.SesionEspectaculoDTO;
 
 /**
  * Clase que obtiene/modifica los datos de la tabla ESPECTACULO de la base de datos
@@ -338,6 +337,53 @@ public int insercionEspectaculo(Properties prop, Properties sql, EspectaculoDTO 
 	}
 	return status;
 }
+/**
+ * Funcion que obtiene los datos comunes de los espectaculos almacenados en la base de datos
+ * @param prop Fichero de configuracion
+ * @param sql Fichero de sentencias sql
+ * @return Informacion comun de los espectaculos registrados en la base de datos
+ */
+public ArrayList<EspectaculoDTO> obtencionEspectaculos(Properties prop, Properties sql) {
+	ArrayList<EspectaculoDTO> listaEspectaculos = new ArrayList<EspectaculoDTO>(); // Lista de espectaculos vacio
+	try {
+		Connection con = ConexionBD.getConexion(prop); // Conexion con la base de datos
+		PreparedStatement ps=con.prepareStatement(sql.getProperty("ObtencionEspectaculos")); // Sentencia sql para obtener los datos comunes de los espectaculos
+		ResultSet rs = ps.executeQuery(); // Ejecutamos la sentencia sql
+		// Recorremos las filas obtenidas por la ejecucion de la sentencia sql
+		while(rs.next()) {
+			EspectaculoDTO espectaculo = new EspectaculoDTO(); // Creamos un espectaculo vacio
+			espectaculo.setIdentificadorEspectaculo(rs.getInt("ID")); // Almacenamos el identificador del espectaculo
+			espectaculo.setTituloEspectaculo(rs.getString("TITULO")); // Almacenamos el titulo del espectaculo
+			espectaculo.setTipoEspectaculo(rs.getString("TIPO")); // Almacenamos el tipo del espectaculo
+			espectaculo.setDescripcionEspectaculo(rs.getString("DESCRIPCION")); // Almacenamos la descripcion del espectaculo
+			String categoria = rs.getString("CATEGORIA"); // Obtenemos la categoria del espectaculo
+			// Caso 1: La categoria es de tipo <obra de teatro>
+			if(categoria.equals("obra de teatro") ) {
+				espectaculo.setCategoriaEspectaculo(CategoriaEspectaculo.obraTeatro); // Almacenamos la categoria del espectaculo
+			}
+			// Caso 2: La categoria es de tipo <monologo>
+			else if(categoria.equals("monologo")) {
+				espectaculo.setCategoriaEspectaculo(CategoriaEspectaculo.monologo); // Almacenamos la categoria del espectaculo
+			}
+			// Caso 3: La categoria es de tipo <concierto>
+			else if(categoria.equals("concierto")) {
+				espectaculo.setCategoriaEspectaculo(CategoriaEspectaculo.concierto); // Almacenamos la categoria del espectaculo
+			}
+			espectaculo.setAforoLocalidadesEspectaculo(rs.getInt("LOCALIDADES")); // Almacenamos el aforo de localidades del espectaculo
+			espectaculo.setVentasEspectaculo(rs.getInt("VENTAS")); // Almacenamos el numero de ventas del espectaculo
+			listaEspectaculos.add(espectaculo); // Anadimos los datos del espectaculo a la lista de espectaculos
+		}
+		rs.close(); // Cierre de la ejecucion de la sentencia sql
+		ps.close(); // Cierre de la sentencia sql
+		if(con != null) {
+			con = null; // Cierre de la conexion con la base de datos
+		}
+	}catch(Exception ex) {
+		System.out.println("Se ha producido un error al obtener los datos comunes de los espectaculos registrados en la base de datos");
+	}
+	return listaEspectaculos; // Retornamos la lista de espectaculos
+}
+
 }
 
 		
