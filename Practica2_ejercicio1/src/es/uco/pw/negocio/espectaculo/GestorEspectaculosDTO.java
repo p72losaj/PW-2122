@@ -1,6 +1,10 @@
 package es.uco.pw.negocio.espectaculo;
 
 import java.util.ArrayList;
+import java.util.Properties;
+
+import es.uco.pw.datos.dao.espectaculo.EspectaculoDAO;
+import es.uco.pw.datos.dao.sesion.SesionDAO;
 
 /**
  * Clase que crea y gestiona un gestor de espectaculos
@@ -292,4 +296,29 @@ public class GestorEspectaculosDTO {
 		}
 		return false; // Por defecto, retorna false
 	}
+	
+	public void obtenerEspectaculosRegistrados(Properties prop, Properties sql) {
+		// Creamos un espectaculo vacio de tipo DAO
+		EspectaculoDAO espectaculoDAO = new EspectaculoDAO();
+		// Obtencion de los datos de la tabla Espectaculo
+		this.setListaEspectaculos(espectaculoDAO.obtencionEspectaculos(prop,sql));
+		// Obtencion de los datos de sesion del espectaculo
+		for(int i=0; i < this.getEspectaculos().size(); i++) {
+			String titulo = this.getEspectaculos().get(i).getTituloEspectaculo();
+			// Sesion puntual
+			if(this.getEspectaculos().get(i).getTipoEspectaculo().equals("puntual")) {
+				SesionDAO sesion = new SesionDAO();
+				sesion = sesion.obtencionSesionEspectaculoPuntual(prop, sql, titulo);
+			}
+			// Sesion multiple
+			else if(this.getEspectaculos().get(i).getTipoEspectaculo().equals("temporada")) {
+				
+			}
+			// Sesion temporada
+			else if(this.getEspectaculos().get(i).getTipoEspectaculo().equals("multiple")) {
+				
+			}
+		}
+	}
+	
 }

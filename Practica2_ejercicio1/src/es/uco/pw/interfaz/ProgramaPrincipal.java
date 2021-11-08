@@ -9,6 +9,7 @@ import es.uco.pw.datos.dao.critica.CriticaDAO;
 import es.uco.pw.datos.dao.espectaculo.EspectaculoDAO;
 import es.uco.pw.datos.dao.relacion.EspectaculoCriticaDAO;
 import es.uco.pw.datos.dao.relacion.UsuarioCriticaDAO;
+import es.uco.pw.datos.dao.sesion.SesionDAO;
 import es.uco.pw.datos.dao.usuario.UsuarioDAO;
 import es.uco.pw.interfaz.menus.Menus;
 import es.uco.pw.negocio.critica.CriticaDTO;
@@ -79,10 +80,8 @@ public class ProgramaPrincipal {
 			usuarios.setListaEspectadores(usuarioDAO.obtenerUsuarios(sql,prop));
 			// Creamos el gestor de espectaculos
 			GestorEspectaculosDTO espectaculos = GestorEspectaculosDTO.getInstancia();
-			// Almacenamos en el gestor de espectaculos la informacion de todos los espectaculos
-			espectaculos.setListaEspectaculos(espectaculoDAO.obtencionEspectaculos(prop,sql));
-			// Almacenamos en el gestor de espectaculos las sesiones de los espectaculos
-			int opcionAcceso = -1;
+			
+			int opcionAcceso = -1; // Opcion inicial para el menu de acceso
 			// Obtenemos la opcion indicada por el usuario
 			while(opcionAcceso != 0) {
 				try {
