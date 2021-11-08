@@ -1,8 +1,14 @@
 package es.uco.pw.datos.dao.sesion;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.Properties;
 
+import es.uco.pw.datos.dao.comun.conexionBD.ConexionBD;
 import es.uco.pw.negocio.espectaculo.EspectaculoDTO;
+import es.uco.pw.negocio.espectaculo.SesionEspectaculoDTO;
 
 /**
  * Clase que gestiona la tabla de sesiones de un espectaculo 
@@ -142,8 +148,104 @@ public class SesionDAO {
 	public int cancelarSesionEspectaculo(Properties prop, Properties sql, EspectaculoDTO espectaculo) {
 		return 0;
 	}
-	public SesionDAO obtencionSesionEspectaculoPuntual(Properties prop, Properties sql, String titulo) {
-		// TODO Auto-generated method stub
-		return null;
+	/**
+	 * Funcion que obtiene los datos de sesion de un espectaculo de tipo puntual
+	 * @param prop Fichero de propiedades
+	 * @param sql Fichero de sentencias sql
+	 * @param titulo Titulo del espectaculo
+	 * @return Datos de la sesion de un espectaculo puntual
+	 */
+	public SesionEspectaculoDTO obtencionSesionEspectaculoPuntual(Properties prop, Properties sql, String titulo) {
+		SesionEspectaculoDTO sesion = new SesionEspectaculoDTO();
+		try {
+			Connection con = ConexionBD.getConexion(prop); // Conexion con la base de datos
+			PreparedStatement ps=con.prepareStatement(sql.getProperty("ObtencionSesionesEspectaculo")); // Sentencia sql para obtener los datos de sesion del espectaculo
+			ps.setString(1, titulo); // Indicamos en la sentencia sql el titulo del espectaculo
+			ResultSet rs = ps.executeQuery(); // Ejecucion de la sentencia sql
+			// Recorremos las filas obtenidas por la ejecucion de la sentencia sql
+			while(rs.next()) {
+				sesion.setIdentificadorSesion(rs.getInt("ID")); // Obtenemos el identificador de la sesion
+				sesion.setDiaSesion(rs.getInt("DIA_SESION")); // Obtenemos el dia de la sesion
+				sesion.setMesSesion(rs.getInt("MES_SESION")); // Obtenemos el mes de la sesion
+				sesion.setAnoSesion(rs.getInt("ANO_SESION")); // Obtenemos el ano de la sesion
+				sesion.setFechaCompletaSesion(sesion.getAnoSesion() + "-" + sesion.getMesSesion()+"-"+sesion.getDiaSesion()); // Obtenemos la fecha completa de la sesion
+				sesion.setHoraSesion(rs.getInt("HORA_SESION")); // Obtenemos la hora de la sesion
+				sesion.setMinutos(rs.getInt("MINUTOS_SESION")); // Obtenemos los minutos de la sesion
+			}
+			ps.close(); // Cierre de la sentencia sql
+			if(con != null) {
+				con = null; // Cierre de la conexion
+			}
+		}catch(Exception ex) {
+			System.out.println("Se ha producido un error al obtener los datos del espectaculo");
+		}
+		return sesion; // Retornamos los datos de la sesion
 	}
+	/**
+	 * Funcion que obtiene las sesiones de un espectaculo por temporada
+	 * @param prop Fichero de configuracion
+	 * @param sql Fichero de sentencias sql
+	 * @param titulo Titulo del espectaculo
+	 * @return Lista de sesiones del espectaculo
+	 */
+	public ArrayList<SesionEspectaculoDTO> obtencionSesionEspectaculoTemporada(Properties prop, Properties sql,
+			String titulo) {
+		ArrayList<SesionEspectaculoDTO> sesiones = new ArrayList<SesionEspectaculoDTO>(); // Lista de sesiones vacia del espectaculo de temporada
+		try {
+			Connection con = ConexionBD.getConexion(prop); // Conexion con la base de datos
+			PreparedStatement ps=con.prepareStatement(sql.getProperty("ObtencionSesionesEspectaculo")); // Sentencia sql para obtener los datos de sesion del espectaculo
+			ps.setString(1, titulo); // Indicamos en la sentencia sql el titulo del espectaculo
+			ResultSet rs = ps.executeQuery(); // Ejecucion de la sentencia sql
+			// Recorremos las filas obtenidas por la ejecucion de la sentencia sql
+			while(rs.next()) {
+				SesionEspectaculoDTO sesion = new SesionEspectaculoDTO(); // Creamos una sesion vacia
+				sesion.setIdentificadorSesion(rs.getInt("ID")); // Obtenemos el identificador de la sesion
+				sesion.setHoraSesion(rs.getInt("HORA_SESION")); // Obtenemos la hora de la sesion
+				sesion.setMinutos(rs.getInt("MINUTOS_SESION")); // Obtenemos los minutos de la sesion
+				sesion.setDiaSemana(rs.getString("DIA_SEMANA_SESION")); // Obtenemos el dia de la semana de la sesion
+				sesiones.add(sesion); // anadimos los datos de la sesion
+			}
+			ps.close(); // Cierre de la sentencia sql
+			if(con != null) {
+				con = null; // Cierre de la conexion
+			}
+		}catch(Exception ex) {
+			System.out.println("Se ha producido un error al obtener los datos del espectaculo");
+		}
+		return sesiones; // Retornamos las sesiones del espectaculo
+	}
+	/**
+	 * Funcion que obtiene las sesiones de un espectaculo multiple
+	 * @param prop Fichero de configuracion
+	 * @param sql Fichero de sentencias sql
+	 * @param titulo Titulo del espectaculo
+	 * @return Lista de sesiones del espectaculo
+	 */
+	public ArrayList<SesionEspectaculoDTO> obtencionSesionEspectaculoMultiple(Properties prop, Properties sql,
+			String titulo) {
+		ArrayList<SesionEspectaculoDTO> sesiones = new ArrayList<SesionEspectaculoDTO>(); // Lista de sesiones vacia del espectaculo de temporada
+		try {
+			Connection con = ConexionBD.getConexion(prop); // Conexion con la base de datos
+			PreparedStatement ps=con.prepareStatement(sql.getProperty("ObtencionSesionesEspectaculo")); // Sentencia sql para obtener los datos de sesion del espectaculo
+			ps.setString(1, titulo); // Indicamos en la sentencia sql el titulo del espectaculo
+			ResultSet rs = ps.executeQuery(); // Ejecucion de la sentencia sql
+			// Recorremos las filas obtenidas por la ejecucion de la sentencia sql
+			while(rs.next()) {
+				SesionEspectaculoDTO sesion = new SesionEspectaculoDTO(); // Creamos una sesion vacia
+				sesion.setIdentificadorSesion(rs.getInt("ID")); // Obtenemos el identificador de la sesion
+				sesion.setHoraSesion(rs.getInt("HORA_SESION")); // Obtenemos la hora de la sesion
+				sesion.setMinutos(rs.getInt("MINUTOS_SESION")); // Obtenemos los minutos de la sesion
+				sesion.setDiaSemana(rs.getString("DIA_SEMANA_SESION")); // Obtenemos el dia de la semana de la sesion
+				sesiones.add(sesion); // anadimos los datos de la sesion
+			}
+			ps.close(); // Cierre de la sentencia sql
+			if(con != null) {
+				con = null; // Cierre de la conexion
+			}
+		}catch(Exception ex) {
+			System.out.println("Se ha producido un error al obtener los datos del espectaculo");
+		}
+		return sesiones; // Retornamos las sesiones del espectaculo
+	}
+	
 }

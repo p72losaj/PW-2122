@@ -80,7 +80,8 @@ public class ProgramaPrincipal {
 			usuarios.setListaEspectadores(usuarioDAO.obtenerUsuarios(sql,prop));
 			// Creamos el gestor de espectaculos
 			GestorEspectaculosDTO espectaculos = GestorEspectaculosDTO.getInstancia();
-			
+			// Obtenemos los datos de los espectaculos registrados en la base de datos
+			espectaculos.obtenerEspectaculosRegistrados(prop, sql);
 			int opcionAcceso = -1; // Opcion inicial para el menu de acceso
 			// Obtenemos la opcion indicada por el usuario
 			while(opcionAcceso != 0) {
@@ -240,6 +241,8 @@ public class ProgramaPrincipal {
 							
 							else {
 								int espectador = 1;
+								// Limpiamos el buffer de entrada
+								entrada = new Scanner(System.in); 
 								while(espectador != 0) {
 									// Mostramos el menu del espectador
 									menu.MostrarMenuEspectador(); 
@@ -413,12 +416,12 @@ public class ProgramaPrincipal {
 										}
 									}catch(Exception ex) {
 										System.out.println("Se esperaba un valor entero");
+										entrada = new Scanner(System.in);
 									}
 								}
 							}
 						}
 					}
-				
 				}catch(Exception ex) {
 					System.out.println("Debe introducir un valor entero");
 				}

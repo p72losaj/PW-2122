@@ -10,7 +10,7 @@ import java.text.SimpleDateFormat;
  */
 
 public class SesionEspectaculoDTO {
-	
+	private int idSesion; // Identificador de la sesion
 	private int dia; // dia de la fecha de la sesion
 	private int mes; // mes de la fecha de la sesion
 	private int ano; // ano de la fecha de la sesion
@@ -19,7 +19,20 @@ public class SesionEspectaculoDTO {
 	private int minutos; // minutos de la sesion
 	private String horaCompleta; // Hora completa de la sesion
 	private String diaSemana; // dia de la semana de la sesion
-	
+	/**
+	 * Funcion que obtiene el identificador de la sesion
+	 * @return Identificador de la sesion
+	 */
+	public int getIdentificadorSesion() {
+		return this.idSesion;
+	}
+	/**
+	 * Funcion que modifica el identificador de la sesion
+	 * @param id Nuevo identificador de la sesion
+	 */
+	public void setIdentificadorSesion(int id) {
+		this.idSesion = id;
+	}
 	/**
 	 * Funcion que obtiene el dia de la semana de la sesion
 	 * @return Dia de la semana de la sesion

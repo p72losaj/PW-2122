@@ -255,7 +255,7 @@ public class GestorEspectaculosDTO {
 			if(this.listaEspectaculos.get(i).getTipoEspectaculo().equals("puntual")) {
 				System.out.println("\tFecha de la sesion: " + this.listaEspectaculos.get(i).getSesionEspectaculo().getFechaCompletaSesion());// Imprimimos la fecha completa de la sesion
 				System.out.println("\tHora completa de la sesion: " + this.listaEspectaculos.get(i).getSesionEspectaculo().getHoraCompleta());// Imprimimos la hora completa de la sesion
-				
+
 			}
 			// Caso 2: El espectaculo es de tipo multiple
 			else if(this.listaEspectaculos.get(i).getTipoEspectaculo().equals("multiple")) {
@@ -300,6 +300,7 @@ public class GestorEspectaculosDTO {
 	public void obtenerEspectaculosRegistrados(Properties prop, Properties sql) {
 		// Creamos un espectaculo vacio de tipo DAO
 		EspectaculoDAO espectaculoDAO = new EspectaculoDAO();
+		SesionDAO sesionDAO = new SesionDAO();
 		// Obtencion de los datos de la tabla Espectaculo
 		this.setListaEspectaculos(espectaculoDAO.obtencionEspectaculos(prop,sql));
 		// Obtencion de los datos de sesion del espectaculo
@@ -307,16 +308,15 @@ public class GestorEspectaculosDTO {
 			String titulo = this.getEspectaculos().get(i).getTituloEspectaculo();
 			// Sesion puntual
 			if(this.getEspectaculos().get(i).getTipoEspectaculo().equals("puntual")) {
-				SesionDAO sesion = new SesionDAO();
-				sesion = sesion.obtencionSesionEspectaculoPuntual(prop, sql, titulo);
+				this.getEspectaculos().get(i).setSesionEspectaculo(sesionDAO.obtencionSesionEspectaculoPuntual(prop, sql, titulo)); // Obtenemos la sesion del espectaculo puntual
 			}
 			// Sesion multiple
 			else if(this.getEspectaculos().get(i).getTipoEspectaculo().equals("temporada")) {
-				
+				this.getEspectaculos().get(i).setSesionesEspectaculo(sesionDAO.obtencionSesionEspectaculoTemporada(prop, sql, titulo)); // Obtenemos la lista de sesiones de los espectaculos por temporada
 			}
 			// Sesion temporada
 			else if(this.getEspectaculos().get(i).getTipoEspectaculo().equals("multiple")) {
-				
+				this.getEspectaculos().get(i).setSesionesEspectaculo(sesionDAO.obtencionSesionEspectaculoMultiple(prop, sql, titulo));
 			}
 		}
 	}
