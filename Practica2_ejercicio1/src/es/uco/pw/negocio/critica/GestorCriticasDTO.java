@@ -5,6 +5,8 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Properties;
@@ -15,6 +17,9 @@ import es.uco.pw.datos.dao.critica.CriticaDAO;
 import es.uco.pw.datos.dao.espectaculo.EspectaculoDAO;
 import es.uco.pw.datos.dao.relacion.EspectaculoCriticaDAO;
 import es.uco.pw.datos.dao.relacion.UsuarioCriticaDAO;
+import es.uco.pw.datos.dao.sesion.SesionDAO;
+import es.uco.pw.negocio.espectaculo.EspectaculoDTO;
+import es.uco.pw.negocio.espectaculo.SesionEspectaculoDTO;
 
 /**
  * Gestor de criticas, disenado mediante el patron de diseno Singleton
@@ -140,14 +145,18 @@ public class GestorCriticasDTO {
 	 * @param resenaCritica Resena de la critica
 	 * @param tituloEspectaculo Titulo del espectaculo
 	 * @param puntuacion 
+	 * @param fechaActual Fecha actual
 	 * @return Estado de la insercion de los datos de la critica en la base de datos
 	 */
-	public String registroCritica(Properties prop, Properties sql,String correo, String tituloCritica, String resenaCritica, String tituloEspectaculo, int puntuacion) {
+	public String registroCritica(Properties prop, Properties sql,String correo, String tituloCritica, String resenaCritica, String tituloEspectaculo, int puntuacion, String fechaActual){
 		String estado = null; // Estado del registro de la critica
 		CriticaDTO criticaDTO = new CriticaDTO();
 		CriticaDAO criticaDAO = new CriticaDAO();
+		SesionDAO sesionDAO = new SesionDAO();
+		EspectaculoDTO espectaculoDTO = new EspectaculoDTO();
 		EspectaculoDAO espectaculoDAO = new EspectaculoDAO();
 		EspectaculoCriticaDAO puntuacionEspectaculo = new EspectaculoCriticaDAO();
+		SesionEspectaculoDTO sesionDTO = new SesionEspectaculoDTO();
 		int status = 0; // Numero de filas modificadas de la base de datos
 		/*
 		 * COMPROBACION DE LOS DATOS UNICOS DE LA CRITICA
@@ -175,6 +184,31 @@ public class GestorCriticasDTO {
 			criticaDTO.setResenaCritica(resenaCritica); // Almacenamos la resena de la critica
 			criticaDTO.setTituloEspectaculo(tituloEspectaculo); // Almacenamos el titulo del espectaculo
 			criticaDTO.setPuntuacionEspectaculo(puntuacion); // Almacenamos la puntuacion del espectaculo
+			/*
+			 * OBTENCION DE LOS DATOS DEL ESPECTACULO
+			 */
+			espectaculoDTO = espectaculoDAO.obtencionEspectaculo(prop, sql,tituloEspectaculo); // Obtenemos los datos del espectaculo
+			
+			if(espectaculoDTO.getTipoEspectaculo().equals("puntual")) {
+				// Obtenemos los datos de sesion del espectaculo
+				sesionDTO = sesionDAO.obtencionSesionEspectaculoPuntual(prop, sql, tituloEspectaculo);
+				// Realizamos la comprobacion de la fecha actual con la fecha de la sesion
+				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+				java.sql.Date actual; // Fecha actual en formato sql
+				try {
+					java.util.Date parsed = format.parse(fechaActual);
+					actual = new java.sql.Date(parsed.getTime());
+					if(actual.compareTo(sesionDTO.getFechaCompletaSesion()) < 0) {
+						estado = "Fecha de la sesion es posterior a la fecha actual";
+						return estado;
+					}
+				}catch(Exception ex) {
+					estado = "Se ha producido un error al transformar la fecha actual a formato sql.date";
+					return estado;
+				}
+				
+			}
+			
 			status = criticaDAO.insercionCritica(prop,sql,criticaDTO); // Insertamos los datos de la critica en la base de datos
 			/*
 			 * CRITICA NO INSERTADA EN LA BASE DE DATOS

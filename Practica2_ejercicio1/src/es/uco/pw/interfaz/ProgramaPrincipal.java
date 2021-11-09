@@ -2,6 +2,7 @@ package es.uco.pw.interfaz;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.time.LocalDate;
 import java.util.Properties;
 import java.util.Scanner;
 
@@ -199,7 +200,11 @@ public class ProgramaPrincipal {
 										 * CREACION DE UNA NUEVA CRITICA
 										 */
 										
-										if(espectador == 1) {											
+										if(espectador == 1) {			
+											/*
+											 * OBTENCION DE LA FECHA ACTUAL
+											 */
+											LocalDate fechaActual = LocalDate.now();
 											/*
 											 * OBTENCION DE LOS DATOS DE LA CRITICA
 											 */
@@ -227,11 +232,13 @@ public class ProgramaPrincipal {
 												/*
 												 * REGISTRO DE LA CRITICA
 												 */
-												String registroCritica = gestorCriticas.registroCritica(prop, sql, correoUsuario, titulo,resenaCritica,tituloEspectaculo,puntuacion); // Realizamos el registro de la critica
+												String registroCritica = gestorCriticas.registroCritica(prop, sql, correoUsuario, titulo,resenaCritica,tituloEspectaculo,puntuacion,fechaActual.toString()); // Realizamos el registro de la critica
 												System.out.println(registroCritica); // Mostramos el estado del registro de la critica	
 											}
 										}
 										
+										/*
+										 */
 										// Caso 2: Valorar la utilidad una critica
 										
 										else if(espectador == 2) {
