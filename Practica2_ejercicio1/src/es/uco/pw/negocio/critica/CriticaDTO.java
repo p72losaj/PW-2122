@@ -88,25 +88,28 @@ public class CriticaDTO {
 	 */
 	public void setListaEvaluacionesCritica(ArrayList<EvaluacionUtilidadCriticaDTO> lista) { this.listaEvaluaciones = lista; }
 	/**
-	 * Funcion que muestra la informacion de una critica
+	 * Funcion que obtiene los datos de una critica y los almacena en una cadena
+	 * @return Cadena con los datos de la critica
 	 */
-	public void mostrarCritica() {
-		System.out.println("Critica: " + this.idCritica); // Imprimimos el identificador de la critica
-		System.out.println("\tTitulo de la critica: " + this.getTituloCritica()); // Imprimimos el titulo de la critica
-		System.out.println("\tResena de la critica: " + this.getResenaCritica()); // Imprimimos la resena de la critica
-		System.out.println("\tAutor de la critica: " + this.getAutorCritica()); // Imprimimos el autor de la critica
-		System.out.println("\tTitulo del espectaculo: " + this.tituloEspectaculo); // Imprimimos el identificador del espectaculo
-		System.out.println("\tPuntuacion del espectaculo: " + this.puntuacionEspectaculo); // Imprimimos la puntuacion del espectaculo
+	public String mostrarCritica() {
+		String critica = "Critica: " + this.idCritica + "\n"; // Anadimos el identificador de la critica
+		critica = critica + "\tTitulo de la critica:" + this.getTituloCritica() + "\n"; // Anadimos el titulo de la critica
+		critica = critica + "\tResena de la critica: " + this.getResenaCritica() + "\n"; // Anadimos la resena de la critica  
+		critica = critica + "\tAutor de la critica: " + this.getAutorCritica() + "\n"; // Obtenemos el autor de la critica
+		critica = critica + "\tTitulo del espectaculo: " + this.getTituloCritica()+"\n"; // Obtenemos el titulo de la critica 
+		critica = critica + "\tPuntuacion del espectaculo: " + this.getPuntuacionEspectaculo()+"\n"; // Obtenemos la puntuacion del espectaculo
 		// La critica tiene una lista de evaluaciones de utilidad
-		if(!this.listaEvaluaciones.isEmpty()) {
-			System.out.println("Lista de evaluaciones de utilidad de la critica");
+		if(!this.getListaEvaluacionesCritica().isEmpty()) {
+			critica = critica + "\t Lista de evaluaciones de utilidad de la critica \n";
 			// Recorremos la lista de evaluaciones de utilidad de la critica
-			for(int i=0; i < this.listaEvaluaciones.size(); i++) {
-				System.out.println("\tIdentificador de la evaluacion de utilidad: " + this.listaEvaluaciones.get(i).getIdentificadorValoracion()); // Imprimimos el identificador de la evaluacion de utilidad
-				System.out.println("\tIdentificador del autor de la evaluacion: " + this.listaEvaluaciones.get(i).getIdentificadorAutor());// Imprimimos el autor de la evaluacion de utilidad de la critica
-				System.out.println("\t Evaluacion de utilidad de la critica: " + this.listaEvaluaciones.get(i).getValoracionCritica()); // Imprimimos la evaluacion de utilidad de la critica
+			for(int i=0; i < this.getListaEvaluacionesCritica().size(); i++) {
+				critica = critica + "\tIdentificador de la evaluacion de utilidad: " + this.getListaEvaluacionesCritica().get(i).getIdentificadorValoracion() + "\n"; // Identificador de la valoracion de utilidad
+				critica = critica + "\tIdentificador del autor de la evaluacion: " + this.getListaEvaluacionesCritica().get(i).getIdentificadorAutor() + "\n";
+				critica = critica + "\t Evaluacion de utilidad de la critica: " + this.getListaEvaluacionesCritica().get(i).getValoracionCritica() + "\n"; 
 			}
 		}
+		
+		return critica;
 	}
 	
 }

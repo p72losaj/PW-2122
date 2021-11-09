@@ -123,19 +123,7 @@ public class GestorCriticasDTO {
 			}
 		}
 	}
-	
-	/**
-	 * Funcion que muestra por pantalla los datos de las criticas de un usuario registrado
-	 * @param correo Correo del espectador
-	 */
 
-	public void visualizacionCriticasUsuario(String correo) {
-		for(int i=0; i<this.listaCriticas.size(); i++) { // Recorremos la lista de criticas
-			if(this.listaCriticas.get(i).getAutorCritica().equals(correo)) { // Autor de la critica encontrado
-				this.listaCriticas.get(i).mostrarCritica(); // Mostramos por pantalla la critica del usuario
-			}
-		}
-	}
 	/**
 	 * Funcion que inserta una critica en la base de datos
 	 * @param prop Fichero de configuracion

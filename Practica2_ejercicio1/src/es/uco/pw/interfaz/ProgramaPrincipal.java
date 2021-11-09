@@ -6,9 +6,6 @@ import java.time.LocalDate;
 import java.util.Properties;
 import java.util.Scanner;
 
-import es.uco.pw.datos.dao.critica.CriticaDAO;
-import es.uco.pw.datos.dao.espectaculo.EspectaculoDAO;
-import es.uco.pw.datos.dao.relacion.EspectaculoCriticaDAO;
 import es.uco.pw.datos.dao.relacion.UsuarioCriticaDAO;
 import es.uco.pw.datos.dao.usuario.UsuarioDAO;
 import es.uco.pw.interfaz.menus.Menus;
@@ -16,9 +13,7 @@ import es.uco.pw.negocio.critica.CriticaDTO;
 import es.uco.pw.negocio.critica.EvaluacionUtilidadCriticaDTO;
 import es.uco.pw.negocio.critica.GestorCriticasDTO;
 import es.uco.pw.negocio.espectaculo.GestorEspectaculosDTO;
-import es.uco.pw.negocio.usuario.UsuarioDTO;
 import es.uco.pw.negocio.usuario.GestorUsuariosDTO;
-import es.uco.pw.negocio.usuario.RolUsuario;
 
 /**
  * Funcion principal del programa
@@ -37,12 +32,7 @@ public class ProgramaPrincipal {
 		Properties sql = new Properties(); // Clase properties para el fichero de propiedades sql
 		// Creamos un usuario vacio de tipo DAO
 		UsuarioDAO usuarioDAO = new UsuarioDAO();
-		// Creamos una critica vacia de tipo DAO
-		CriticaDAO criticaDAO = new CriticaDAO(); 
-		// Creamos un espectaculo vacio de tipo DAO
-		EspectaculoDAO espectaculoDAO = new EspectaculoDAO();
-		// Creamos una relacion Espectaculo-critica de tipo DAO
-		EspectaculoCriticaDAO puntuacionEspectaculo = new EspectaculoCriticaDAO();
+		
 		// Relacion criticas-usuario
 		UsuarioCriticaDAO evaluacionCritica = new UsuarioCriticaDAO();
 		// Limpiamos el buffer de entrada
@@ -237,17 +227,19 @@ public class ProgramaPrincipal {
 											}
 										}
 										
-										/*
+										/* VALORACION UTILIDAD DE UNA CRITICA
 										 */
-										// Caso 2: Valorar la utilidad una critica
 										
 										else if(espectador == 2) {
 											// creamos una valoracion de utilidad de la critica vacia
 											EvaluacionUtilidadCriticaDTO valoracionCritica = new EvaluacionUtilidadCriticaDTO();
 											// Mostramos las criticas registradas en la base de datos
-											gestorCriticas.visualizacionCriticas();
+											for(int i=0; i<gestorCriticas.getListaCriticas().size(); i++) { // Recorremos la lista de criticas
+												System.out.println(gestorCriticas.getListaCriticas().get(i).mostrarCritica()); // Mostramos por pantalla la critica del usuario
+											}
 											// Pedimos al usuario el identificador de la critica
 											System.out.print("Introduce el identificador de la critica: ");
+											
 											try {
 												// Obtenemos el identificador de la critica
 												int identificadorCritica = entrada.nextInt();
