@@ -1,17 +1,9 @@
 package es.uco.pw.negocio.critica;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.text.ParseException;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Properties;
-import java.util.Scanner;
-import java.util.StringTokenizer;
 
 import es.uco.pw.datos.dao.critica.CriticaDAO;
 import es.uco.pw.datos.dao.espectaculo.EspectaculoDAO;
@@ -24,7 +16,7 @@ import es.uco.pw.negocio.espectaculo.SesionEspectaculoDTO;
 /**
  * Gestor de criticas, disenado mediante el patron de diseno Singleton
  * @author Jaime Lorenzo Sanchez
- * @version 1.0
+ * @version 2.0
  */
 
 public class GestorCriticasDTO {
@@ -291,6 +283,80 @@ public class GestorCriticasDTO {
 			this.getListaCriticas().get(i).setPuntuacionEspectaculo(puntuacionEspectaculo.obtencionPuntuacionEspectaculo(prop,sql,this.getListaCriticas().get(i).getIdentificadorCritica())); // Obtenemos la puntuacion del espectaculo
 			this.getListaCriticas().get(i).setListaEvaluacionesCritica(evaluacionCritica.obtencionEvaluacionesCritica(prop,sql,this.getListaCriticas().get(i).getIdentificadorCritica())); // Obtenemos las evaluaciones de utilidad de las criticas
 		}
+	}
+	/**
+	 * Funcion que realiza la valoracion de utilidad de una critica
+	 * @param prop Fichero de configuracion
+	 * @param sql Fichero de sentencias sql
+	 * @param identificadorCritica Identificador de la critica
+	 * @param correoUsuario Correo del usuario
+	 * @param idUsuario Identificador del usuario
+	 * @param valoracion Valoracion de utilidad de la critica
+	 * @return Cadena con el estado de la valoracion de utilidad de la critica
+	 */
+	public String valoracionUtilidadCritica(Properties prop, Properties sql, int identificadorCritica, String correoUsuario, int idUsuario, int valoracion) {
+		CriticaDTO criticaDTO = new CriticaDTO();
+		EvaluacionUtilidadCriticaDTO valoracionCritica = new EvaluacionUtilidadCriticaDTO();
+		UsuarioCriticaDAO evaluacionCritica = new UsuarioCriticaDAO();
+		String estado = null; // Cadena que almacena el estado de la valoracion de utilidad de la critica
+		Boolean comprobacionIdCritica = comprobacionExistenciaIdentificadorCritica(identificadorCritica); // Comprobamos si el identificador de la critica esta registrado en el gestor
+		/*
+		 * IDENTIFICADOR DE LA CRITICA NO REGISTRADO EN EL GESTOR DE CRITICAS
+		 */
+		if(comprobacionIdCritica == false) { estado = "Identificador de la critica no registrado en el gestor de criticas";}
+		/*
+		 * IDENTIFICADOR DE LA CRITICA REGISTRADO EN EL GESTOR DE CRITICAS
+		 */
+		else {
+			criticaDTO = obtencionDatosCritica(identificadorCritica); // Obtenemos la informacion de la critica
+			/*
+			 * USUARIO ES EL AUTOR DE LA CRITICA
+			 */
+			if(criticaDTO.getAutorCritica().equals(correoUsuario)) {estado = "No se puede valorar la utilidad de una critica propia";}
+			/*
+			 * USUARIO NO ES EL AUTOR DE LA CRITICA
+			 */
+			else {
+				/*
+				 * COMPROBACION DE LA EXISTENCIA DE LA EVALUACION DE UTILIDAD DE LA CRITICA
+				 */ 
+				valoracionCritica = evaluacionCritica.obtencionValoracionCriticaUsuario(prop, sql, identificadorCritica,idUsuario);
+				/*
+				 * EL USUARIO YA HA REALIZADO LA VALORACION DE UTILIDAD DE LA CRITICA
+				 */
+				if(valoracionCritica.getValoracionCritica() != -1) { estado = "El usuario ya ha evaluado la utilidad de la critica"; }
+				/*
+				 * EL USUARIO NO HA REALIZADO LA VALORACION DE UTILIDAD DE LA CRITICA
+				 */
+				else {
+					/*
+					 * REGISTRAMOS LA VALORACION DE UTILIDAD DE LA CRITICA EN LA BASE DE DATOS
+					 */
+					int status = evaluacionCritica.registrovaloracionUtilidadCritica(prop,sql,criticaDTO.getIdentificadorCritica(),idUsuario,valoracion);
+					/*
+					 * NO SE HA MODIFICADO LA BASE DE DATOS
+					 */
+					if(status == 0) { estado = "No se ha registrado la valoracion de utilidad de la critica";}
+					/*
+					 * SE HA MODIFICADO LA BASE DE DATOS
+					 */
+					else {
+						/*
+						 * OBTENEMOS LOS DATOS DE LA NUEVA VALORACION DE UTILIDAD DE LA CRITICA
+						 */
+						valoracionCritica.setIdentificadorAutor(idUsuario);
+						valoracionCritica.setIdentificadorCritica(identificadorCritica);
+						valoracionCritica.setValoracionUtilidadCritica(valoracion);
+						/*
+						 * ANADIMOS AL GESTOR LA NUEVA VALORACION DE UTILIDAD DE LA CRITICA
+						 */
+						criticaDTO.getListaEvaluacionesCritica().add(valoracionCritica); 
+						estado= "Se ha registrado correctamente la evaluacion de utilidad de la critica";
+					}
+				}
+			}
+		}
+		return estado; // Retornamos el estado de la valoracion de utilidad de la critica
 	}
 	
 

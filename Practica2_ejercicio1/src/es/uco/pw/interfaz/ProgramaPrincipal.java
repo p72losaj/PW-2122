@@ -155,6 +155,14 @@ public class ProgramaPrincipal {
 										administrador = entrada.nextInt(); // Obtenemos la funcionalidad deseada por el usuario
 										entrada = new Scanner(System.in); // Limpiamos el buffer
 										// Caso 1: Dar de alta un espectaculo
+										if(administrador == 1) {
+											System.out.print("Introduce el titulo del espectaculo: "); // Pedimos el titulo del usuario
+											String tituloEspectaculo = entrada.nextLine(); // Obtenemos el titulo del usuario
+											System.out.print("Introduce la descripcion del espectaculo: "); // Pedimos la descripcion del espectaculo
+											String descripcionEspectaculo = entrada.nextLine(); // Obtenemos la descripcion del espectaculo
+											
+											//espectaculos.CrearEspectaculo(tituloEspectaculo, descripcionEspectaculo, categoriaEspectaculo, tipoEspectaculo, fechaPuntual, horaPuntual, diaMultiple1, horaMultiple1, diaMultiple2, horaMultiple2, fechaInicioTemporada, fechaFinTemporada, diaTemporada, aforoLocalidades, ventasEspectaculo);
+										}
 										// Caso 2: Cancelar un espectaculo ( todas las sesiones o una en particular)
 										// Caso 3: Actualizar los datos de un espectáculo
 										// Caso 4: Contabilizar la venta de entradas para una sesión de un espectáculo
@@ -165,6 +173,44 @@ public class ProgramaPrincipal {
 										// Caso 9: Consultar las críticas de un espectáculo, dado su título
 										// Caso 10: Eliminar criticas de un espectaculo, por parte del usuario que la creo
 										// Caso 11: Valorar la utilidad de una crítica publicada por otro usuario
+										else if(administrador == 11) {
+											/*
+											 * MOSTRAMOS LAS CRITICAS REGISTRADAS EN EL GESTOR DE USUARIOS
+											 */
+											for(int i=0; i<gestorCriticas.getListaCriticas().size(); i++) { System.out.println(gestorCriticas.getListaCriticas().get(i).mostrarCritica());}
+											/*
+											 * OBTENEMOS EL IDENTIFICADOR DE LA CRITICA
+											 */
+											System.out.print("Introduce el identificador de la critica: ");
+											int identificadorCritica = 0;
+											try {
+												identificadorCritica = entrada.nextInt();
+												entrada = new Scanner(System.in); // Limpiamos el buffer de entrada
+											}catch(Exception ex) {System.out.println("Al elegir el identificador de la critica, se esperaba un valor entero"); }
+											/*
+											 * VALORACION DE UTILIDAD DE LA CRITICA
+											 */
+											int valoracion = -1;
+											while(valoracion < 0 || valoracion > 10) {
+												try {
+													System.out.print("Introduce una valoracion de utilidad en el rango [0,10]: ");
+													valoracion = entrada.nextInt();
+													entrada = new Scanner(System.in); // Limpiamos el buffer de entrada
+													/*
+													 * VALORACION DE UTILIDAD INFERIOR A 0
+													 */
+													if(valoracion < 0) {System.out.println("La valoracion de utilidad introducida <" + valoracion + "> es inferior a 0");}
+													/*
+													 * VALORACION DE UTILIDAD SUPERIOR A 10
+													 */
+													else if(valoracion > 10) {System.out.println("La valoracion de utilidad introducida <" + valoracion + "> es superior a 10");}
+												}catch(Exception ex) { System.out.println("La valoracion de utilidad de la critica debe ser un entero");}
+											}
+											/*
+											 * REALIZAMOS LA VALORACION DE UTILIDAD DE LA CRITICA
+											 */
+											if(identificadorCritica != 0) { System.out.println(gestorCriticas.valoracionUtilidadCritica(prop,sql,identificadorCritica,correoUsuario,idUsuario,valoracion ));}
+										}
 									}
 									catch(Exception ex) {System.out.println("Se esperaba un valor entero"); }
 								}
@@ -231,69 +277,42 @@ public class ProgramaPrincipal {
 										 */
 										
 										else if(espectador == 2) {
-											// creamos una valoracion de utilidad de la critica vacia
-											EvaluacionUtilidadCriticaDTO valoracionCritica = new EvaluacionUtilidadCriticaDTO();
-											// Mostramos las criticas registradas en la base de datos
-											for(int i=0; i<gestorCriticas.getListaCriticas().size(); i++) { // Recorremos la lista de criticas
-												System.out.println(gestorCriticas.getListaCriticas().get(i).mostrarCritica()); // Mostramos por pantalla la critica del usuario
-											}
-											// Pedimos al usuario el identificador de la critica
+											/*
+											 * MOSTRAMOS LAS CRITICAS REGISTRADAS EN EL GESTOR DE USUARIOS
+											 */
+											for(int i=0; i<gestorCriticas.getListaCriticas().size(); i++) { System.out.println(gestorCriticas.getListaCriticas().get(i).mostrarCritica());}
+											/*
+											 * OBTENEMOS EL IDENTIFICADOR DE LA CRITICA
+											 */
 											System.out.print("Introduce el identificador de la critica: ");
-											
+											int identificadorCritica = 0;
 											try {
-												// Obtenemos el identificador de la critica
-												int identificadorCritica = entrada.nextInt();
-												// Limpiamos el buffer de entrada
-												entrada = new Scanner(System.in);
-												// Caso de error: Critica no registrada en la base de datos
-												if(gestorCriticas.comprobacionExistenciaIdentificadorCritica(identificadorCritica) == false) {System.out.println("El identificador de la critica no esta registrado en la base de datos");}
-												// Caso de exito: Critica registrada en la base de datos
-												else {
-													// Creamos una critica vacia
-													CriticaDTO critica = new CriticaDTO();
-													// Obtenemos la informacion de la critica
-													critica = gestorCriticas.obtencionDatosCritica(identificadorCritica); 
-													// Caso de error: El usuario es el autor de la critica 
-													if(critica.getAutorCritica().equals(correoUsuario)) {System.out.println("No se puede valorar la utilidad de una critica propia");}
-													// Caso exito: El usuario no es el autor de la critica
-													else {
-														// Obtenemos la evaluacion de utilidad de la critica por parte del usuario
-														valoracionCritica = evaluacionCritica.obtencionValoracionCriticaUsuario(prop, sql, identificadorCritica,idUsuario);
-														// Caso de error: El usuario ya ha evaluado la utilidad de la critica
-														if(valoracionCritica.getValoracionCritica() != -1) { System.out.println("El usuario ya ha evaluado la utilidad de la critica"); }
-														// Caso de exito: el usuario todavia no ha realizado la evaluacion de utilidad de la critica
-														else {
-															// Pedimos al usuario su valoracion de utilidad de la critica
-															int valoracion = -1;
-															// Pedimos la valoracion de utilidad de la critica
-															while(valoracion < 0 || valoracion > 10) {
-																try {
-																	System.out.print("Introduce una valoracion de utilidad en el rango [0,10]: ");
-																	// Obtenemos la valoracion de utilidad indicada por el usuario
-																	valoracion = entrada.nextInt(); 
-																	// Limpiamos el buffer de entrada
-																	entrada = new Scanner(System.in); 
-																	// Caso de error: Valoracion de utilidad inferior a 0
-																	if(valoracion < 0) {System.out.println("La valoracion de utilidad introducida <" + valoracion + "> es inferior a 0");}
-																	// Caso de error: Valoracion de utilidad superior a 0
-																	else if(valoracion > 10) {System.out.println("La valoracion de utilidad introducida <" + valoracion + "> es superior a 10");}
-																}catch(Exception ex) { System.out.println("Se esperaba un valor entero");}
-															}
-															// Registramos la valoracion de utilidad de la critica
-															int status = evaluacionCritica.registrovaloracionUtilidadCritica(prop,sql,critica.getIdentificadorCritica(),idUsuario,valoracion);
-															// Caso de error: No se ha modificado la base de datos
-															if(status == 0) { System.out.println("No se ha registrado la valoracion de utilidad de la critica");	}
-															// Caso de exito: Se ha modificado la base de datos
-															else {System.out.println("Se ha registrado la valoracion de utilidad de la critica");}
-														}
-													}
-												}
+												identificadorCritica = entrada.nextInt();
+												entrada = new Scanner(System.in); // Limpiamos el buffer de entrada
+											}catch(Exception ex) {System.out.println("Al elegir el identificador de la critica, se esperaba un valor entero"); }
+											/*
+											 * VALORACION DE UTILIDAD DE LA CRITICA
+											 */
+											int valoracion = -1;
+											while(valoracion < 0 || valoracion > 10) {
+												try {
+													System.out.print("Introduce una valoracion de utilidad en el rango [0,10]: ");
+													valoracion = entrada.nextInt();
+													entrada = new Scanner(System.in); // Limpiamos el buffer de entrada
+													/*
+													 * VALORACION DE UTILIDAD INFERIOR A 0
+													 */
+													if(valoracion < 0) {System.out.println("La valoracion de utilidad introducida <" + valoracion + "> es inferior a 0");}
+													/*
+													 * VALORACION DE UTILIDAD SUPERIOR A 10
+													 */
+													else if(valoracion > 10) {System.out.println("La valoracion de utilidad introducida <" + valoracion + "> es superior a 10");}
+												}catch(Exception ex) { System.out.println("La valoracion de utilidad de la critica debe ser un entero");}
 											}
-											catch(Exception ex) { 
-												System.out.println("La opcion introducida no es un valor entero");
-												// Limpiamos el buffer de entrada
-												entrada = new Scanner(System.in);
-											}
+											/*
+											 * REALIZAMOS LA VALORACION DE UTILIDAD DE LA CRITICA
+											 */
+											if(identificadorCritica != 0) { System.out.println(gestorCriticas.valoracionUtilidadCritica(prop,sql,identificadorCritica,correoUsuario,idUsuario,valoracion ));}
 										}
 										// Caso 3: Mostrar informacion espectaculos
 										else if(espectador == 3) {
