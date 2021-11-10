@@ -171,6 +171,7 @@ public class SesionDAO {
 				sesion.setFechaCompletaSesion(sesion.getAnoSesion() + "-" + sesion.getMesSesion()+"-"+sesion.getDiaSesion()); // Obtenemos la fecha completa de la sesion
 				sesion.setHoraSesion(rs.getInt("HORA_SESION")); // Obtenemos la hora de la sesion
 				sesion.setMinutos(rs.getInt("MINUTOS_SESION")); // Obtenemos los minutos de la sesion
+				sesion.setHoraCompleta(); // Obtenemos los datos de la hora completa
 			}
 			ps.close(); // Cierre de la sentencia sql
 			if(con != null) {
@@ -202,6 +203,7 @@ public class SesionDAO {
 				sesion.setIdentificadorSesion(rs.getInt("ID")); // Obtenemos el identificador de la sesion
 				sesion.setHoraSesion(rs.getInt("HORA_SESION")); // Obtenemos la hora de la sesion
 				sesion.setMinutos(rs.getInt("MINUTOS_SESION")); // Obtenemos los minutos de la sesion
+				sesion.setHoraCompleta(); // Obtenemos la hora completa de la sesion
 				sesion.setDiaSemana(rs.getString("DIA_SEMANA_SESION")); // Obtenemos el dia de la semana de la sesion
 				sesiones.add(sesion); // anadimos los datos de la sesion
 			}
@@ -235,6 +237,7 @@ public class SesionDAO {
 				sesion.setIdentificadorSesion(rs.getInt("ID")); // Obtenemos el identificador de la sesion
 				sesion.setHoraSesion(rs.getInt("HORA_SESION")); // Obtenemos la hora de la sesion
 				sesion.setMinutos(rs.getInt("MINUTOS_SESION")); // Obtenemos los minutos de la sesion
+				sesion.setHoraCompleta(); // Obtenemos la hora completa de la sesion
 				sesion.setDiaSemana(rs.getString("DIA_SEMANA_SESION")); // Obtenemos el dia de la semana de la sesion
 				sesiones.add(sesion); // anadimos los datos de la sesion
 			}

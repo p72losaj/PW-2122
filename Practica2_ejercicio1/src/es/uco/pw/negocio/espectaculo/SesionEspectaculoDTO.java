@@ -57,17 +57,16 @@ public class SesionEspectaculoDTO {
 	 */
 	
 	public String getHoraCompleta() {
-		this.horaCompleta = String.valueOf(this.hora) +":" + String.valueOf(this.minutos);
+		
 		return this.horaCompleta;
 	}
 	
 	/**
 	 * Funcion que modifica la hora completa de una sesion
-	 * @param hora Nueva hora completa de la sesion
 	 */
 	
-	public void setHoraCompleta(String hora) {
-		this.horaCompleta = hora;
+	public void setHoraCompleta() {
+		this.horaCompleta = String.valueOf(this.hora) +":" + String.valueOf(this.minutos);
 	}
 	
 	/**

@@ -58,25 +58,9 @@ public class GestorEspectaculosDTO {
 		return instancia;
 	}
 	
-	/**
-	 * Funcion que crea un espectaculo usando una factoria
-	 * @param tituloEspectaculo Titulo del espectaculo a crear
-	 * @param descripcionEspectaculo Descripcion del espectaculo
-	 * @param categoriaEspectaculo Categoria del espectaculo
-	 * @param tipoEspectaculo Tipo del espectaculo
-	 * @param fechaPuntual Fecha completa de sesion de un espectaculo puntual
-	 * @param horaPuntual Hora completa de sesion de un espectaculo puntual
-	 * @param diaMultiple1 Dia de la semana de la sesion1 de un espectaculo multiple
-	 * @param horaMultiple1 Hora completa de la sesion 1 de un espectaculo multiple
-	 * @param diaMultiple2 Dia de la semana de la sesion 2 de un espectaculo multiple
-	 * @param horaMultiple2 Hora completa de la sesion 2 de un espectaculo multiple
-	 * @param fechaInicioTemporada Fecha completa de inicio de una sesion de un espectaculo de temporada
-	 * @param fechaFinTemporada Fecha completa de finalizacion de una sesion de un espectaculo de temporada
-	 * @param diaTemporada Dia de la semana de una sesion de un espectaculo de temporada
-	 * @param aforoLocalidades Numero de localidades del espectaculo
-	 * @param ventasEspectaculo Numero de ventas del espectaculo
-	 */
 
+
+	/*
 	public void CrearEspectaculo(String tituloEspectaculo, String descripcionEspectaculo,CategoriaEspectaculo categoriaEspectaculo,
 			String tipoEspectaculo, String fechaPuntual, String horaPuntual, String diaMultiple1,
 			String horaMultiple1,  String diaMultiple2, String horaMultiple2, String fechaInicioTemporada,
@@ -108,7 +92,7 @@ public class GestorEspectaculosDTO {
 		
 	}
 	
-	
+	*/
 	public Boolean cancelarEspectaculo(String tituloEliminar) {
 		
 		// Recorremos la lista de espectaculo
@@ -255,7 +239,6 @@ public class GestorEspectaculosDTO {
 			if(this.listaEspectaculos.get(i).getTipoEspectaculo().equals("puntual")) {
 				System.out.println("\tFecha de la sesion: " + this.listaEspectaculos.get(i).getSesionEspectaculo().getFechaCompletaSesion());// Imprimimos la fecha completa de la sesion
 				System.out.println("\tHora completa de la sesion: " + this.listaEspectaculos.get(i).getSesionEspectaculo().getHoraCompleta());// Imprimimos la hora completa de la sesion
-
 			}
 			// Caso 2: El espectaculo es de tipo multiple
 			else if(this.listaEspectaculos.get(i).getTipoEspectaculo().equals("multiple")) {
@@ -320,5 +303,158 @@ public class GestorEspectaculosDTO {
 			}
 		}
 	}
+	
+	/**
+	 * Funcion que registra los datos de un espectaculo
+	 * @param tituloEspectaculo Titulo del espectaculo
+	 * @param descripcionEspectaculo Descripcion del espectaculo
+	 * @param categoriaEspectaculo Categoria del espectaculo
+	 * @param tipoEspectaculo Tipo del espectaculo
+	 * @param aforoLocalidades Aforo de localidades del espectaculo
+	 * @param ventasEspectaculo
+	 * @param anoPuntual
+	 * @param mesPuntual
+	 * @param diaPuntual
+	 * @param horaPuntual
+	 * @param minutosPuntual
+	 * @return
+	 */
+
+	public String darAltaEspectaculo(Properties prop, Properties sql,String tituloEspectaculo, String descripcionEspectaculo,
+			CategoriaEspectaculo categoriaEspectaculo, String tipoEspectaculo, int aforoLocalidades,
+			int ventasEspectaculo, int anoPuntual, int mesPuntual, int diaPuntual, int horaPuntual,
+			int minutosPuntual) {
+		String cadena = null;
+		EspectaculoDTO espectaculo = new EspectaculoDTO();
+		Boolean existenciaTituloEspectaculo = comprobarExistenciaTituloEspectaculo(tituloEspectaculo); // Obtenemos la existencia del titulo del espectaculo
+		int comprobacionFechas;
+		/*
+		 * TITULO DEL ESPECTACULO NO ES UNICO
+		 */
+		if(existenciaTituloEspectaculo == true) {cadena = "Titulo del espectaculo ya existente. No se pueden registrar los datos del espectaculo";}
+		
+		/*
+		 * TITULO DEL ESPECTACULO NO EXISTENTE
+		 */
+		else {
+			/*
+			 * ESPECTACULO ES DE TIPO PUNTUAL
+			 */
+			if(tipoEspectaculo.equals("puntual")) {
+				/*
+				 * COMPROBACION DE LA VALIDEZ DE LAS FECHAS
+				 */
+				comprobacionFechas = comprobarValidezFechasMesDia(mesPuntual, diaPuntual);
+				/*
+				 * MES ES FEBERO, NUMERO DE DIAS SUPERIOR A 28
+				 */
+				if(comprobacionFechas == -1) {
+					cadena = "El mes de febero tiene como maximo 28 dias. No se han registrado los datos del espectaculo";
+					return cadena;
+				}
+				/*
+				 * MES DE MAXIMO 30 DIAS, NUMERO DE DIAS ES SUPERIOR A 30
+				 */
+				else if(comprobacionFechas == -2) {
+					cadena = "El mes tiene como maximo 30 dias. No se han registrado los datos del espectaculo";
+					return cadena;
+				}
+				/*
+				 * MES TIENE COMO MAXIMO 31 DIAS
+				 */
+				else if(comprobacionFechas == 1) {
+					cadena = "El mes indicado tiene como maximo 31 dias. No se han registrado los datos del espectaculo";
+					return cadena;
+				}
+				/*
+				 * FECHA ES VALIDA
+				 */
+				else {
+					/*
+					 * Creamos el espectaculo de tipo puntual
+					 */
+					espectaculo = factoria.crearEspectaculoPuntual(tituloEspectaculo,descripcionEspectaculo,categoriaEspectaculo,tipoEspectaculo,aforoLocalidades,ventasEspectaculo,anoPuntual,mesPuntual,diaPuntual,horaPuntual,minutosPuntual); // Creacion del espectaculo puntual
+				}
+				
+			}
+			/*
+			 * ESPECTACULO ES DE TIPO MULTIPLE
+			 */
+			/*
+			 * ESPECTACULO ES DE TIPO TEMPORADA
+			 */
+			
+			/*
+			 * REGISTRO DE LOS DATOS EN LA TABLA DE ESPECTACULO
+			 */
+			EspectaculoDAO espectaculoDAO = new EspectaculoDAO();
+			int status = espectaculoDAO.insercionEspectaculo(prop, sql, espectaculo);
+			/*
+			 * ESPECTACULO NO REGISTRADO EN LA BASE DE DATOS
+			 */
+			if(status == 0) {
+				cadena = "Se ha producido un error al registrar los datos comunes del espectaculo";
+			}
+			/*
+			 * ESPECTACULO REGISTRADO EN LA BASE DE DATOS
+			 */
+			else {
+				espectaculo.setIdentificadorEspectaculo(espectaculoDAO.obtencionEspectaculoIdentificador(prop, sql, espectaculo.getTituloEspectaculo()));
+				/*
+				 * REGISTRO DE LOS DATOS DE SESION DEL ESPECTACULO
+				 */
+				SesionDAO sesion = new SesionDAO();
+				status = sesion.anadirSesionEspectaculo(prop, sql, espectaculo); // Anadimos los datos de la sesion
+				/*
+				 * DATOS DE LA SESION NO REGISTRADOS
+				 */
+				if(status == 0) {
+					cadena = "Se ha producido un error al registrar los datos de sesion del espectaculo";
+					espectaculoDAO.eliminacionEspectaculo(prop,sql,espectaculo.getIdentificadorEspectaculo());
+				}
+				/*
+				 * DATOS DE SESION REGISTRADOS
+				 */
+				else {
+					this.listaEspectaculos.add(espectaculo); // Anadimos el espectaculo al gestor de espectaculos
+					cadena = "Espectaculo registrado en la base de datos";
+				}
+			}
+			
+		}
+		return cadena;
+	}
+	
+	/**
+	 * Funcion que comprueba si el dia introducido se cumple en el mes indicado
+	 * @param mes Mes de la fecha 
+	 * @param dia Dia de la fecha
+	 * @return Valor de comprobacion de la validez de las fechas
+	 */
+
+	public int comprobarValidezFechasMesDia(int mes, int dia){
+		
+		/*
+		 * MES FEBRERO + DIA SUPERIOR A 28
+		 */
+		
+		if(mes == 2 && dia > 28) { return -1; }
+		
+		/*
+		 * MES DE MAXIMO 30 DIAS, NUMERO DE DIAS ES SUPERIOR A 30
+		 */
+		
+		else if( dia > 30 && (mes == 4 || mes == 6 || mes == 9 || mes == 11) ){return -2; }
+		
+		// Caso 3: El mes introducido tiene maximo 31 dias, pero el usuario ha indicado un numero superior de dias
+		
+		else if(dia > 31 && (mes == 1 || mes == 3 || mes == 5 || mes == 7 || mes == 8 || mes == 10 || mes == 12)) {return 1; }
+		
+		// Por defecto, las fechas son correctas
+		
+		return 0;
+		
+	}
+
 	
 }

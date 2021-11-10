@@ -105,4 +105,16 @@ public class Menus {
 		System.out.print("Introduce una opcion: ");
 	}
 	
+	/**
+	 * Funcion que muestra un menu con las categorias disponibles de un espectaculo
+	 */
+
+	public void mostrarCategoriaEspectaculo() {
+		System.out.println("MENU DE CATEGORIAS DEL ESPECTACULO");
+		System.out.println("1. Obra de teatro");
+		System.out.println("2. Monologo");
+		System.out.println("3. Concierto");
+		System.out.println("Introduce una opcion: ");
+	}
+	
 }

@@ -12,6 +12,7 @@ import es.uco.pw.interfaz.menus.Menus;
 import es.uco.pw.negocio.critica.CriticaDTO;
 import es.uco.pw.negocio.critica.EvaluacionUtilidadCriticaDTO;
 import es.uco.pw.negocio.critica.GestorCriticasDTO;
+import es.uco.pw.negocio.espectaculo.CategoriaEspectaculo;
 import es.uco.pw.negocio.espectaculo.GestorEspectaculosDTO;
 import es.uco.pw.negocio.usuario.GestorUsuariosDTO;
 
@@ -150,18 +151,181 @@ public class ProgramaPrincipal {
 								 */
 								int administrador = -1; // Opcion por defecto del menu de administrador
 								while(administrador != 0) {
+									entrada = new Scanner(System.in);
 									menu.MostrarMenuAdministrador(); // Mostramos el menu del administrador
 									try {
 										administrador = entrada.nextInt(); // Obtenemos la funcionalidad deseada por el usuario
 										entrada = new Scanner(System.in); // Limpiamos el buffer
-										// Caso 1: Dar de alta un espectaculo
+										/*
+										 * DAR DE ALTA UN ESPECTACULO
+										 */
 										if(administrador == 1) {
+											String tituloEspectaculo=null; // Titulo del espectaculo
+											String descripcionEspectaculo=null; // Descripcion del espectaculo
+											CategoriaEspectaculo categoriaEspectaculo = null; // Categoria del espectaculo
+											int aforoLocalidades=-1; // Aforo de localidades del espectaculo
+											int ventasEspectaculo=-1; // Numero de ventas del espectaculo
+											String tipoEspectaculo=null;
+											/*
+											 * OBTENCION DEL TITULO DEL ESPECTACULO
+											 */
 											System.out.print("Introduce el titulo del espectaculo: "); // Pedimos el titulo del usuario
-											String tituloEspectaculo = entrada.nextLine(); // Obtenemos el titulo del usuario
+											tituloEspectaculo = entrada.nextLine(); // Obtenemos el titulo del usuario
+											/*
+											 * OBTENCION DE LA DESCRIPCION DEL ESPECTACULO
+											 */
 											System.out.print("Introduce la descripcion del espectaculo: "); // Pedimos la descripcion del espectaculo
-											String descripcionEspectaculo = entrada.nextLine(); // Obtenemos la descripcion del espectaculo
+											descripcionEspectaculo = entrada.nextLine(); // Obtenemos la descripcion del espectaculo
+											/*
+											 * OBTENCION DE LA CATEGORIA DEL ESPECTACULO
+											 */
+											menu.mostrarCategoriaEspectaculo(); // Menu que muestra las categorias de un espectaculo
+											int opcionCategoria = 0;
+											while(opcionCategoria == 0) {
+												try {
+													opcionCategoria = entrada.nextInt();
+													entrada = new Scanner(System.in); // Limpiamos el buffer de entrada
+													/*
+													 * CATEGORIA DEL ESPECTACULO ES UNA OBRA DE TEATRO
+													 */
+													if(opcionCategoria == 1) { categoriaEspectaculo = CategoriaEspectaculo.obraTeatro;}
+													/*
+													 * CATEGORIA DEL ESPECTACULO ES UN MONOLOGO
+													 */
+													else if(opcionCategoria==2) { categoriaEspectaculo = CategoriaEspectaculo.monologo;}
+													/*
+													 * CATEGORIA DEL ESPECTACULO ES UN CONCIERTO
+													 */
+													else if(opcionCategoria==3) { categoriaEspectaculo = CategoriaEspectaculo.concierto;}
+													/*
+													 * CATEGORIA DEL ESPECTACULO NO DISPONIBLE
+													 */
+													else { 
+														System.out.println("Categoria del espectaculo no disponible");
+														opcionCategoria = 0;
+													}
+												}catch(Exception ex) { System.out.println("Se esperaba un valor entero al obtener la categoria del espectaculo");}
+											}
+											/*
+											 * OBTENCION DEL AFORO DE LOCALIDADES
+											 */
 											
-											//espectaculos.CrearEspectaculo(tituloEspectaculo, descripcionEspectaculo, categoriaEspectaculo, tipoEspectaculo, fechaPuntual, horaPuntual, diaMultiple1, horaMultiple1, diaMultiple2, horaMultiple2, fechaInicioTemporada, fechaFinTemporada, diaTemporada, aforoLocalidades, ventasEspectaculo);
+											while(aforoLocalidades < 0) {
+												System.out.println("Introduce el aforo de localidades del espectaculo");
+												try {
+													aforoLocalidades = entrada.nextInt();
+													entrada = new Scanner(System.in); // Limpiamos el buffer de entrada
+													if(aforoLocalidades < 0) {
+														System.out.println("El aforo de localidades del espectaculo debe ser 0 o superior");
+													}
+												}catch(Exception ex) { System.out.println("El aforo de localidades del espectaculo debe ser un valor entero");}
+											}
+											/*
+											 * OBTENEMOS EL NUMERO DE VENTAS DEL ESPECTACULO
+											 */
+											while(ventasEspectaculo < 0) {
+												System.out.println("Introduce el numero de ventas del espectaculo");
+												try {
+													ventasEspectaculo = entrada.nextInt();
+													entrada = new Scanner(System.in); // Limpiamos el buffer de entrada
+													if(ventasEspectaculo < 1) {
+														System.out.println("El numero de ventas del espectaculo debe ser 0 o superior");
+													}
+													else if(ventasEspectaculo > aforoLocalidades) {
+														System.out.println("El numero de ventas del espectaculo debe ser superior al aforo del espectaculo: " + aforoLocalidades);
+														ventasEspectaculo = -1;
+													}
+												}catch(Exception ex) { System.out.println("El numero de ventas del espectaculo debe ser un valor entero");}
+											}
+											/*
+											 * OBTENCION DEL TIPO DEL ESPECTACULO
+											 */
+											menu.MostrarTiposEspectaculos();
+											int opcionTipo = 0;
+											while(opcionTipo == 0) {
+												try {
+													opcionTipo = entrada.nextInt();
+													entrada = new Scanner(System.in); // Limpiamos el buffer de entrada
+													/*
+													 * TIPO DEL ESPECTACULO ES PUNTUAL
+													 */
+													if(opcionTipo == 1) {tipoEspectaculo = "puntual";}
+													/*
+													 * TIPO DEL ESPECTACULO ES MULTIPLE
+													 */
+													else if(opcionTipo == 2) {tipoEspectaculo = "multiple";}
+													/*
+													 * TIPO DEL ESPECTACULO ES TEMPORADA
+													 */
+													else if(opcionTipo==3) {tipoEspectaculo = "temporada";}
+													/*
+													 * TIPO DEL ESPECTACULO NO DISPONIBLE
+													 */
+													else { 
+														System.out.println("Opcion seleccionada no disponible");
+														opcionTipo = 0;
+													}
+												}catch(Exception ex) { System.out.println("Se esperaba un valor de tipo entero al obtener el tipo del espectaculo"); }
+											}
+											
+											/*
+											 * TIPO DEL ESPECTACULO ES PUNTUAL
+											 */
+											int anoPuntual = 0; // ano del espectaculo puntual
+											int mesPuntual = 0; // Mes del espectaculo puntual
+											int diaPuntual = 0; // dia del espectaculo puntual
+											int horaPuntual = 0; // Hora en digital de la hora de la sesion
+											int minutosPuntual = 0; // Minutos en digital de los minutos de la sesion
+											if(tipoEspectaculo.equals("puntual")) {
+												/*
+												 * OBTENEMOS LOS DATOS DE LA SESION
+												 */
+												try {
+													/*
+													 * OBTENCION DE LA FECHA DE LA SESION
+													 */
+													System.out.print("Introduce el ano de la sesion: ");
+													anoPuntual = entrada.nextInt();
+													entrada = new Scanner(System.in); // Limpiamos el buffer
+													/*
+													 * OBTENCION DEL MES DE LA SESION
+													 */
+													System.out.print("Introduce el mes de la sesion: ");
+													mesPuntual = entrada.nextInt();
+													entrada = new Scanner(System.in); // Limpiamos el buffer
+													/*
+													 * OBTENCION DEL DIA DE LA SESION
+													 */
+													System.out.print("Introduce el dia de la sesion: ");
+													diaPuntual = entrada.nextInt();
+													entrada = new Scanner(System.in); // Limpiamos el buffer
+													/*
+													 * OBTENCION DE LA HORA DE LA SESION
+													 */
+													System.out.println("Dada la hora de sesion -> hh:mm");
+													System.out.print("Introduce el valor de <hh>: ");
+													horaPuntual = entrada.nextInt();
+													entrada = new Scanner(System.in); // Limpiamos el buffer
+													System.out.print("Introduce el valor de <mm>: ");
+													minutosPuntual = entrada.nextInt();
+													entrada = new Scanner(System.in); // Limpiamos el buffer
+												}catch(Exception ex) {
+													System.out.print("Se esperaba un valor entero al obtener los datos de la sesion del espectaculo de tipo puntual");
+												}
+											}
+											/*
+											 * TIPO DEL ESPECTACULO ES MULTIPLE
+											 */
+											else if(tipoEspectaculo.equals("multiple")) {
+												
+											}
+											/*
+											 * TIPO DEL ESPECTACULO ES DE TEMPORADA
+											 */
+											else if(tipoEspectaculo.equals("temporada")) {
+												
+											}
+											System.out.println(espectaculos.darAltaEspectaculo(prop,sql,tituloEspectaculo, descripcionEspectaculo, categoriaEspectaculo, tipoEspectaculo,aforoLocalidades, ventasEspectaculo,anoPuntual,mesPuntual,diaPuntual,horaPuntual,minutosPuntual));
 										}
 										// Caso 2: Cancelar un espectaculo ( todas las sesiones o una en particular)
 										// Caso 3: Actualizar los datos de un espectáculo
@@ -211,8 +375,8 @@ public class ProgramaPrincipal {
 											 */
 											if(identificadorCritica != 0) { System.out.println(gestorCriticas.valoracionUtilidadCritica(prop,sql,identificadorCritica,correoUsuario,idUsuario,valoracion ));}
 										}
-									}
-									catch(Exception ex) {System.out.println("Se esperaba un valor entero"); }
+										entrada = new Scanner(System.in);
+									}catch(Exception ex) {System.out.println("Se esperaba un valor entero al elegir la funcionalidad del administrador"); }
 								}
 							}
 						
@@ -313,13 +477,14 @@ public class ProgramaPrincipal {
 											 * REALIZAMOS LA VALORACION DE UTILIDAD DE LA CRITICA
 											 */
 											if(identificadorCritica != 0) { System.out.println(gestorCriticas.valoracionUtilidadCritica(prop,sql,identificadorCritica,correoUsuario,idUsuario,valoracion ));}
+											entrada = new Scanner(System.in);
 										}
 										// Caso 3: Mostrar informacion espectaculos
 										else if(espectador == 3) {
 											espectaculos.imprimirEspectaculos();
 										}
 									}catch(Exception ex) {
-										System.out.println("Se esperaba un valor entero");
+										System.out.println("Se esperaba un valor entero al elegir la funcionalidad del espectador");
 										entrada = new Scanner(System.in);
 									}
 								}

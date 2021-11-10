@@ -17,19 +17,26 @@ public abstract class FactoriaEspectaculos {
 	
 	/**
 	 * Funcion que crea un espectaculo de tipo puntual
-	 * @param titulo Titulo del espectaculo
-	 * @param descripcion Descripcion del espectaculo
-	 * @param categoria Categoria del espectaculo
-	 * @param tipo Tipo del espectaculo
-	 * @param fecha Fecha del espectaculo
-	 * @param hora Hora del espectaculo
-	 * @param aforoLocalidades Numero de localidades del espectaculo
+	 * @param tituloEspectaculo Titulo del espectaculo
+	 * @param descripcionEspectaculo Descripcion del espectaculo
+	 * @param categoriaEspectaculo Categoria del espectaculo
+	 * @param tipoEspectaculo Tipo del espectaculo
+	 * @param aforoLocalidades Aforo de localidades del espectaculo
 	 * @param ventasEspectaculo Numero de ventas del espectaculo
+	 * @param anoPuntual Ano de la sesion
+	 * @param mesPuntual Mes de la sesion
+	 * @param diaPuntual Dia de la sesion
+	 * @param horaPuntual Hora de la sesion
+	 * @param minutosPuntual Minutos de la sesion
 	 * @return Espectaculo de tipo puntual
 	 */
-	
-	public EspectaculoPuntualDTO crearEspectaculoPuntual(String titulo,String descripcion, CategoriaEspectaculo categoria, String tipo, String fecha, String hora, int aforoLocalidades, int ventasEspectaculo) {
-		return new EspectaculoPuntualDTO(titulo,descripcion, categoria, tipo, fecha, hora, aforoLocalidades, ventasEspectaculo);
+	public EspectaculoPuntualDTO crearEspectaculoPuntual(String tituloEspectaculo, String descripcionEspectaculo,
+			CategoriaEspectaculo categoriaEspectaculo, String tipoEspectaculo, int aforoLocalidades,
+			int ventasEspectaculo, int anoPuntual, int mesPuntual, int diaPuntual, int horaPuntual,
+			int minutosPuntual) {
+		// TODO Auto-generated method stub
+		return new EspectaculoPuntualDTO(tituloEspectaculo,descripcionEspectaculo,categoriaEspectaculo,tipoEspectaculo,aforoLocalidades,ventasEspectaculo
+				,anoPuntual,mesPuntual,diaPuntual,horaPuntual,minutosPuntual);
 	}
 	
 	/**

@@ -6,19 +6,27 @@ package es.uco.pw.negocio.espectaculo;
  * @version 2.0
  */
 
-public class EspectaculoPuntualDTO extends EspectaculoDTO {
+public class EspectaculoPuntualDTO extends EspectaculoDTO {	
 
-	public EspectaculoPuntualDTO(String titulo, String descripcion, CategoriaEspectaculo categoria, String tipo, String fecha, String hora, int aforoLocalidades, int ventasEspectaculo) {
-		this.setTituloEspectaculo(titulo);// titulo del espectaculo
-		this.setDescripcionEspectaculo(descripcion);// Descripcion del espectaculo
-		this.setCategoriaEspectaculo(categoria);// Categoria del espectaculo
-		this.setTipoEspectaculo(tipo); // Tipo del espectaculo
+	public EspectaculoPuntualDTO(String tituloEspectaculo, String descripcionEspectaculo,
+			CategoriaEspectaculo categoriaEspectaculo, String tipoEspectaculo, int aforoLocalidades,
+			int ventasEspectaculo, int anoPuntual, int mesPuntual,int diaPuntual, int horaPuntual, int minutosPuntual) {
+			
 		SesionEspectaculoDTO sesion = new SesionEspectaculoDTO(); // Sesion de espectaculo vacia
-		sesion.setFechaCompletaSesion(fecha); // Obtenemos la nueva fecha completa de la sesion
-		sesion.setHoraCompleta(hora); // Obtenemos la hora completa de la sesion
-		this.setSesionEspectaculo(sesion); // Obtenemos la sesion del espectaculo
-		this.setAforoLocalidadesEspectaculo(aforoLocalidades); // Obtenemos el aforo de localidades del espectaculo
-		this.setVentasEspectaculo(ventasEspectaculo); // Obtenemos el numero de ventas del espectaculo
+		this.setTituloEspectaculo(tituloEspectaculo); // Obtenemos el titulo del espectaculo
+		this.setDescripcionEspectaculo(descripcionEspectaculo); // Obtenemos la descripcion del espectaculo
+		this.setCategoriaEspectaculo(categoriaEspectaculo); // Obtenemos la categoria del espectaculo
+		this.setTipoEspectaculo(tipoEspectaculo); // Obtenemos el tipo del espectaculo
+		this.setAforoLocalidadesEspectaculo(aforoLocalidades); // Obtenemos el aforo de localidades
+		this.setVentasEspectaculo(ventasEspectaculo); // Obtenemos las ventas del espectaculo
+		sesion.setAnoSesion(anoPuntual); // Obtenemos el ano de la sesion
+		sesion.setMesSesion(mesPuntual); // Obtenemos el mes de la sesion
+		sesion.setDiaSesion(diaPuntual); // Obtenemos el dia de la sesion
+		sesion.setFechaCompletaSesion(anoPuntual+"-"+mesPuntual+"-"+diaPuntual); // Obtenemos la fecha completa de la sesion
+		sesion.setHoraSesion(horaPuntual); // Obtenemos la hora de la sesion
+		sesion.setMinutos(minutosPuntual); // Obtenemos los minutos de la sesion
+		sesion.setHoraCompleta(); // Obtenemos la hora completa
+		this.setSesionEspectaculo(sesion); // Obtenemos los datos de la sesion
 		return;
 	}
 	

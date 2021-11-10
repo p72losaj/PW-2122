@@ -344,9 +344,7 @@ public class GestorCriticasDTO {
 						/*
 						 * OBTENEMOS LOS DATOS DE LA NUEVA VALORACION DE UTILIDAD DE LA CRITICA
 						 */
-						valoracionCritica.setIdentificadorAutor(idUsuario);
-						valoracionCritica.setIdentificadorCritica(identificadorCritica);
-						valoracionCritica.setValoracionUtilidadCritica(valoracion);
+						valoracionCritica = evaluacionCritica.obtencionValoracionCriticaUsuario(prop, sql, criticaDTO.getIdentificadorCritica(),idUsuario);
 						/*
 						 * ANADIMOS AL GESTOR LA NUEVA VALORACION DE UTILIDAD DE LA CRITICA
 						 */

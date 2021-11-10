@@ -264,8 +264,7 @@ public class EspectaculoDAO {
 	 * @param tituloEspectaculo Titulo del espectaculo
 	 * @return Identificador del espectaculo
 	 */
-	
-/*	
+		
 	public int obtencionEspectaculoIdentificador(Properties prop, Properties sql, String tituloEspectaculo) 
 	{
 		int identificador = 0; // Identificador del espectaculo
@@ -274,22 +273,18 @@ public class EspectaculoDAO {
 			PreparedStatement ps=con.prepareStatement(sql.getProperty("ObtencionEspectaculoTitulo")); // Sentencia sql para obtener la informacion del espectaculo buscado en funcion de su titulo
 			ps.setString(1, tituloEspectaculo); // Indicamos en la sentencia sql el titulo del espectaculo
 			ResultSet rs = ps.executeQuery(); // Ejecucion de la sentencia sql
-			while(rs.next()) {
-				identificador = rs.getInt("ID"); // Obtenemos el identificador del espectaculo
-			}
+			while(rs.next()) { identificador = rs.getInt("ID");} // Obtenemos el identificador del espectaculo
 			rs.close(); // Cerramos la ejecucion de la sentencia sql
 			ps.close(); // Cierre de la sentencia sql
-			if(con != null) {
-				con = null; // Cierre de la conexion con la base de datos
-			}
+			if(con != null) { con = null; } // Cierre de la conexion con la base de datos
 		}catch(Exception ex) {
-			System.out.println("Se ha producido un error al obtener el identificador del espectaculo");
+			ex.getCause();
 		}
 		return identificador; // Retornamos el identificador del espectaculo
 	}
-*/
+
 /**
- * Funcion que anade los datos de una critica en la base de datos
+ * Funcion que anade los datos de un espectaculo en la base de datos
  * @param prop Fichero de configuracion
  * @param sql Fichero de sentencias sql
  * @param espectaculoDTO Espectaculo a insertar en la base de datos
@@ -304,29 +299,9 @@ public int insercionEspectaculo(Properties prop, Properties sql, EspectaculoDTO 
 		ps.setString(1,espectaculoDTO.getTituloEspectaculo()); // Indicamos en la sentencia sql el titulo del espectaculo insertar
 		ps.setString(2, espectaculoDTO.getTipoEspectaculo()); // Indicamos en la sentencia sql el tipo del espectaculo a insertar
 		ps.setString(3, espectaculoDTO.getDescripcionEspectaculo()); // Indicamos en la sentencia sql la descripcion del espectaculo a insertar
-		//Categoria del espectaculo
-		/*
-		try {
-		if(CategoriaEspectaculo.concierto==EspectaculoDTO.getCategoriaEspectaculo()) {
-			ps.setString(4,"concierto"); // Indicamos en la sentencia sql la categoria del espectaculo insertar
-		}
-		// Caso 2: El espectaculo es un monologo
-		else if(CategoriaEspectaculo.monologo==EspectaculoDTO.getCategoriaEspectaculo()) {
-			ps.setString(4,"monologo"); // Indicamos en la sentencia sql la categoria del espectaculo insertar
-		}
-		// Caso 3: El espectaculo es una obra de teatro
-		else if(CategoriaEspectaculo.obraTeatro==EspectaculoDTO.getCategoriaEspectaculo()){
-			ps.setString(4,"obra de teatro"); // Indicamos en la sentencia sql la categoria del espectaculo insertar
-		
-		}
-		}catch(Exception ex) {
-			System.out.println("Se ha producido un error al insertar la categoria del espectaculo");
-		}
-		*/
-		//ps.setString(4,espectaculoDTO.getCategoriaEspectaculo()); // Indicamos en la sentencia sql el titulo del espectaculo insertar
+		ps.setString(4, espectaculoDTO.getCategoriaEspectaculo().toString()); // Indicamos en la sentencia sql la categoria del espectaculo
 		ps.setInt(5, espectaculoDTO.getAforoLocalidadesEspectaculo()); // Indicamos en la sentencia sql el aforo del espectaculo a insertar
 		ps.setInt(6, espectaculoDTO.getVentasEspectaculo()); // Indicamos en la sentencia sql la venta de entradas del espectaculo a insertar
-		
 		status = ps.executeUpdate(); // Ejecutamos la sentencia sql
 		ps.close(); // finalizacion de la sentencia sql
 		if(con != null) {
@@ -501,5 +476,26 @@ public EspectaculoDTO obtencionEspectaculo(Properties prop, Properties sql, Stri
 	}
 	return espectaculo; // Retornamos los datos del espectaculo
 }
+
+	/**
+	 * Funcion que elimina los datos de un espectaculo
+	 * @param prop Fichero de configuracion
+	 * @param sql Fichero de sentencias sql
+	 * @param idEspectaculo Identificador del espectacilo
+	 * @return Numero de filas modificadas de la base de datos
+	 */
+
+	public int eliminacionEspectaculo(Properties prop, Properties sql, int idEspectaculo) {
+		int status = 0; // Numero de filas eliminadas de la base de datos
+		try {
+			Connection con = ConexionBD.getConexion(prop); // Conexion con la base de datos
+			PreparedStatement ps=con.prepareStatement(sql.getProperty("EliminacionEspectaculo")); // Sentencia sql para obtener los datos comunes de los espectaculos
+			ps.setInt(1, idEspectaculo); // Indicamos en la sentencia sql el identificador del espectaculo
+			if(con != null) { con = null; } // Cierre de la conexion
+		}catch(Exception ex) {
+			ex.getCause();
+		}
+		return status;
+	}
 
 }
