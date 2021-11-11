@@ -341,6 +341,7 @@ public class GestorCriticasDTO {
 					 * SE HA MODIFICADO LA BASE DE DATOS
 					 */
 					else {
+						estado = "Se han anadido los datos de la valoracion de la critica a la base de datos";
 						/*
 						 * OBTENEMOS LOS DATOS DE LA NUEVA VALORACION DE UTILIDAD DE LA CRITICA
 						 */
@@ -348,8 +349,13 @@ public class GestorCriticasDTO {
 						/*
 						 * ANADIMOS AL GESTOR LA NUEVA VALORACION DE UTILIDAD DE LA CRITICA
 						 */
-						criticaDTO.getListaEvaluacionesCritica().add(valoracionCritica); 
-						estado= "Se ha registrado correctamente la evaluacion de utilidad de la critica";
+						for(int i=0; i < this.listaCriticas.size(); i++) {
+							if(this.listaCriticas.get(i).getIdentificadorCritica() == criticaDTO.getIdentificadorCritica()) {
+								this.listaCriticas.get(i).getListaEvaluacionesCritica().add(valoracionCritica);
+								estado = estado + ". Se han anadido la valoracion de utilidad en el gestor de criticas";
+							}
+						}
+
 					}
 				}
 			}

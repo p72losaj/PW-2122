@@ -71,7 +71,6 @@ public class ProgramaPrincipal {
 			 */
 			int opcionAcceso = -1; // Opcion inicial para el menu de acceso
 			while(opcionAcceso != 0) { // Obtenemos la opcion indicada por el usuario
-				
 				try {
 					menu.MostrarMenuAcceso(); // Mostramos el menu principal
 					System.out.print("Introduce una opcion: "); // Pedimos al usuario una funcionalidad del menu principal
@@ -388,14 +387,14 @@ public class ProgramaPrincipal {
 								/*
 								 * MENU DE FUNCIONALIDADES DEL ESPECTADOR
 								 */
-								int espectador = 1; // Opcion por defecto de las funcionalidades del menu
+								int espectador = -1; // Opcion por defecto de las funcionalidades del menu
 								entrada = new Scanner(System.in);  // Limpiamos el buffer de entrada
 								while(espectador != 0) {
 									menu.MostrarMenuEspectador(); // Mostramos el menu del espectador 
 									try {
 										espectador = entrada.nextInt(); // Obtenemos la funcionalidad del espectador 
 										entrada = new Scanner(System.in); // Limpiamos el buffer de entrada
-										
+									}catch(Exception ex) { System.out.println("Se esperaba un valor entero al obtener la funcionalidad del espectador");}
 										/*
 										 * CREACION DE UNA NUEVA CRITICA
 										 */
@@ -422,6 +421,7 @@ public class ProgramaPrincipal {
 											try {
 												System.out.print("Introduce una puntuacion del espectaculo: "); // Pedimos la puntuacion del espectaculo
 												puntuacion = entrada.nextInt(); // Obtenemos la puntuacion del espectaculo
+												entrada = new Scanner(System.in); // Limpiamos el buffer
 											}catch(Exception ex) {
 												System.out.println("La puntuacion del espectaculo debe ser un entero");
 											}
@@ -480,13 +480,7 @@ public class ProgramaPrincipal {
 											entrada = new Scanner(System.in);
 										}
 										// Caso 3: Mostrar informacion espectaculos
-										else if(espectador == 3) {
-											espectaculos.imprimirEspectaculos();
-										}
-									}catch(Exception ex) {
-										System.out.println("Se esperaba un valor entero al elegir la funcionalidad del espectador");
-										entrada = new Scanner(System.in);
-									}
+										else if(espectador == 3) { espectaculos.imprimirEspectaculos(); }
 								}
 							}
 						}
