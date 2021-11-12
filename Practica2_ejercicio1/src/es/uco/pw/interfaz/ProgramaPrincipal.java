@@ -375,7 +375,6 @@ public class ProgramaPrincipal {
 												 * DAMOS DE ALTA AL ESPECTACULO
 												 */
 												System.out.println(espectaculos.darAltaEspectaculo(prop, sql, tituloEspectaculo, descripcionEspectaculo, categoriaEspectaculo, "puntual", aforoLocalidades, ventasEspectaculo, anoPuntual, mesPuntual, diaPuntual, horaPuntual, minutosPuntual, 0, 0, "", "", 0, 0));
-												//espectaculos.darAltaEspectaculo(prop, sql, tituloEspectaculo, descripcionEspectaculo, categoriaEspectaculo, tipoEspectaculo, aforoLocalidades, ventasEspectaculo, anoPuntual, mesPuntual, diaPuntual, horaPuntual, minutosPuntual, horaMultiple1, minutosMultiple1, diaSemanaMultiple1, diaSemanaMultiple2, horaMultiple2, minutosMultiple2)
 											}
 											/*
 											 * ESPECTACULO MULTIPLE
@@ -384,7 +383,7 @@ public class ProgramaPrincipal {
 												/*
 												 * OBTENEMOS LA HORA DE LA PRIMERA SESION DEL ESPECTACULO
 												 */
-												int horaMultiple1 = 0;
+												int horaMultiple1 = -1;
 												System.out.println("Dada la hora de sesion -> hh:mm");
 												while(horaMultiple1 < 0) {
 													try {
@@ -403,7 +402,7 @@ public class ProgramaPrincipal {
 												/*
 												 * OBTENEMOS LA HORA DE LA SEGUNDA SESION
 												 */
-												int horaMultiple2 = 0;
+												int horaMultiple2 = -1;
 												System.out.println("Dada la hora de sesion -> hh:mm");
 												while(horaMultiple2 < 0) {
 													try {
@@ -422,7 +421,7 @@ public class ProgramaPrincipal {
 												/*
 												 * OBTENEMOS LOS MINUTOS DE LA PRIMERA SESION
 												 */
-												int minutosMultiple1 = 0;
+												int minutosMultiple1 = -1;
 												while(minutosMultiple1 < 0) {
 													try {
 														System.out.print("Introduce el valor de <mm>: ");
@@ -440,7 +439,7 @@ public class ProgramaPrincipal {
 												/*
 												 * OBTENEMOS LOS MINUTOS DE LA SEGUNDA SESION 
 												 */
-												int minutosMultiple2 = 0;
+												int minutosMultiple2 = -1;
 												while(minutosMultiple2 < 0) {
 													try {
 														System.out.print("Introduce el valor de <mm>: ");
@@ -530,14 +529,12 @@ public class ProgramaPrincipal {
 															entrada = new Scanner(System.in);
 														}
 													}
-													
 												}
-												/*
-												 * OBTENEMOS EL DIA DE LA SEMANA DE LA SEGUNDA SESION
-												 */
+												
 												/*
 												 * DAMOS DE ALTA EL ESPECTACULO
 												 */
+												
 												String cadena = espectaculos.darAltaEspectaculo(prop, sql, tituloEspectaculo, descripcionEspectaculo, categoriaEspectaculo, tipoEspectaculo, aforoLocalidades, ventasEspectaculo, 0, 0, 0, 0, 0, horaMultiple1, minutosMultiple1, diaSemanaMultiple1, diaSemanaMultiple2, horaMultiple2, minutosMultiple2);
 												System.out.println(cadena);
 											}

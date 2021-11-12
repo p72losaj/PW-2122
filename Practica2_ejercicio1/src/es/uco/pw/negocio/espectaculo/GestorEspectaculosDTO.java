@@ -384,16 +384,21 @@ public class GestorEspectaculosDTO {
 			 * ESPECTACULO ES DE TIPO MULTIPLE
 			 */
 			if(tipoEspectaculo.equals("multiple")){
+				/*
+				 * COMPROBAMOS SI LAS SESIONES SON EL MISMO DIA
+				 */
+				if( (diaSemanaMultiple1.equals(diaSemanaMultiple2) ) && (horaMultiple1 == horaMultiple2) && (minutosMultiple1 == minutosMultiple2)) {
+					cadena = "Ambas sesiones tienen los mismos datos";
+					return cadena;
+				}
 				EspectaculoMultipleDTO multiple = FactoriaEspectaculos.crearEspectaculoMultiple(tituloEspectaculo,descripcionEspectaculo,categoriaEspectaculo,tipoEspectaculo,aforoLocalidades,ventasEspectaculo,horaMultiple1,minutosMultiple1,diaSemanaMultiple1,diaSemanaMultiple2,horaMultiple2, minutosMultiple2);
-				//espectaculo.setSesionesEspectaculo(multiple.getSesionesEspectaculo());
-				//espectaculo.setVentasEspectaculo(multiple.getVentasEspectaculo());
-				//espectaculo.setAforoLocalidadesEspectaculo(multiple.getAforoLocalidadesEspectaculo());
-				//espectaculo.setTipoEspectaculo(multiple.getTipoEspectaculo());
-				//espectaculo.setTituloEspectaculo(multiple.getTituloEspectaculo());
-				//espectaculo.setDescripcionEspectaculo(multiple.getDescripcionEspectaculo());
-				//espectaculo.setCategoriaEspectaculo(multiple.getCategoriaEspectaculo());
-				System.out.println(horaMultiple1+","+minutosMultiple1);
-
+				espectaculo.setSesionesEspectaculo(multiple.getSesionesEspectaculo());
+				espectaculo.setVentasEspectaculo(multiple.getVentasEspectaculo());
+				espectaculo.setAforoLocalidadesEspectaculo(multiple.getAforoLocalidadesEspectaculo());
+				espectaculo.setTipoEspectaculo(multiple.getTipoEspectaculo());
+				espectaculo.setTituloEspectaculo(multiple.getTituloEspectaculo());
+				espectaculo.setDescripcionEspectaculo(multiple.getDescripcionEspectaculo());
+				espectaculo.setCategoriaEspectaculo(multiple.getCategoriaEspectaculo());
 			}
 			/*
 			 * ESPECTACULO ES DE TIPO TEMPORADA
