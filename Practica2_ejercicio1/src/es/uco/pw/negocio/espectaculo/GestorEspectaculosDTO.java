@@ -385,13 +385,15 @@ public class GestorEspectaculosDTO {
 			 */
 			if(tipoEspectaculo.equals("multiple")){
 				EspectaculoMultipleDTO multiple = FactoriaEspectaculos.crearEspectaculoMultiple(tituloEspectaculo,descripcionEspectaculo,categoriaEspectaculo,tipoEspectaculo,aforoLocalidades,ventasEspectaculo,horaMultiple1,minutosMultiple1,diaSemanaMultiple1,diaSemanaMultiple2,horaMultiple2, minutosMultiple2);
-				espectaculo.setSesionesEspectaculo(multiple.getSesionesEspectaculo());
-				espectaculo.setVentasEspectaculo(multiple.getVentasEspectaculo());
-				espectaculo.setAforoLocalidadesEspectaculo(multiple.getAforoLocalidadesEspectaculo());
-				espectaculo.setTipoEspectaculo(multiple.getTipoEspectaculo());
-				espectaculo.setTituloEspectaculo(multiple.getTituloEspectaculo());
-				espectaculo.setDescripcionEspectaculo(multiple.getDescripcionEspectaculo());
-				espectaculo.setCategoriaEspectaculo(multiple.getCategoriaEspectaculo());
+				//espectaculo.setSesionesEspectaculo(multiple.getSesionesEspectaculo());
+				//espectaculo.setVentasEspectaculo(multiple.getVentasEspectaculo());
+				//espectaculo.setAforoLocalidadesEspectaculo(multiple.getAforoLocalidadesEspectaculo());
+				//espectaculo.setTipoEspectaculo(multiple.getTipoEspectaculo());
+				//espectaculo.setTituloEspectaculo(multiple.getTituloEspectaculo());
+				//espectaculo.setDescripcionEspectaculo(multiple.getDescripcionEspectaculo());
+				//espectaculo.setCategoriaEspectaculo(multiple.getCategoriaEspectaculo());
+				System.out.println(horaMultiple1+","+minutosMultiple1);
+
 			}
 			/*
 			 * ESPECTACULO ES DE TIPO TEMPORADA
