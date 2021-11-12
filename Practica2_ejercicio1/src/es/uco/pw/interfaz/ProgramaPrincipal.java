@@ -9,8 +9,6 @@ import java.util.Scanner;
 import es.uco.pw.datos.dao.relacion.UsuarioCriticaDAO;
 import es.uco.pw.datos.dao.usuario.UsuarioDAO;
 import es.uco.pw.interfaz.menus.Menus;
-import es.uco.pw.negocio.critica.CriticaDTO;
-import es.uco.pw.negocio.critica.EvaluacionUtilidadCriticaDTO;
 import es.uco.pw.negocio.critica.GestorCriticasDTO;
 import es.uco.pw.negocio.espectaculo.CategoriaEspectaculo;
 import es.uco.pw.negocio.espectaculo.GestorEspectaculosDTO;
@@ -24,19 +22,18 @@ import es.uco.pw.negocio.usuario.GestorUsuariosDTO;
  */
 
 public class ProgramaPrincipal {
+
 /**
  * Funcion principal del programa
  * @param args Argumentos pasados como parametros al realizar la ejecucion del programa
  */ 
 	public static void main(String[] args){
+		
 		Properties prop = new Properties(); // Inicializamos la clase Properties para el fichero de propiedades
 		Properties sql = new Properties(); // Clase properties para el fichero de propiedades sql
 		// Creamos un usuario vacio de tipo DAO
 		UsuarioDAO usuarioDAO = new UsuarioDAO();
 		
-		// Relacion criticas-usuario
-		UsuarioCriticaDAO evaluacionCritica = new UsuarioCriticaDAO();
-		// Limpiamos el buffer de entrada
 		Scanner entrada = new Scanner (System.in);
 		// Anadimos la clase menu para obtener los distintos menus a mostrar al usuario
 		Menus menu = new Menus(); 
@@ -56,16 +53,25 @@ public class ProgramaPrincipal {
 			 */
 			GestorCriticasDTO gestorCriticas = GestorCriticasDTO.getInstancia(); // Creamos una instancia del gestor de criticas
 			gestorCriticas.obtencionDatosCriticas(prop,sql); // Obtenemos los datos de las criticas registradas en la base de datos
+			if(gestorCriticas.getListaCriticas().size() == 0) {
+				return;
+			}
 			/*
 			 * GESTOR DE USUARIOS
 			 */
 			GestorUsuariosDTO usuarios = new GestorUsuariosDTO(); // Creamos un gestor de usuarios
 			usuarios.setListaEspectadores(usuarioDAO.obtenerUsuarios(sql,prop)); // Obtenemos los datos de los usuarios
+			if(usuarios.getListaEspectadores().size() == 0) {
+				return;
+			}
 			/*
 			 * GESTOR DE ESPECTACULOS
 			 */
 			GestorEspectaculosDTO espectaculos = GestorEspectaculosDTO.getInstancia(); // Creamos el gestor de espectaculos
 			espectaculos.obtenerEspectaculosRegistrados(prop, sql); // Obtenemos los datos de los espectaculos registrados en la base de datos
+			if(espectaculos.getEspectaculos().size() == 0) {
+				return;
+			}
 			/*
 			 * MENU DE ACCESO
 			 */
@@ -159,26 +165,23 @@ public class ProgramaPrincipal {
 										 * DAR DE ALTA UN ESPECTACULO
 										 */
 										if(administrador == 1) {
-											String tituloEspectaculo=null; // Titulo del espectaculo
-											String descripcionEspectaculo=null; // Descripcion del espectaculo
-											CategoriaEspectaculo categoriaEspectaculo = null; // Categoria del espectaculo
-											int aforoLocalidades=-1; // Aforo de localidades del espectaculo
-											int ventasEspectaculo=-1; // Numero de ventas del espectaculo
-											String tipoEspectaculo=null;
 											/*
 											 * OBTENCION DEL TITULO DEL ESPECTACULO
 											 */
-											System.out.print("Introduce el titulo del espectaculo: "); // Pedimos el titulo del usuario
-											tituloEspectaculo = entrada.nextLine(); // Obtenemos el titulo del usuario
+											String tituloEspectaculo=null; // Titulo del espectaculo
+											System.out.print("Introduce el titulo del espectaculo: ");
+											tituloEspectaculo = entrada.nextLine();
 											/*
-											 * OBTENCION DE LA DESCRIPCION DEL ESPECTACULO
+											 * OBTENCION DE LA DESCRIPCION DEL DESPECTACULO
 											 */
-											System.out.print("Introduce la descripcion del espectaculo: "); // Pedimos la descripcion del espectaculo
-											descripcionEspectaculo = entrada.nextLine(); // Obtenemos la descripcion del espectaculo
+											String descripcionEspectaculo=null; // Descripcion del espectaculo
+											System.out.print("Introduce la descripcion del espectaculo: ");
+											descripcionEspectaculo = entrada.nextLine();
 											/*
-											 * OBTENCION DE LA CATEGORIA DEL ESPECTACULO
+											 * OBTENCION DE LA CATEGORIA DEL ESPECTACULO  
 											 */
-											menu.mostrarCategoriaEspectaculo(); // Menu que muestra las categorias de un espectaculo
+											menu.mostrarCategoriaEspectaculo();
+											CategoriaEspectaculo categoriaEspectaculo = null;
 											int opcionCategoria = 0;
 											while(opcionCategoria == 0) {
 												try {
@@ -203,42 +206,15 @@ public class ProgramaPrincipal {
 														System.out.println("Categoria del espectaculo no disponible");
 														opcionCategoria = 0;
 													}
-												}catch(Exception ex) { System.out.println("Se esperaba un valor entero al obtener la categoria del espectaculo");}
+												}catch(Exception ex) {
+													System.out.println("Se ha producido un error al obtener la categoria del espectaculo. Se esperaba un valor entero");
+													entrada = new Scanner(System.in);
+													}
 											}
 											/*
-											 * OBTENCION DEL AFORO DE LOCALIDADES
+											 * OBTENCION DEL TIPO DE ESPECTACULO
 											 */
-											
-											while(aforoLocalidades < 0) {
-												System.out.println("Introduce el aforo de localidades del espectaculo");
-												try {
-													aforoLocalidades = entrada.nextInt();
-													entrada = new Scanner(System.in); // Limpiamos el buffer de entrada
-													if(aforoLocalidades < 0) {
-														System.out.println("El aforo de localidades del espectaculo debe ser 0 o superior");
-													}
-												}catch(Exception ex) { System.out.println("El aforo de localidades del espectaculo debe ser un valor entero");}
-											}
-											/*
-											 * OBTENEMOS EL NUMERO DE VENTAS DEL ESPECTACULO
-											 */
-											while(ventasEspectaculo < 0) {
-												System.out.println("Introduce el numero de ventas del espectaculo");
-												try {
-													ventasEspectaculo = entrada.nextInt();
-													entrada = new Scanner(System.in); // Limpiamos el buffer de entrada
-													if(ventasEspectaculo < 1) {
-														System.out.println("El numero de ventas del espectaculo debe ser 0 o superior");
-													}
-													else if(ventasEspectaculo > aforoLocalidades) {
-														System.out.println("El numero de ventas del espectaculo debe ser superior al aforo del espectaculo: " + aforoLocalidades);
-														ventasEspectaculo = -1;
-													}
-												}catch(Exception ex) { System.out.println("El numero de ventas del espectaculo debe ser un valor entero");}
-											}
-											/*
-											 * OBTENCION DEL TIPO DEL ESPECTACULO
-											 */
+											String tipoEspectaculo=null;
 											menu.MostrarTiposEspectaculos();
 											int opcionTipo = 0;
 											while(opcionTipo == 0) {
@@ -264,67 +240,313 @@ public class ProgramaPrincipal {
 														System.out.println("Opcion seleccionada no disponible");
 														opcionTipo = 0;
 													}
-												}catch(Exception ex) { System.out.println("Se esperaba un valor de tipo entero al obtener el tipo del espectaculo"); }
-											}
-											
-											/*
-											 * TIPO DEL ESPECTACULO ES PUNTUAL
-											 */
-											int anoPuntual = 0; // ano del espectaculo puntual
-											int mesPuntual = 0; // Mes del espectaculo puntual
-											int diaPuntual = 0; // dia del espectaculo puntual
-											int horaPuntual = 0; // Hora en digital de la hora de la sesion
-											int minutosPuntual = 0; // Minutos en digital de los minutos de la sesion
-											if(tipoEspectaculo.equals("puntual")) {
-												/*
-												 * OBTENEMOS LOS DATOS DE LA SESION
-												 */
-												try {
-													/*
-													 * OBTENCION DE LA FECHA DE LA SESION
-													 */
-													System.out.print("Introduce el ano de la sesion: ");
-													anoPuntual = entrada.nextInt();
-													entrada = new Scanner(System.in); // Limpiamos el buffer
-													/*
-													 * OBTENCION DEL MES DE LA SESION
-													 */
-													System.out.print("Introduce el mes de la sesion: ");
-													mesPuntual = entrada.nextInt();
-													entrada = new Scanner(System.in); // Limpiamos el buffer
-													/*
-													 * OBTENCION DEL DIA DE LA SESION
-													 */
-													System.out.print("Introduce el dia de la sesion: ");
-													diaPuntual = entrada.nextInt();
-													entrada = new Scanner(System.in); // Limpiamos el buffer
-													/*
-													 * OBTENCION DE LA HORA DE LA SESION
-													 */
-													System.out.println("Dada la hora de sesion -> hh:mm");
-													System.out.print("Introduce el valor de <hh>: ");
-													horaPuntual = entrada.nextInt();
-													entrada = new Scanner(System.in); // Limpiamos el buffer
-													System.out.print("Introduce el valor de <mm>: ");
-													minutosPuntual = entrada.nextInt();
-													entrada = new Scanner(System.in); // Limpiamos el buffer
 												}catch(Exception ex) {
-													System.out.print("Se esperaba un valor entero al obtener los datos de la sesion del espectaculo de tipo puntual");
+													System.out.println("Se ha producido un error al obtener el tipo del espectaculo. Se esperaba un valor entero");
+													entrada = new Scanner(System.in); // Limpiamos el buffer
 												}
 											}
 											/*
-											 * TIPO DEL ESPECTACULO ES MULTIPLE
+											 * OBTENEMOS EL AFORO DE LOCALIDADES DEL ESPECTACULO
 											 */
-											else if(tipoEspectaculo.equals("multiple")) {
-												
+											int aforoLocalidades = -1;
+											while(aforoLocalidades < 0) {
+												try {
+													System.out.print("Introduce el aforo de localidades del espectaculo: ");
+													aforoLocalidades = entrada.nextInt();
+													entrada = new Scanner(System.in);
+													if(aforoLocalidades < 0) {
+														System.out.println("El numero de localidades debe ser positivo o 0");
+													}
+												}catch(Exception ex) {
+													System.out.println("Se ha producido un error al obtener el aforo de localidades del espectaculo. Se esperaba un valor entero");
+													entrada = new Scanner(System.in);
+												}
 											}
 											/*
-											 * TIPO DEL ESPECTACULO ES DE TEMPORADA
+											 * OBTENEMOS EL NUMERO DE VENTAS DEL ESPECTACULO
+											 */
+											int ventasEspectaculo = -1;
+											while(ventasEspectaculo < 0) {
+												try {
+													System.out.print("Introduce el numero de ventas del espectaculo: ");
+													ventasEspectaculo = entrada.nextInt();
+													entrada = new Scanner(System.in);
+													if(ventasEspectaculo < 0) {
+														System.out.println("El numero de ventas del espectaculo debe ser positivo o 0");
+													}
+													else if(ventasEspectaculo > aforoLocalidades) {
+														System.out.println("El numero de ventas del espectaculo debe ser inferior o igual a: " + aforoLocalidades);
+														ventasEspectaculo = -1;
+													}
+												}catch(Exception ex) {
+													System.out.println("Se ha producido un error al obtener el numero de ventas del espectaculo. Se esperaba un valor entero");
+													entrada = new Scanner(System.in);
+												}
+											}
+											/*
+											 * ESPECTACULO PUNTUAL
+											 */
+											if(tipoEspectaculo.equals("puntual")) {
+												/*
+												 * OBTENEMOS EL ANO DE LA FECHA DE LA SESION
+												 */
+												int anoPuntual = 0;
+												System.out.print("Introduce el ano de la sesion: ");
+												anoPuntual = entrada.nextInt();
+												entrada = new Scanner(System.in);
+												/*
+												 * OBTENCION DEL MES DE LA SESION
+												 */
+												int mesPuntual = -1;
+												while(mesPuntual < 0) {
+													try {
+														System.out.print("Introduce el mes de la sesion: ");
+														mesPuntual = entrada.nextInt();
+														entrada = new Scanner(System.in);
+														if(mesPuntual < 1 || mesPuntual > 12) {
+															System.out.println("El valor del mes debe estar en el rango [1,12] ");
+															mesPuntual = -1;
+														}
+													}catch(Exception ex) {
+														System.out.println("Se esperaba un valor entero al obtener el mes de la sesion");
+														entrada = new Scanner(System.in);
+													}
+												}
+												
+												/*
+												 * OBTENCION DEL DIA DE LA SESION
+												 */
+												
+												int diaPuntual = -1;
+												
+												while(diaPuntual < 0) {
+													try {
+														System.out.print("Introduce el dia de la sesion: ");
+														diaPuntual = entrada.nextInt();
+														entrada = new Scanner(System.in);
+														if(diaPuntual < 0) {
+															System.out.println("Se esperaba un dia 0 o positivo");
+															diaPuntual = 0;
+														}
+													}catch(Exception ex) {
+														System.out.println("Se esperaba un valor entero al obtener el dia de la sesion");
+														entrada = new Scanner(System.in);
+													}
+												}
+												/*
+												 * OBTENEMOS LA HORA DE LA SESION
+												 */
+												int horaPuntual = -1;
+												System.out.println("Dada la hora de sesion -> hh:mm");
+												while(horaPuntual < 0) {
+													try {
+														System.out.print("Introduce el valor de <hh>: ");
+														horaPuntual = entrada.nextInt();
+														entrada = new Scanner(System.in);
+														if(horaPuntual < 0 || horaPuntual > 23) {
+															System.out.println("Introduce una hora en el rango [0,23]");
+															horaPuntual = -1;
+														}
+													}catch(Exception ex) {
+														System.out.println("Se esperaba un valor entero al obtener el valor de <hh>");
+														entrada = new Scanner(System.in);
+													}
+												}
+												/*
+												 * OBTENEMOS LOS MINUTOS DE LA SESION
+												 */
+												int minutosPuntual = -1;
+												while(minutosPuntual < 0) {
+													try {
+														System.out.print("Introduce el valor de <mm>: ");
+														minutosPuntual = entrada.nextInt();
+														entrada = new Scanner(System.in);
+														if(minutosPuntual < 0 || minutosPuntual > 59) {
+															System.out.println("Se esperaba un valor de minutos en el rango [0,59]");
+															minutosPuntual = -1;
+														}
+													}catch(Exception ex) {
+														System.out.println("Se esperaba un valor entero al obtener el valor de <mm>");
+														entrada = new Scanner(System.in);
+													}
+												}
+												
+												/*
+												 * DAMOS DE ALTA AL ESPECTACULO
+												 */
+												System.out.println(espectaculos.darAltaEspectaculo(prop, sql, tituloEspectaculo, descripcionEspectaculo, categoriaEspectaculo, "puntual", aforoLocalidades, ventasEspectaculo, anoPuntual, mesPuntual, diaPuntual, horaPuntual, minutosPuntual, 0, 0, "", "", 0, 0));
+												//espectaculos.darAltaEspectaculo(prop, sql, tituloEspectaculo, descripcionEspectaculo, categoriaEspectaculo, tipoEspectaculo, aforoLocalidades, ventasEspectaculo, anoPuntual, mesPuntual, diaPuntual, horaPuntual, minutosPuntual, horaMultiple1, minutosMultiple1, diaSemanaMultiple1, diaSemanaMultiple2, horaMultiple2, minutosMultiple2)
+											}
+											/*
+											 * ESPECTACULO MULTIPLE
+											 */
+											else if(tipoEspectaculo.equals("multiple")) {
+												/*
+												 * OBTENEMOS LA HORA DE LA PRIMERA SESION DEL ESPECTACULO
+												 */
+												int horaMultiple1 = 0;
+												System.out.println("Dada la hora de sesion -> hh:mm");
+												while(horaMultiple1 < 0) {
+													try {
+														System.out.print("Introduce el valor de <hh>: ");
+														horaMultiple1 = entrada.nextInt();
+														entrada = new Scanner(System.in);
+														if(horaMultiple1 < 0 || horaMultiple1 > 23) {
+															System.out.println("Introduce una hora en el rango [0,23]");
+															horaMultiple1 = -1;
+														}
+													}catch(Exception ex) {
+														System.out.println("Se esperaba un valor entero al obtener el valor de <hh>");
+														entrada = new Scanner(System.in);
+													}
+												}
+												/*
+												 * OBTENEMOS LA HORA DE LA SEGUNDA SESION
+												 */
+												int horaMultiple2 = 0;
+												System.out.println("Dada la hora de sesion -> hh:mm");
+												while(horaMultiple2 < 0) {
+													try {
+														System.out.print("Introduce el valor de <hh>: ");
+														horaMultiple2 = entrada.nextInt();
+														entrada = new Scanner(System.in);
+														if(horaMultiple2 < 0 || horaMultiple2 > 23) {
+															System.out.println("Introduce una hora en el rango [0,23]");
+															horaMultiple2 = -1;
+														}
+													}catch(Exception ex) {
+														System.out.println("Se esperaba un valor entero al obtener el valor de <hh>");
+														entrada = new Scanner(System.in);
+													}
+												}
+												/*
+												 * OBTENEMOS LOS MINUTOS DE LA PRIMERA SESION
+												 */
+												int minutosMultiple1 = 0;
+												while(minutosMultiple1 < 0) {
+													try {
+														System.out.print("Introduce el valor de <mm>: ");
+														minutosMultiple1 = entrada.nextInt();
+														entrada = new Scanner(System.in);
+														if(minutosMultiple1 < 0 || minutosMultiple1 > 59) {
+															System.out.println("Se esperaba un valor de minutos en el rango [0,59]");
+															minutosMultiple1 = -1;
+														}
+													}catch(Exception ex) {
+														System.out.println("Se esperaba un valor entero al obtener el valor de <mm>");
+														entrada = new Scanner(System.in);
+													}
+												}
+												/*
+												 * OBTENEMOS LOS MINUTOS DE LA SEGUNDA SESION 
+												 */
+												int minutosMultiple2 = 0;
+												while(minutosMultiple2 < 0) {
+													try {
+														System.out.print("Introduce el valor de <mm>: ");
+														minutosMultiple2 = entrada.nextInt();
+														entrada = new Scanner(System.in);
+														if(minutosMultiple2 < 0 || minutosMultiple2 > 59) {
+															System.out.println("Se esperaba un valor de minutos en el rango [0,59]");
+															minutosMultiple2 = -1;
+														}
+													}catch(Exception ex) {
+														System.out.println("Se esperaba un valor entero al obtener el valor de <mm>");
+														entrada = new Scanner(System.in);
+													}
+												}
+												/*
+												 * OBTENEMOS EL DIA DE LA SEMANA DE AMBAS SESIONES
+												 */
+												String diaSemanaMultiple1 = null, diaSemanaMultiple2 = null;
+												int opcionSemana1 = 0, opcionSemana2 = 0;
+												while(opcionSemana1 == 0 || opcionSemana2 == 0) {
+													menu.MostrarSemana(); // Mostramos el menu de dias de la semana
+													if(opcionSemana1 == 0) {
+														try {
+															opcionSemana1 = entrada.nextInt();
+															entrada = new Scanner(System.in);
+															if(opcionSemana1 == 1) {
+																diaSemanaMultiple1 = "lunes";
+															}
+															else if(opcionSemana1 == 2) {
+																diaSemanaMultiple1 = "martes";
+															}
+															else if(opcionSemana1 == 3) {
+																diaSemanaMultiple1 = "miercoles";
+															}
+															else if(opcionSemana1 == 4) {
+																diaSemanaMultiple1 = "jueves";
+															}
+															else if(opcionSemana1 == 5) {
+																diaSemanaMultiple1 = "viernes";
+															}
+															else if(opcionSemana1 == 6) {
+																diaSemanaMultiple1 = "sabado";
+															}
+															else if(opcionSemana1 == 7) {
+																diaSemanaMultiple1 = "domingo";
+															}
+															else {
+																System.out.println("Dia de la semana no valido");
+																opcionSemana1 = 0;
+															}
+														}catch(Exception ex) {
+															System.out.println("La opcion del dia de la semana de la sesion 1 debe ser un valor entero");
+															entrada = new Scanner(System.in);
+														}
+													}
+													else {
+														try {
+															opcionSemana2 = entrada.nextInt();
+															entrada = new Scanner(System.in);
+															if(opcionSemana2 == 1) {
+																diaSemanaMultiple2 = "lunes";
+															}
+															else if(opcionSemana2 == 2) {
+																diaSemanaMultiple2 = "martes";
+															}
+															else if(opcionSemana2 == 3) {
+																diaSemanaMultiple2 = "miercoles";
+															}
+															else if(opcionSemana2 == 4) {
+																diaSemanaMultiple2 = "jueves";
+															}
+															else if(opcionSemana2 == 5) {
+																diaSemanaMultiple2 = "viernes";
+															}
+															else if(opcionSemana2 == 6) {
+																diaSemanaMultiple2 = "sabado";
+															}
+															else if(opcionSemana2 == 7) {
+																diaSemanaMultiple2 = "domingo";
+															}
+															else {
+																System.out.println("Dia de la semana no valido");
+																opcionSemana2 = 0;
+															}
+														}catch(Exception ex) {
+															System.out.println("La opcion del dia de la semana de la sesion 2 debe ser un valor entero");
+															entrada = new Scanner(System.in);
+														}
+													}
+													
+												}
+												/*
+												 * OBTENEMOS EL DIA DE LA SEMANA DE LA SEGUNDA SESION
+												 */
+												/*
+												 * DAMOS DE ALTA EL ESPECTACULO
+												 */
+												String cadena = espectaculos.darAltaEspectaculo(prop, sql, tituloEspectaculo, descripcionEspectaculo, categoriaEspectaculo, tipoEspectaculo, aforoLocalidades, ventasEspectaculo, 0, 0, 0, 0, 0, horaMultiple1, minutosMultiple1, diaSemanaMultiple1, diaSemanaMultiple2, horaMultiple2, minutosMultiple2);
+												System.out.println(cadena);
+											}
+											/*
+											 * ESPECTACULO TEMPORADA
 											 */
 											else if(tipoEspectaculo.equals("temporada")) {
 												
 											}
-											System.out.println(espectaculos.darAltaEspectaculo(prop,sql,tituloEspectaculo, descripcionEspectaculo, categoriaEspectaculo, tipoEspectaculo,aforoLocalidades, ventasEspectaculo,anoPuntual,mesPuntual,diaPuntual,horaPuntual,minutosPuntual));
 										}
 										// Caso 2: Cancelar un espectaculo ( todas las sesiones o una en particular)
 										// Caso 3: Actualizar los datos de un espectáculo
@@ -375,7 +597,7 @@ public class ProgramaPrincipal {
 											if(identificadorCritica != 0) { System.out.println(gestorCriticas.valoracionUtilidadCritica(prop,sql,identificadorCritica,correoUsuario,idUsuario,valoracion ));}
 										}
 										entrada = new Scanner(System.in);
-									}catch(Exception ex) {System.out.println("Se esperaba un valor entero al elegir la funcionalidad del administrador"); }
+									}catch(Exception ex) {ex.getCause(); }
 								}
 							}
 						
@@ -487,6 +709,7 @@ public class ProgramaPrincipal {
 					}
 				}catch(Exception ex) {
 					System.out.println("Debe introducir un valor entero");
+					entrada = new Scanner(System.in);
 				}
 			}
 			

@@ -116,5 +116,20 @@ public class Menus {
 		System.out.println("3. Concierto");
 		System.out.println("Introduce una opcion: ");
 	}
+
+	/**
+	 * Funcion que muestra un menu con los dias de la semana
+	 */
+	public void MostrarSemana() {
+		System.out.println("MENU DE DIAS DE LA SEMANA");
+		System.out.println("\t1. LUNES");
+		System.out.println("\t2. MARTES");
+		System.out.println("\t3. MIERCOLES");
+		System.out.println("\t4. JUEVES");
+		System.out.println("\t5. VIERNES");
+		System.out.println("\t6. SABADO");
+		System.out.println("\t7. DOMINGO");
+		System.out.print("Introduce una opcion: ");
+	}
 	
 }

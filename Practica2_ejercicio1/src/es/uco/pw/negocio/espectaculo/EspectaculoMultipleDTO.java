@@ -9,25 +9,37 @@ import java.util.ArrayList;
  */
 
 public class EspectaculoMultipleDTO extends EspectaculoDTO {
-	
-	public EspectaculoMultipleDTO(String titulo, String descripcion, CategoriaEspectaculo categoria, String tipo,
-			String dia1, String hora1, String dia2, String hora2, int aforoLocalidades, int ventasEspectaculo) {
+
+	public EspectaculoMultipleDTO(String tituloEspectaculo, String descripcionEspectaculo,
+			CategoriaEspectaculo categoriaEspectaculo, String tipoEspectaculo, int aforoLocalidades,
+			int ventasEspectaculo, int horaMultiple1, int minutosMultiple1, String diaSemanaMultiple1,
+			String diaSemanaMultiple2, int horaMultiple2, int minutosMultiple2) {
 		ArrayList<SesionEspectaculoDTO> lista = new ArrayList<SesionEspectaculoDTO>(); // Lista de sesiones del espectaculo
-		SesionEspectaculoDTO sesion1 = new SesionEspectaculoDTO(); // Sesion1 de espectaculo vacia
-		SesionEspectaculoDTO sesion2 = new SesionEspectaculoDTO(); // Sesion2 de espectaculo vacia
-		this.setTituloEspectaculo(titulo); // Obtenemos el titulo del espectaculo
-		this.setDescripcionEspectaculo(descripcion);// Obtenemos la descripcion del espectaculo
-		this.setCategoriaEspectaculo(categoria); // Obtenemos la categoria del espectaculo
-		this.setTipoEspectaculo(tipo); // Obtenemos el tipo del espectaculo
-		sesion1.setDiaSemana(dia1);// Obtenemos el dia de la semana de la sesion1
-		sesion1.setHoraCompleta(hora1);// Obtenemos la hora completa de la sesion 1 
-		lista.add(sesion1); // Anadimos la sesion1 a la lista de sesiones
-		sesion2.setDiaSemana(dia2);// Obtenemos el dia de la semana de la sesion2
-		sesion2.setHoraCompleta(hora2); // Obtenemos la hora completa de la sesion2
-		lista.add(sesion2); // anadimos la sesion2 a la lista
-		this.setSesionesEspectaculo(lista); // Modificamos la lista de sesiones del espectaculo
-		this.setAforoLocalidadesEspectaculo(aforoLocalidades); // Obtenemos el aforo de localidades del espectaculo
-		this.setVentasEspectaculo(ventasEspectaculo); // Obtenemos el numero de ventas del espectaculo
+		SesionEspectaculoDTO sesion = new SesionEspectaculoDTO(); // Sesion de espectaculo vacia
+		this.setTituloEspectaculo(tituloEspectaculo);
+		this.setDescripcionEspectaculo(descripcionEspectaculo);
+		this.setCategoriaEspectaculo(categoriaEspectaculo);
+		this.setTipoEspectaculo(tipoEspectaculo);
+		this.setAforoLocalidadesEspectaculo(aforoLocalidades);
+		this.setVentasEspectaculo(ventasEspectaculo);
+		/*
+		 * DATOS DE LA SESION 1 DEL ESPECTACULO
+		 */
+		sesion.setHoraSesion(horaMultiple1);
+		sesion.setMinutos(minutosMultiple1);
+		sesion.setHoraCompleta(); // Hora completa de la sesion
+		sesion.setDiaSemana(diaSemanaMultiple1);
+		lista.add(sesion); // anadimos la sesion a la lista de sesiones
+		/*
+		 * DATOS DE LA SESION 2 DEL ESPECTACULO
+		 */
+		sesion = new SesionEspectaculoDTO(); // Sesion de espectaculo vacia
+		sesion.setHoraSesion(horaMultiple2);
+		sesion.setMinutos(minutosMultiple2);
+		sesion.setHoraCompleta(); // Hora completa de la sesion
+		sesion.setDiaSemana(diaSemanaMultiple2);
+		lista.add(sesion); // Anadimos la sesion a la lista de sesiones
+		this.setSesionesEspectaculo(lista); // Anadimos la lista de sesiones al espectaculo
 	}
 
 }

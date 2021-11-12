@@ -137,11 +137,55 @@ public class SesionDAO {
 		this.tituloEspectaculo = tituloEspectaculo;
 	}
 	
-	public int anadirSesionEspectaculo(Properties prop, Properties sql, EspectaculoDTO espectaculo) {
-		return 0;
+	/**
+	 * Funcion que anade los datos de sesion de un espectaculo
+	 * @param prop Fichero de configuracion
+	 * @param sql Fichero de sentencias sql
+	 * @param espectaculo Datos del espectaculo
+	 * @return Numero de filas modificadas de la base de datos
+	 */
+	
+	public int anadirEventosEspectaculo(Properties prop, Properties sql, EspectaculoDTO espectaculo) {
+		int status = 0; // Numero de filas modificadas de la base de datos
+		try {
+			Connection con = ConexionBD.getConexion(prop); // Conexion con la base de datos
+			// ESPECTACULO PUNTUAL
+			if(espectaculo.getTipoEspectaculo().equals("puntual")) {
+				PreparedStatement ps=con.prepareStatement(sql.getProperty("RegistrarSesionEspectaculoPuntual")); // Sentencia sql para insertar los datos de sesion de un espectaculo puntual
+				ps.setString(1, espectaculo.getTituloEspectaculo()); // Indicamos en la sentencia sql el titulo del espectaculo
+				ps.setInt(2, espectaculo.getSesionEspectaculo().getDiaSesion()); // Indicamos en la sentencia sql el dia de la sesion
+				ps.setInt(3, espectaculo.getSesionEspectaculo().getMesSesion()); // Indicamos en la sentencia sql el mes de la sesion
+				ps.setInt(4, espectaculo.getSesionEspectaculo().getAnoSesion()); // Indicamos en la sentencia sql el ano de la sesion
+				ps.setInt(5, espectaculo.getSesionEspectaculo().getHoraSesion()); // Indicamos en la sentencia sql la hora de la sesion
+				ps.setInt(6, espectaculo.getSesionEspectaculo().getMinutosSesion()); // Indicamos en la sentencia sql los minutos de la sesion
+				status = ps.executeUpdate(); // Ejecutamos la sentencia sql
+			}
+			// ESPECTACULO MULTIPLE
+			else if(espectaculo.getTipoEspectaculo().equals("multiple")) {
+				PreparedStatement ps=con.prepareStatement(sql.getProperty("RegistrarSesionesEspectaculoMultiple")); // Sentencia sql para insertar los datos de las sesiones de un espectaculo multiple
+				for(int i=0; i < espectaculo.getSesionesEspectaculo().size(); i++) {
+					ps.setString(1, espectaculo.getTituloEspectaculo());
+					ps.setInt(2, espectaculo.getSesionesEspectaculo().get(i).getHoraSesion());
+					ps.setInt(3, espectaculo.getSesionesEspectaculo().get(i).getMinutosSesion());
+					ps.setString(4, espectaculo.getSesionesEspectaculo().get(i).getDiaSemana());
+					status = ps.executeUpdate();
+				}
+			}
+			// ESPECTACULO TEMPORADA
+			else if(espectaculo.getTipoEspectaculo().equals("temporada")) {
+				
+			}
+			if(con != null) {
+				con = null; // Cierre de la conexion
+			}
+		}catch(Exception ex) {
+			ex.getMessage();
+		}
+		return status;
 	}
 	
-	public int modificarSesionEspectaculo(Properties prop, Properties sql, EspectaculoDTO espectaculo) {
+	
+	public int modificarSesionEspectaculoTemporada(Properties prop, Properties sql, EspectaculoDTO espectaculo) {
 		return 0;
 	}
 	

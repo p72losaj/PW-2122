@@ -11,7 +11,6 @@ public class EspectaculoPuntualDTO extends EspectaculoDTO {
 	public EspectaculoPuntualDTO(String tituloEspectaculo, String descripcionEspectaculo,
 			CategoriaEspectaculo categoriaEspectaculo, String tipoEspectaculo, int aforoLocalidades,
 			int ventasEspectaculo, int anoPuntual, int mesPuntual,int diaPuntual, int horaPuntual, int minutosPuntual) {
-			
 		SesionEspectaculoDTO sesion = new SesionEspectaculoDTO(); // Sesion de espectaculo vacia
 		this.setTituloEspectaculo(tituloEspectaculo); // Obtenemos el titulo del espectaculo
 		this.setDescripcionEspectaculo(descripcionEspectaculo); // Obtenemos la descripcion del espectaculo
@@ -27,7 +26,6 @@ public class EspectaculoPuntualDTO extends EspectaculoDTO {
 		sesion.setMinutos(minutosPuntual); // Obtenemos los minutos de la sesion
 		sesion.setHoraCompleta(); // Obtenemos la hora completa
 		this.setSesionEspectaculo(sesion); // Obtenemos los datos de la sesion
-		return;
 	}
 	
 
