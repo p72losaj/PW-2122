@@ -645,7 +645,65 @@ public class ProgramaPrincipal {
 											}
 										}
 										// Caso 2: Cancelar un espectaculo ( todas las sesiones o una en particular)
+										else if(administrador == 2) {
+											espectaculos.imprimirEspectaculos(); // Mostramos los datos de todos los espectaculos
+											int opcionCancelacion = -1;
+											while(opcionCancelacion < 0) {
+												menu.mostrarOpcionesCancelacionEspectaculo(); // Mostramos las opciones de cancelacion del espectaculo
+												try {
+													opcionCancelacion = entrada.nextInt();
+													entrada = new Scanner(System.in);
+													// Opcion1: Cancelar una sesion
+													if(opcionCancelacion == 1) {
+														// Pedimos el titulo del espectaculo
+														System.out.print("Introduce el titulo del espectaculo: ");
+														String tituloEspectaculo = entrada.nextLine();
+														// Pedimos el identificador de la sesion del espectaculo a eliminar
+														int identificadorSesion = 0;
+														System.out.print("Introduce el identificador de la sesion: ");
+														try {
+															identificadorSesion = entrada.nextInt();
+															entrada = new Scanner(System.in);
+														}catch(Exception ex) {
+															System.out.println("Se esperaba un valor entero al obtener el identificador de la sesion");
+															entrada = new Scanner(System.in);
+														}
+														/*
+														 * CANCELAMOS EL ESPECTACULO
+														 */
+														if(identificadorSesion != 0) {
+															//System.out.println(espectaculos.cancelarSesionEspectaculo(prop,sql,identificadorSesion,tituloEspectaculo));
+														}
+													}
+													// Opcion 2: Cancelar todas las sesiones
+													else if(opcionCancelacion == 2) {
+														// Pedimos el titulo del espectaculo
+														System.out.print("Introduce el titulo del espectaculo: ");
+														String tituloEspectaculo = entrada.nextLine();
+														/*
+														 * CANCELAMOS LAS SESIONES DEL ESPECTACULO
+														 */
+														//System.out.println(espectaculos.cancelarSesionEspectaculo(prop, sql, tituloEspectaculo));
+													}
+													// Opcion no valida
+													else {
+														System.out.println("Opcion no valida");
+														opcionCancelacion = -1;
+													}
+												}catch(Exception ex) {
+													System.out.println("Se esperaba un valor entero al elegir la opcion de cancelacion de un espectaculo");
+													entrada = new Scanner(System.in);
+												}
+											}
+										}
 										// Caso 3: Actualizar los datos de un espectáculo
+										else if(administrador == 3) {
+											espectaculos.imprimirEspectaculos(); // Mostramos los datos de todos los espectaculos
+											int identificador = 0;
+											// Pedimos al usuario el identificador del espectaculo a modificar
+											
+											// Mostramos un menu con las opciones de los datos modificables del espectaculo
+										}
 										// Caso 4: Contabilizar la venta de entradas para una sesión de un espectáculo
 										// Caso 5: Consultar las localidades disponibles para un espectáculo, dada una fecha de  representación
 										// caso 6: Búsqueda de espectáculos por título o por categoría

@@ -199,8 +199,27 @@ public class SesionDAO {
 		return 0;
 	}
 	
-	public int cancelarSesionEspectaculo(Properties prop, Properties sql, EspectaculoDTO espectaculo) {
-		return 0;
+	/**
+	 * Funcion que eliminar los datos de una sesion de la base de datos
+	 * @param prop Fichero de configuracion
+	 * @param sql Fichero de sentencias sql
+	 * @param id Identificador de la sesion a eliminar
+	 * @return Numero de filas eliminadas de la base de datos
+	 */
+	
+	public int cancelarSesionEspectaculo(Properties prop, Properties sql, int id) {
+		int status = 0;
+		try {
+			// Conexion con la base de datos
+			// Sentencia sql para cancelar una sesion
+			// Indicamos en la sentencia sql el identificador de la sesion a eliminar
+			// Ejecutamos la sentencia sql ( status = ps.executeUpdate() )
+			// Cierre de la sentencia sql
+			// Cierre de la conexion
+		}catch(Exception ex) {
+			ex.getCause();
+		}
+		return status;
 	}
 	/**
 	 * Funcion que obtiene los datos de sesion de un espectaculo de tipo puntual
@@ -303,6 +322,27 @@ public class SesionDAO {
 			System.out.println("Se ha producido un error al obtener los datos del espectaculo");
 		}
 		return sesiones; // Retornamos las sesiones del espectaculo
+	}
+	/**
+	 * Funcion que cancela las sesiones de un espectaculo
+	 * @param prop Fichero de configuracion
+	 * @param sql Fichero de sentencias sql
+	 * @param tituloEspectaculo Titulo del espectaculo
+	 * @return Numero de filas modificadas de la base de datos
+	 */
+	public int cancelarSesionesEspectaculo(Properties prop, Properties sql, String tituloEspectaculo2) {
+		int status = 0;
+		try {
+			// Conexion con la base de datos
+			// Sentencia sql para cancelar las sesiones de un espectaculo
+			// Indicamos en la sentencia sql el titulo del espectaculo de las sesiones a eliminar
+			// Ejecutamos la sentencia sql ( status = ps.executeUpdate() )
+			// Cierre de la sentencia sql
+			// Cierre de la conexion
+		}catch(Exception ex) {
+			ex.getCause();
+		}
+		return status;
 	}
 	
 }

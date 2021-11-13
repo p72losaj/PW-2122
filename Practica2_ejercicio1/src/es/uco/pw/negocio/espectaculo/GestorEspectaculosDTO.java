@@ -235,6 +235,7 @@ public class GestorEspectaculosDTO {
 			System.out.println("\tNumero de ventas del espectaculo: " + this.listaEspectaculos.get(i).getVentasEspectaculo());// Mostramos el numero de ventas del espectaculo
 			// Caso 1: el espectaculo es de tipo puntual
 			if(this.listaEspectaculos.get(i).getTipoEspectaculo().equals("puntual")) {
+				System.out.println("\tSesion: " + this.listaEspectaculos.get(i).getSesionEspectaculo().getIdentificadorSesion());
 				System.out.println("\tFecha de la sesion: " + this.listaEspectaculos.get(i).getSesionEspectaculo().getFechaCompletaSesion());// Imprimimos la fecha completa de la sesion
 				System.out.println("\tHora completa de la sesion: " + this.listaEspectaculos.get(i).getSesionEspectaculo().getHoraCompleta());// Imprimimos la hora completa de la sesion
 			}
@@ -242,7 +243,7 @@ public class GestorEspectaculosDTO {
 			else if(this.listaEspectaculos.get(i).getTipoEspectaculo().equals("multiple")) {
 				// Recorremos las listas de sesiones
 				for(int j=0; j < this.listaEspectaculos.get(i).getSesionesEspectaculo().size(); j++) {
-					System.out.println("\tSesion " + (j + 1)); // Imprimimos el numero de la sesion
+					System.out.println("\tSesion " + this.listaEspectaculos.get(i).getSesionesEspectaculo().get(j).getIdentificadorSesion()); // Imprimimos el numero de la sesion
 					System.out.println("\tDia de la semana: " + this.listaEspectaculos.get(i).getSesionesEspectaculo().get(j).getDiaSemana()); // Imprimimos el dia de la semana de la sesion
 					System.out.println("\tHora de la semana: " + this.listaEspectaculos.get(i).getSesionesEspectaculo().get(j).getHoraCompleta()); // Imprimimos la hora completa de la sesion
 				}
@@ -251,7 +252,7 @@ public class GestorEspectaculosDTO {
 			else if(this.listaEspectaculos.get(i).getTipoEspectaculo().equals("temporada")) {
 				for(int j=0; j < this.listaEspectaculos.get(i).getSesionesEspectaculo().size(); j++) {
 					if(j == 0) {
-						System.out.println("\tSesion " + (j + 1)); // Imprimimos el numero de la sesion
+						System.out.println("\tSesion " + this.listaEspectaculos.get(i).getSesionesEspectaculo().get(j).getIdentificadorSesion()); // Imprimimos el numero de la sesion
 						System.out.println("\tDia de la semana: " + this.listaEspectaculos.get(i).getSesionesEspectaculo().get(j).getDiaSemana()); // Imprimimos el dia de la semana de la sesion
 						System.out.println("\tHora de inicio de la sesion de la semana: " + this.listaEspectaculos.get(i).getSesionesEspectaculo().get(j).getHoraCompleta()); // Imprimimos la hora de inicio completa de la sesion
 					}
@@ -517,6 +518,120 @@ public class GestorEspectaculosDTO {
 		
 		return 0;
 		
+	}
+	
+	/**
+	 * Funcion que cancela los datos de sesion de un espectaculo
+	 * @param sql Fichero de sentencia sql
+	 * @param prop Fichero de configuracion
+	 * @param identificadorSesion Identificador de la sesion del espectaculo
+	 * @param tituloEspectaculo Titulo del espectaculo a eliminar
+	 * @return Estado de la cancelacion de la sesion del espectaculo
+	 */
+
+	public String cancelarSesionEspectaculo(Properties prop, Properties sql, int identificadorSesion, String tituloEspectaculo) {
+		String cadena = "Se ha producido un error un error al cancelar la sesion del espectaculo";
+		EspectaculoDTO espectaculoDTO = new EspectaculoDTO();
+		SesionDAO sesion = new SesionDAO();
+		int id = 0;
+		/*
+		 * OBTENCION DATOS DEL ESPECTACULO
+		 */
+		/*
+		 * para i desde 0 hasta gestor.listaEspectaculos.size
+		 * 		si !gestor.listaEspectaculos.get(i).getTituloEspectaculo.equals(tituloEspectaculo) entonces
+		 * 			cadena = Titulo del espectaculo no registrado en el gestor de espectaculos
+		 * 		si_no 
+		 * 			espectaculoDTO = obtencionDatosEspectaculo(tituloEspectaculo)
+		 * 		fin_si
+		 * fin_para
+		 */
+		/*
+		 * COMPROBACION IDENTIFICADOR DE LA SESION DEL ESPECTACULO
+		 */
+		/*
+		 * si espectaculoDTO.getTipoEspectaculo().equals("puntual") entonces
+		 * 		si espectaculoDTO.getSesionEspectaculo().getIdentificador() == identificadorEspectaculo entonces
+		 * 			id = 1;
+		 * 		fin_si
+		 * si_no
+		 * 		para i desde 0 hasta espectaculoDTO.getSesionesEspectaculo().size
+		 * 			si espectaculoDTO.getSesionesEspectaculo().get(i).getIdentificador() == identificadorEspectaculo entonces
+		 * 				id = 1;
+		 * 			fin_si
+		 * 		fin_para
+		 * fin_si
+		 * 
+		 * si id == 0 entonces
+		 * 	cadena = sesion del espectaculo no registrado
+		 * si_no
+		 * 		int status = sesion.cancelarSesionEspectaculo(espectaculo.getIdentificadorEspectaculo());
+		 * 		si status == 0 entonces cadena = Error al eliminar la sesion del espectaculo
+		 * 		si_no cadena = Sesion del espectaculo cancelado correctamente
+		 * 		fin_si
+		 * fin_si
+		 * 
+		 */
+		
+		return cadena;
+	}
+	
+	/**
+	 * Funcion que obtiene los datos de un espectaculo
+	 * @param tituloEspectaculo Titulo del espectaculo
+	 * @return Datos del espectaculo
+	 */
+	public EspectaculoDTO obtencionDatosEspectaculo(String tituloEspectaculo) {
+		EspectaculoDTO espectaculo = new EspectaculoDTO();
+		// Recorremos la lista de espectaculos del gestor
+		for(int i=0; i < this.listaEspectaculos.size();i++) {
+			// Titulo encontrado
+			if(this.listaEspectaculos.get(i).getTituloEspectaculo().equals(tituloEspectaculo)) {
+				espectaculo.setIdentificadorEspectaculo(this.listaEspectaculos.get(i).getIdentificadorEspectaculo());
+				espectaculo.setTituloEspectaculo(tituloEspectaculo);
+				espectaculo.setDescripcionEspectaculo(this.listaEspectaculos.get(i).getDescripcionEspectaculo());
+				espectaculo.setCategoriaEspectaculo(this.listaEspectaculos.get(i).getCategoriaEspectaculo());
+				espectaculo.setAforoLocalidadesEspectaculo(this.listaEspectaculos.get(i).getAforoLocalidadesEspectaculo());
+				espectaculo.setVentasEspectaculo(this.listaEspectaculos.get(i).getVentasEspectaculo());
+				espectaculo.setTipoEspectaculo(this.listaEspectaculos.get(i).getTipoEspectaculo());
+				// ESPECTACULO PUNTUAL
+				if(espectaculo.getTipoEspectaculo().equals("puntual")) {espectaculo.setSesionEspectaculo(this.listaEspectaculos.get(i).getSesionEspectaculo());}
+				// ESPECTACULO MULTIPLE O DE TEMPORADA
+				else {espectaculo.setSesionesEspectaculo(this.listaEspectaculos.get(i).getSesionesEspectaculo());}
+			}
+		}
+		return espectaculo;
+	}
+	
+	/**
+	 * Funcion que cancela todas las sesiones de un espectaculo
+	 * @param prop Fichero de configuracion
+	 * @param sql Fichero de sentencias sql
+	 * @param tituloEspectaculo Titulo del espectaculo
+	 * @return Estado de la cancelacion de las sesiones
+	 */
+
+	public String cancelarSesionEspectaculo(Properties prop, Properties sql, String tituloEspectaculo) {
+		String cad = "Se ha producido un error al cancelar las sesiones del espectaculo";
+		EspectaculoDTO espectaculoDTO = new EspectaculoDTO();
+		SesionDAO sesion = new SesionDAO();
+		/*
+		 * OBTENCION DATOS DEL ESPECTACULO
+		 */
+		/*
+		 * para i desde 0 hasta gestor.listaEspectaculos.size
+		 * 		si !gestor.listaEspectaculos.get(i).getTituloEspectaculo.equals(tituloEspectaculo) entonces
+		 * 			cadena = Titulo del espectaculo no registrado en el gestor de espectaculos
+		 * 			return caden
+		 * fin_para
+		 */
+		/*
+		 * ELIMINACION DE LAS SESIONES DEL ESPECTACULO
+		 * int status = sesion.cancelarSesionesEspectaculo(prop, sql, tituloEspectaculo);
+		 * si status != 0 entonces cad = Se han eliminado las sesiones del espectaculo 
+		 */
+		
+		return cad;
 	}
 
 	
