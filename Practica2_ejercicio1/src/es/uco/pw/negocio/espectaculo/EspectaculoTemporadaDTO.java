@@ -30,6 +30,33 @@ public class EspectaculoTemporadaDTO extends EspectaculoDTO {
 		this.setVentasEspectaculo(ventasEspectaculo); // Obtenemos el numero de ventas del espectaculo
 		return;
 	}
+
+	public EspectaculoTemporadaDTO(String tituloEspectaculo, String descripcionEspectaculo,
+			CategoriaEspectaculo categoriaEspectaculo, String tipoEspectaculo, int aforoLocalidades,
+			int ventasEspectaculo, int horaTemporada1, int minutosTemporada1, String diaSemanaTemporada,
+			int horaTemporada2, int minutosTemporada2) {
+		ArrayList<SesionEspectaculoDTO> lista = new ArrayList<SesionEspectaculoDTO>(); // Lista de sesiones del espectaculo
+		SesionEspectaculoDTO inicio = new SesionEspectaculoDTO(); // Sesion de inicio del espectaculo
+		SesionEspectaculoDTO fin = new SesionEspectaculoDTO(); // Sesion de finalizacion del espectaculo
+		this.setTituloEspectaculo(tituloEspectaculo);
+		this.setDescripcionEspectaculo(descripcionEspectaculo);
+		this.setCategoriaEspectaculo(categoriaEspectaculo);
+		this.setTipoEspectaculo(tipoEspectaculo);
+		this.setAforoLocalidadesEspectaculo(aforoLocalidades);
+		this.setVentasEspectaculo(ventasEspectaculo);
+		inicio.setHoraSesion(horaTemporada1);
+		inicio.setMinutos(minutosTemporada1);
+		inicio.setHoraCompleta();
+		inicio.setDiaSemana(diaSemanaTemporada);
+		lista.add(inicio);
+		fin.setDiaSemana(diaSemanaTemporada);
+		fin.setHoraSesion(horaTemporada2);
+		fin.setMinutos(minutosTemporada2);
+		fin.setHoraCompleta();
+		lista.add(fin);
+		this.setSesionesEspectaculo(lista);
+		return;
+	}
 	
 
 }

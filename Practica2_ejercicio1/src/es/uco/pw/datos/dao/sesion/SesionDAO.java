@@ -159,10 +159,11 @@ public class SesionDAO {
 				ps.setInt(5, espectaculo.getSesionEspectaculo().getHoraSesion()); // Indicamos en la sentencia sql la hora de la sesion
 				ps.setInt(6, espectaculo.getSesionEspectaculo().getMinutosSesion()); // Indicamos en la sentencia sql los minutos de la sesion
 				status = ps.executeUpdate(); // Ejecutamos la sentencia sql
+				ps.close(); // Cierre de la sentencia sql
 			}
 			// ESPECTACULO MULTIPLE
 			else if(espectaculo.getTipoEspectaculo().equals("multiple")) {
-				PreparedStatement ps=con.prepareStatement(sql.getProperty("RegistrarSesionesEspectaculoMultiple")); // Sentencia sql para insertar los datos de las sesiones de un espectaculo multiple
+				PreparedStatement ps=con.prepareStatement(sql.getProperty("RegistrarSesionesEspectaculo")); // Sentencia sql para insertar los datos de las sesiones de un espectaculo multiple
 				for(int i=0; i < espectaculo.getSesionesEspectaculo().size(); i++) {
 					ps.setString(1, espectaculo.getTituloEspectaculo());
 					ps.setInt(2, espectaculo.getSesionesEspectaculo().get(i).getHoraSesion());
@@ -170,10 +171,19 @@ public class SesionDAO {
 					ps.setString(4, espectaculo.getSesionesEspectaculo().get(i).getDiaSemana());
 					status = ps.executeUpdate();
 				}
+				ps.close(); // Cierre de la sentencia sql
 			}
 			// ESPECTACULO TEMPORADA
 			else if(espectaculo.getTipoEspectaculo().equals("temporada")) {
-				
+				PreparedStatement ps=con.prepareStatement(sql.getProperty("RegistrarSesionesEspectaculo")); // Sentencia sql para insertar los datos de las sesiones de un espectaculo multiple
+				for(int i=0; i < espectaculo.getSesionesEspectaculo().size(); i++) {
+					ps.setString(1, espectaculo.getTituloEspectaculo());
+					ps.setInt(2, espectaculo.getSesionesEspectaculo().get(i).getHoraSesion());
+					ps.setInt(3, espectaculo.getSesionesEspectaculo().get(i).getMinutosSesion());
+					ps.setString(4, espectaculo.getSesionesEspectaculo().get(i).getDiaSemana());
+					status = ps.executeUpdate();
+				}
+				ps.close(); // Cierre de la sentencia sql
 			}
 			if(con != null) {
 				con = null; // Cierre de la conexion

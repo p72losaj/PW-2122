@@ -312,13 +312,10 @@ public class ProgramaPrincipal {
 														entrada = new Scanner(System.in);
 													}
 												}
-												
 												/*
 												 * OBTENCION DEL DIA DE LA SESION
 												 */
-												
 												int diaPuntual = -1;
-												
 												while(diaPuntual < 0) {
 													try {
 														System.out.print("Introduce el dia de la sesion: ");
@@ -370,11 +367,10 @@ public class ProgramaPrincipal {
 														entrada = new Scanner(System.in);
 													}
 												}
-												
 												/*
 												 * DAMOS DE ALTA AL ESPECTACULO
-												 */
-												System.out.println(espectaculos.darAltaEspectaculo(prop, sql, tituloEspectaculo, descripcionEspectaculo, categoriaEspectaculo, "puntual", aforoLocalidades, ventasEspectaculo, anoPuntual, mesPuntual, diaPuntual, horaPuntual, minutosPuntual, 0, 0, "", "", 0, 0));
+												 */												
+												System.out.println(espectaculos.darAltaEspectaculo(prop, sql, tituloEspectaculo, descripcionEspectaculo, categoriaEspectaculo, "puntual", aforoLocalidades, ventasEspectaculo, anoPuntual, mesPuntual, diaPuntual, horaPuntual, minutosPuntual, 0, 0, null, null, 0, 0,0,0,null,0,0));
 											}
 											/*
 											 * ESPECTACULO MULTIPLE
@@ -534,15 +530,118 @@ public class ProgramaPrincipal {
 												/*
 												 * DAMOS DE ALTA EL ESPECTACULO
 												 */
-												
-												String cadena = espectaculos.darAltaEspectaculo(prop, sql, tituloEspectaculo, descripcionEspectaculo, categoriaEspectaculo, tipoEspectaculo, aforoLocalidades, ventasEspectaculo, 0, 0, 0, 0, 0, horaMultiple1, minutosMultiple1, diaSemanaMultiple1, diaSemanaMultiple2, horaMultiple2, minutosMultiple2);
-												System.out.println(cadena);
+												System.out.println(espectaculos.darAltaEspectaculo(prop, sql, tituloEspectaculo, descripcionEspectaculo, categoriaEspectaculo, tipoEspectaculo, aforoLocalidades, ventasEspectaculo, 0, 0, 0, 0, 0, horaMultiple1, minutosMultiple1, diaSemanaMultiple1, diaSemanaMultiple2, horaMultiple2, minutosMultiple2, 0, 0, null, 0, 0));
 											}
 											/*
 											 * ESPECTACULO TEMPORADA
 											 */
 											else if(tipoEspectaculo.equals("temporada")) {
-												
+												/*
+												 * OBTENEMOS LA HORA DE LA PRIMERA SESION
+												 */
+												int horaTemporada1 = -1;
+												System.out.println("Dada la hora de la primera sesion -> hh:mm");
+												while(horaTemporada1 < 0) {
+													try {
+														System.out.print("Introduce el valor de <hh>: ");
+														horaTemporada1 = entrada.nextInt();
+														entrada = new Scanner(System.in);
+														if(horaTemporada1 < 0 || horaTemporada1 > 23) {
+															System.out.println("Introduce una hora en el rango [0,23]");
+															horaTemporada1 = -1;
+														}
+													}catch(Exception ex) {
+														System.out.println("Se esperaba un valor entero al obtener el valor de <hh>");
+														entrada = new Scanner(System.in);
+													}
+												}
+												/*
+												 * OBTENEMOS LOS MINUTOS DE LA PRIMERA SESION
+												 */
+												int minutosTemporada1 = -1;
+												while(minutosTemporada1 < 0) {
+													try {
+														System.out.print("Introduce el valor de <mm>: ");
+														minutosTemporada1 = entrada.nextInt();
+														entrada = new Scanner(System.in);
+														if(minutosTemporada1 < 0 || minutosTemporada1 > 59) {
+															System.out.println("Se esperaba un valor de minutos en el rango [0,59]");
+															minutosTemporada1 = -1;
+														}
+													}catch(Exception ex) {
+														System.out.println("Se esperaba un valor entero al obtener el valor de <mm>");
+														entrada = new Scanner(System.in);
+													}
+												}
+												/*
+												 * OBTENEMOS EL DIA DE LA SEMANA DE AMBAS SESIONES
+												 */
+												String diaSemanaTemporada = null;
+												int opcionSemana = 0;
+												while(opcionSemana == 0) {
+													menu.MostrarSemana(); // Mostramos el menu de dias de la semana
+													if(opcionSemana == 0) {
+														try {
+															opcionSemana = entrada.nextInt();
+															entrada = new Scanner(System.in);
+															if(opcionSemana == 1) {diaSemanaTemporada = "lunes";}
+															else if(opcionSemana == 2) {diaSemanaTemporada = "martes";}
+															else if(opcionSemana == 3) {diaSemanaTemporada = "miercoles";}
+															else if(opcionSemana == 4) {diaSemanaTemporada = "jueves";}
+															else if(opcionSemana == 5) {diaSemanaTemporada = "viernes";}
+															else if(opcionSemana == 6) {diaSemanaTemporada = "sabado";}
+															else if(opcionSemana == 7) {diaSemanaTemporada = "domingo";}
+															else {
+																System.out.println("Dia de la semana no valido");
+																opcionSemana = 0;
+															}
+														}catch(Exception ex) {
+															System.out.println("La opcion del dia de la semana de la sesion 1 debe ser un valor entero");
+															entrada = new Scanner(System.in);
+														}
+													}
+												}
+												/*
+												 * OBTENEMOS LA HORA DE LA SEGUNDA SESION
+												 */
+												int horaTemporada2 = -1;
+												System.out.println("Dada la hora de la segunda sesion -> hh:mm");
+												while(horaTemporada2 < 0) {
+													try {
+														System.out.print("Introduce el valor de <hh>: ");
+														horaTemporada2 = entrada.nextInt();
+														entrada = new Scanner(System.in);
+														if(horaTemporada2 < 0 || horaTemporada2 > 23) {
+															System.out.println("Introduce una hora en el rango [0,23]");
+															horaTemporada2 = -1;
+														}
+													}catch(Exception ex) {
+														System.out.println("Se esperaba un valor entero al obtener el valor de <hh>");
+														entrada = new Scanner(System.in);
+													}
+												}
+												/*
+												 * OBTENEMOS LOS MINUTOS DE LA SEGUNDA SESION
+												 */
+												int minutosTemporada2 = -1;
+												while(minutosTemporada2 < 0) {
+													try {
+														System.out.print("Introduce el valor de <mm>: ");
+														minutosTemporada2 = entrada.nextInt();
+														entrada = new Scanner(System.in);
+														if(minutosTemporada2 < 0 || minutosTemporada2 > 59) {
+															System.out.println("Se esperaba un valor de minutos en el rango [0,59]");
+															minutosTemporada2 = -1;
+														}
+													}catch(Exception ex) {
+														System.out.println("Se esperaba un valor entero al obtener el valor de <mm>");
+														entrada = new Scanner(System.in);
+													}
+												}
+												/*
+												 * DAMOS DE ALTA AL ESPECTACULO
+												 */
+												System.out.println(espectaculos.darAltaEspectaculo(prop, sql, tituloEspectaculo, descripcionEspectaculo, categoriaEspectaculo, tipoEspectaculo, aforoLocalidades, ventasEspectaculo, 0, 0, 0, 0, 0, 0, 0, null, null, 0, 0, horaTemporada1, minutosTemporada1, diaSemanaTemporada, horaTemporada2, minutosTemporada2));
 											}
 										}
 										// Caso 2: Cancelar un espectaculo ( todas las sesiones o una en particular)

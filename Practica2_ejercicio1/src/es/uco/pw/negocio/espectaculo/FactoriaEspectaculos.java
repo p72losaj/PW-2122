@@ -40,24 +40,6 @@ public abstract class FactoriaEspectaculos {
 	}
 	
 	/**
-	 * Funcion que crea un espectaculo de temporada
-	 * @param titulo Titulo del espectaculo
-	 * @param descripcion Descripcion del espectaculo
-	 * @param categoria Categoria del espectaculo
-	 * @param tipo Tipo del espectaculo
-	 * @param fechaInicio Fecha de inicio del espectaculo
-	 * @param fechaFin Fecha de fin del espectaculo
-	 * @param dia Dia de la semana
-	 * @param aforoLocalidades Numero de localidades del espectaculo
-	 * @param ventasEspectaculo Numero de ventas del espectaculo
-	 * @return Espectaculo de tipo temporada
-	 */
-	
-	public EspectaculoTemporadaDTO crearEspectaculoTemporada(String titulo, String descripcion, CategoriaEspectaculo categoria, String tipo, String fechaInicio, String fechaFin, String dia, int aforoLocalidades, int ventasEspectaculo) {
-		return new EspectaculoTemporadaDTO(titulo, descripcion, categoria,tipo,fechaInicio,fechaFin,dia, aforoLocalidades, ventasEspectaculo);
-	}
-	
-	/**
 	 * Funcion que crea un espectaculo de tipo multiple
 	 * @param tituloEspectaculo Titulo del espectaculo
 	 * @param descripcionEspectaculo Descripcion del espectaculo
@@ -79,6 +61,15 @@ public abstract class FactoriaEspectaculos {
 			int ventasEspectaculo, int horaMultiple1, int minutosMultiple1, String diaSemanaMultiple1,
 			String diaSemanaMultiple2, int horaMultiple2, int minutosMultiple2) {
 		return new EspectaculoMultipleDTO(tituloEspectaculo,descripcionEspectaculo,categoriaEspectaculo,tipoEspectaculo,aforoLocalidades,ventasEspectaculo,horaMultiple1,minutosMultiple1,diaSemanaMultiple1,diaSemanaMultiple2,horaMultiple2,minutosMultiple2);
+	}
+
+	public static EspectaculoTemporadaDTO crearEspectaculoMultiple(String tituloEspectaculo,
+			String descripcionEspectaculo, CategoriaEspectaculo categoriaEspectaculo, String tipoEspectaculo,
+			int aforoLocalidades, int ventasEspectaculo, int horaTemporada1, int minutosTemporada1,
+			String diaSemanaTemporada, int horaTemporada2, int minutosTemporada2) 
+	{
+		return new EspectaculoTemporadaDTO(tituloEspectaculo,descripcionEspectaculo,categoriaEspectaculo,tipoEspectaculo,aforoLocalidades, 
+				ventasEspectaculo,horaTemporada1,minutosTemporada1,diaSemanaTemporada,horaTemporada2,minutosTemporada2);
 	}
 	
 }

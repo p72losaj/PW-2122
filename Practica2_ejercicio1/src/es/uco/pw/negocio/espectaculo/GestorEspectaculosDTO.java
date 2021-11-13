@@ -325,17 +325,26 @@ public class GestorEspectaculosDTO {
 	 * @param diaSemanaMultiple2 Dia de la semana de la segunda sesion del espectaculo multiple
 	 * @param horaMultiple2 Hora de la segunda sesion del espectaculo multiple
 	 * @param minutosMultiple2 Minutos de la segunda sesion del espectaculo multiple
+	 * @param minutosTemporada2 
+	 * @param horaTemporada2 Hora de la segunda sesion del espectaculo de temporada
+	 * @param diaSemanaTemporada Dia de la semana de ambas sesiones del espectaculo de temporada
+	 * @param minutosTemporada1 Minutos de la primera sesion del espectaculo de temporada
+	 * @param horaTemporada1 Hora de la primera sesion del espectaculo de temporada
 	 * @return Cadena con el estado del registro del espectaculo
 	 */
 
 	public String darAltaEspectaculo(Properties prop, Properties sql,String tituloEspectaculo, String descripcionEspectaculo,
-			CategoriaEspectaculo categoriaEspectaculo, String tipoEspectaculo, int aforoLocalidades,
-			int ventasEspectaculo, int anoPuntual, int mesPuntual, int diaPuntual, int horaPuntual,
-			int minutosPuntual, int horaMultiple1, int minutosMultiple1, String diaSemanaMultiple1, String diaSemanaMultiple2, int horaMultiple2, int minutosMultiple2) {
+			CategoriaEspectaculo categoriaEspectaculo, String tipoEspectaculo, int aforoLocalidades,int ventasEspectaculo, 
+			int anoPuntual, int mesPuntual, int diaPuntual, int horaPuntual, int minutosPuntual, 
+			int horaMultiple1, int minutosMultiple1, String diaSemanaMultiple1, String diaSemanaMultiple2, int horaMultiple2, 
+			int minutosMultiple2, 
+			int horaTemporada1, int minutosTemporada1, String diaSemanaTemporada, int horaTemporada2, int minutosTemporada2) 
+	{
 		String cadena = "Se ha producido un error al dar de alta a los datos del usuario";
 		EspectaculoDTO espectaculo = new EspectaculoDTO();
 		Boolean existenciaTituloEspectaculo = comprobarExistenciaTituloEspectaculo(tituloEspectaculo); // Obtenemos la existencia del titulo del espectaculo
 		EspectaculoDAO espectaculoDAO = new EspectaculoDAO();
+		FactoriaEspectaculos factoria = null;
 		/*
 		 * TITULO DEL ESPECTACULO NO ES UNICO
 		 */
@@ -404,7 +413,21 @@ public class GestorEspectaculosDTO {
 			 * ESPECTACULO ES DE TIPO TEMPORADA
 			 */
 			else if(tipoEspectaculo.equals("temporada")) {
-				//espectaculo = factoria.crearEspectaculoTemporada(tituloEspectaculo,descripcionEspectaculo,categoriaEspectaculo,tipoEspectaculo,aforoLocalidades,ventasEspectaculo);
+				/*
+				 * CASO DE ERROR: SESIONES A LA MISMA HORA
+				 */
+				if( (horaTemporada1 == horaTemporada2) && (minutosTemporada1 == minutosTemporada2)) {
+					cadena = "Las sesiones del espectaculo de temporada tienen la misma hora";
+					return cadena;
+				}
+				EspectaculoTemporadaDTO temporada = FactoriaEspectaculos.crearEspectaculoMultiple(tituloEspectaculo, descripcionEspectaculo, categoriaEspectaculo, tipoEspectaculo, aforoLocalidades, ventasEspectaculo, horaTemporada1, minutosTemporada1, diaSemanaTemporada, horaTemporada2, minutosTemporada2);
+				espectaculo.setTituloEspectaculo(temporada.getTituloEspectaculo());
+				espectaculo.setDescripcionEspectaculo(temporada.getDescripcionEspectaculo());
+				espectaculo.setCategoriaEspectaculo(temporada.getCategoriaEspectaculo());
+				espectaculo.setTipoEspectaculo(temporada.getTipoEspectaculo());
+				espectaculo.setAforoLocalidadesEspectaculo(temporada.getAforoLocalidadesEspectaculo());
+				espectaculo.setVentasEspectaculo(temporada.getVentasEspectaculo());
+				espectaculo.setSesionesEspectaculo(temporada.getSesionesEspectaculo());
 			}
 			
 			/*
