@@ -105,12 +105,16 @@ public class GestorCriticasDTO {
 	
 	/**
 	 * Funcion que elimina los datos de una critica
+	 * @param prop Fichero de configuracion
+	 * @param sql Fichero de sentencias sql
 	 * @param tituloEliminar Titulo de la critica a eliminar
 	 */
 
-	public void eliminacionCritica(String tituloEliminar) {
+	public void eliminacionCritica(Properties prop, Properties sql,String tituloEliminar) {
+		CriticaDAO criticaDAO = new CriticaDAO();
 		for(int i=0; i<this.listaCriticas.size(); i++) { // Recorremos la lista de criticas
 			if(this.listaCriticas.get(i).getTituloCritica().equals(tituloEliminar)) { // Critica encontrada
+				 criticaDAO.eliminacionCritica(prop, sql,tituloEliminar);
 				this.listaCriticas.remove(this.listaCriticas.get(i)); // Eliminamos la critica del gestor de criticas
 			}
 		}

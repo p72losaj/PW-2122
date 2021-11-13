@@ -775,8 +775,89 @@ public class ProgramaPrincipal {
 										// caso 6: Búsqueda de espectáculos por título o por categoría
 										// Caso 7: Búsqueda de próximos espectáculos con entradas disponibles, indicando o no una  categoría específica
 										// Caso 8: Publicar una crítica para un espectáculo que ya se ha celebrado
+										else if(administrador == 8) {
+											
+											/*
+											 * OBTENCION DE LA FECHA ACTUAL
+											 */
+											LocalDate fechaActual = LocalDate.now();
+											/*
+											 * OBTENCION DE LOS DATOS DE LA CRITICA
+											 */
+											System.out.print("Introduce el titulo de la critica: "); // Pedimos al usuario el titulo de la critica
+											String titulo = entrada.nextLine(); // Obtenemos el titulo de la critica
+											System.out.print("Introduce la resena de la critica: "); // Pedimos al usuario la resena de la critica
+											String resenaCritica = entrada.nextLine(); // Obtenemos la resena de la critica
+											/*
+											 * OBTENCION DATOS DEL ESPECTACULO
+											 */
+											System.out.print("Introduce el titulo del espectaculo: "); // Pedimos al usuario el titulo del espectaculo
+											String tituloEspectaculo = entrada.nextLine();// Obtenemos el titulo del espectaculo
+											// Puntuacion del espectaculo
+											int puntuacion = -1; 
+											try {
+												System.out.print("Introduce una puntuacion del espectaculo: "); // Pedimos la puntuacion del espectaculo
+												puntuacion = entrada.nextInt(); // Obtenemos la puntuacion del espectaculo
+												entrada = new Scanner(System.in); // Limpiamos el buffer
+											}catch(Exception ex) {
+												System.out.println("La puntuacion del espectaculo debe ser un entero");
+											}
+											/*
+											 * Puntuacion del espectaculo debe ser distinta a -1
+											 */
+											if(puntuacion != -1) {
+												/*
+												 * REGISTRO DE LA CRITICA
+												 */
+												String registroCritica = gestorCriticas.registroCritica(prop, sql, correoUsuario, titulo,resenaCritica,tituloEspectaculo,puntuacion,fechaActual.toString()); // Realizamos el registro de la critica
+												System.out.println(registroCritica); // Mostramos el estado del registro de la critica	
+											}
+									
+											
+											
+										}
+										
+										
 										// Caso 9: Consultar las críticas de un espectáculo, dado su título
+										else if(administrador == 9) {
+											espectaculos.imprimirEspectaculos(); // Mostramos los datos de todos los espectaculos
+
+											
+											System.out.print("Introduce el titulo del espectaculo del que mostrar su critica: "); // Pedimos al usuario el titulo del espectaculo
+											String tituloEspectaculo = entrada.nextLine(); // Obtenemos el titulo de la critica
+											
+											/*
+											 * MOSTRAMOS LAS CRITICAS REGISTRADAS EN EL GESTOR DE USUARIOS
+											 */
+											for(int i=0; i<gestorCriticas.getListaCriticas().size(); i++) { 
+												if(gestorCriticas.getListaCriticas().get(i).getTituloEspectaculo().equals(tituloEspectaculo)) {
+												System.out.println(gestorCriticas.getListaCriticas().get(i).mostrarCritica());}
+											
+										}
+											
+											
+										}
+										
+										
 										// Caso 10: Eliminar criticas de un espectaculo, por parte del usuario que la creo
+										else if(administrador == 10) {
+											/*
+											 * MOSTRAMOS LAS CRITICAS REGISTRADAS EN EL GESTOR DE USUARIOS
+											 */
+											for(int i=0; i<gestorCriticas.getListaCriticas().size(); i++) { System.out.println(gestorCriticas.getListaCriticas().get(i).mostrarCritica());}
+											/*
+											 * OBTENEMOS EL TITULO DE LA CRITICA
+											 */
+											System.out.print("Introduce el titulo de la critica a eliminar:  ");
+											String tituloCritica = "";
+											try {
+												tituloCritica = entrada.nextLine();					
+												entrada = new Scanner(System.in); // Limpiamos el buffer de entrada
+											}catch(Exception ex) {System.out.println("Al elegir el titulo de la critica, se esperaba una cadena"); }
+											gestorCriticas.eliminacionCritica(prop,sql,tituloCritica); //eliminamos la critca segun el titulo
+											
+											
+										}
 										// Caso 11: Valorar la utilidad de una crítica publicada por otro usuario
 										else if(administrador == 11) {
 											/*

@@ -395,7 +395,8 @@ public EspectaculoDTO obtencionEspectaculo(Properties prop, Properties sql, Stri
 	EspectaculoDTO espectaculo = new EspectaculoDTO(); // Creamos un espectaculo vacio
 	try {
 		Connection con = ConexionBD.getConexion(prop); // Conexion con la base de datos
-		PreparedStatement ps=con.prepareStatement(sql.getProperty("ObtencionEspectaculos")); // Sentencia sql para obtener los datos comunes de los espectaculos
+		PreparedStatement ps=con.prepareStatement(sql.getProperty("ObtencionEspectaculoTitulo")); // Sentencia sql para obtener los datos comunes de los espectaculos
+		ps.setString(1, tituloEspectaculo2); // Indicamos en la sentencia sql el titulo del espectaculo
 		ResultSet rs = ps.executeQuery(); // Ejecutamos la sentencia sql
 		// Recorremos las filas obtenidas por la ejecucion de la sentencia sql
 		while(rs.next()) {
