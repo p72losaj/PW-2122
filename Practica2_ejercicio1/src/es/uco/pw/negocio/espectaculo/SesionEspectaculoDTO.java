@@ -19,6 +19,21 @@ public class SesionEspectaculoDTO {
 	private int minutos; // minutos de la sesion
 	private String horaCompleta; // Hora completa de la sesion
 	private String diaSemana; // dia de la semana de la sesion
+	private int ventasSesion; // Numero de ventas de la sesion
+	/**
+	 * Funcion que obtiene el numero de ventas de la sesion
+	 * @return Numero de ventas de la sesion
+	 */
+	public int getVentasSesion() {
+		return this.ventasSesion;
+	}
+	/**
+	 * Funcion que modifica el numero de ventas de una sesion
+	 * @param ventas Numero de ventas de la sesion
+	 */
+	public void setVentasSesion(int ventas) {
+		this.ventasSesion = ventas;
+	}
 	/**
 	 * Funcion que obtiene el identificador de la sesion
 	 * @return Identificador de la sesion
@@ -190,5 +205,6 @@ public class SesionEspectaculoDTO {
 	
 	public SesionEspectaculoDTO() {
 	}
+	
 	
 }

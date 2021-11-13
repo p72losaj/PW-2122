@@ -133,7 +133,7 @@ public class Menus {
 	}
 	
 	/**
-	 * Funcion que muesrtra un meno con las opciones de cancelacion de un espectaculo
+	 * Funcion que muestra un menu con las opciones de cancelacion de un espectaculo
 	 */
 
 	public void mostrarOpcionesCancelacionEspectaculo() {
@@ -141,6 +141,16 @@ public class Menus {
 		System.out.println("1. CANCELAR UNA SESION DEL ESPECTACULO");
 		System.out.println("2. CANCELAR TODAS LAS SESIONES DEL ESPECTACULO");
 		System.out.print("Introduce una opcion: ");
+	}
+	
+	/**
+	 * Funcion que muestra un menu para modificar datos del espectaculo
+	 */
+
+	public void modificarDatosEspectaculo() {
+		// Opcion 1: Descripcion espectaculo
+		// Opcion 2: Aforo de localidades
+		// Opcion 3: 
 	}
 	
 }

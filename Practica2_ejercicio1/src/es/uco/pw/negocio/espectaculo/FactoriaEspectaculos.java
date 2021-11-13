@@ -46,7 +46,8 @@ public abstract class FactoriaEspectaculos {
 	 * @param categoriaEspectaculo Categoria del espectaculo
 	 * @param tipoEspectaculo Tipo del espectaculo
 	 * @param aforoLocalidades Aforo de localidades del espectaculo
-	 * @param ventasEspectaculo Numero de ventas del espectaculo
+	 * @param ventasEspectaculo1 Numero de ventas del espectaculo
+	 * @param ventasEspectaculo2 Numero de ventas del espectaculo2
 	 * @param horaMultiple1 Hora de la primera sesion del espectaculo
 	 * @param minutosMultiple1 Minutos de la primera sesion del espectaculo
 	 * @param diaSemanaMultiple1 Dia de la semana de la primera sesion del espectaculo
@@ -58,18 +59,18 @@ public abstract class FactoriaEspectaculos {
 
 	public static EspectaculoMultipleDTO crearEspectaculoMultiple(String tituloEspectaculo, String descripcionEspectaculo,
 			CategoriaEspectaculo categoriaEspectaculo, String tipoEspectaculo, int aforoLocalidades,
-			int ventasEspectaculo, int horaMultiple1, int minutosMultiple1, String diaSemanaMultiple1,
-			String diaSemanaMultiple2, int horaMultiple2, int minutosMultiple2) {
-		return new EspectaculoMultipleDTO(tituloEspectaculo,descripcionEspectaculo,categoriaEspectaculo,tipoEspectaculo,aforoLocalidades,ventasEspectaculo,horaMultiple1,minutosMultiple1,diaSemanaMultiple1,diaSemanaMultiple2,horaMultiple2,minutosMultiple2);
+			int ventasEspectaculo1, int horaMultiple1, int minutosMultiple1, String diaSemanaMultiple1,
+			String diaSemanaMultiple2, int horaMultiple2, int minutosMultiple2, int ventasEspectaculo2) {
+		return new EspectaculoMultipleDTO(tituloEspectaculo,descripcionEspectaculo,categoriaEspectaculo,tipoEspectaculo,aforoLocalidades,ventasEspectaculo1,horaMultiple1,minutosMultiple1,diaSemanaMultiple1,diaSemanaMultiple2,horaMultiple2,minutosMultiple2,ventasEspectaculo2);
 	}
 
 	public static EspectaculoTemporadaDTO crearEspectaculoMultiple(String tituloEspectaculo,
 			String descripcionEspectaculo, CategoriaEspectaculo categoriaEspectaculo, String tipoEspectaculo,
-			int aforoLocalidades, int ventasEspectaculo, int horaTemporada1, int minutosTemporada1,
-			String diaSemanaTemporada, int horaTemporada2, int minutosTemporada2) 
+			int aforoLocalidades, int ventasEspectaculo1, int horaTemporada1, int minutosTemporada1,
+			String diaSemanaTemporada, int horaTemporada2, int minutosTemporada2,int ventasEspectaculo2) 
 	{
 		return new EspectaculoTemporadaDTO(tituloEspectaculo,descripcionEspectaculo,categoriaEspectaculo,tipoEspectaculo,aforoLocalidades, 
-				ventasEspectaculo,horaTemporada1,minutosTemporada1,diaSemanaTemporada,horaTemporada2,minutosTemporada2);
+				ventasEspectaculo1,horaTemporada1,minutosTemporada1,diaSemanaTemporada,horaTemporada2,minutosTemporada2,ventasEspectaculo2);
 	}
 	
 }

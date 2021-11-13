@@ -274,10 +274,6 @@ public class ProgramaPrincipal {
 													if(ventasEspectaculo < 0) {
 														System.out.println("El numero de ventas del espectaculo debe ser positivo o 0");
 													}
-													else if(ventasEspectaculo > aforoLocalidades) {
-														System.out.println("El numero de ventas del espectaculo debe ser inferior o igual a: " + aforoLocalidades);
-														ventasEspectaculo = -1;
-													}
 												}catch(Exception ex) {
 													System.out.println("Se ha producido un error al obtener el numero de ventas del espectaculo. Se esperaba un valor entero");
 													entrada = new Scanner(System.in);
@@ -370,7 +366,7 @@ public class ProgramaPrincipal {
 												/*
 												 * DAMOS DE ALTA AL ESPECTACULO
 												 */												
-												System.out.println(espectaculos.darAltaEspectaculo(prop, sql, tituloEspectaculo, descripcionEspectaculo, categoriaEspectaculo, "puntual", aforoLocalidades, ventasEspectaculo, anoPuntual, mesPuntual, diaPuntual, horaPuntual, minutosPuntual, 0, 0, null, null, 0, 0,0,0,null,0,0));
+												System.out.println(espectaculos.darAltaEspectaculo(prop, sql, tituloEspectaculo, descripcionEspectaculo, categoriaEspectaculo, "puntual", aforoLocalidades, ventasEspectaculo, anoPuntual, mesPuntual, diaPuntual, horaPuntual, minutosPuntual, 0, 0, null, null, 0, 0,0,0,null,0,0,0));
 											}
 											/*
 											 * ESPECTACULO MULTIPLE
@@ -526,11 +522,27 @@ public class ProgramaPrincipal {
 														}
 													}
 												}
-												
+												/*
+												 * OBTENEMOS EL NUMERO DE VENTAS DE LA SEGUNDA SESION DEL ESPECTACULO
+												 */
+												int ventasEspectaculo2 = -1;
+												while(ventasEspectaculo2 < 0) {
+													try {
+														System.out.print("Introduce el numero de ventas del espectaculo: ");
+														ventasEspectaculo2 = entrada.nextInt();
+														entrada = new Scanner(System.in);
+														if(ventasEspectaculo2 < 0) {
+															System.out.println("El numero de ventas del espectaculo debe ser positivo o 0");
+														}
+													}catch(Exception ex) {
+														System.out.println("Se ha producido un error al obtener el numero de ventas del espectaculo. Se esperaba un valor entero");
+														entrada = new Scanner(System.in);
+													}
+												}
 												/*
 												 * DAMOS DE ALTA EL ESPECTACULO
 												 */
-												System.out.println(espectaculos.darAltaEspectaculo(prop, sql, tituloEspectaculo, descripcionEspectaculo, categoriaEspectaculo, tipoEspectaculo, aforoLocalidades, ventasEspectaculo, 0, 0, 0, 0, 0, horaMultiple1, minutosMultiple1, diaSemanaMultiple1, diaSemanaMultiple2, horaMultiple2, minutosMultiple2, 0, 0, null, 0, 0));
+												System.out.println(espectaculos.darAltaEspectaculo(prop, sql, tituloEspectaculo, descripcionEspectaculo, categoriaEspectaculo, tipoEspectaculo, aforoLocalidades, ventasEspectaculo, 0, 0, 0, 0, 0, horaMultiple1, minutosMultiple1, diaSemanaMultiple1, diaSemanaMultiple2, horaMultiple2, minutosMultiple2, 0, 0, null, 0, 0,ventasEspectaculo2));
 											}
 											/*
 											 * ESPECTACULO TEMPORADA
@@ -639,9 +651,26 @@ public class ProgramaPrincipal {
 													}
 												}
 												/*
+												 * OBTENEMOS EL NUMERO DE VENTAS DEL ESPECTACULO
+												 */
+												int ventasEspectaculo2 = -1;
+												while(ventasEspectaculo2 < 0) {
+													try {
+														System.out.print("Introduce el numero de ventas del espectaculo: ");
+														ventasEspectaculo2 = entrada.nextInt();
+														entrada = new Scanner(System.in);
+														if(ventasEspectaculo2 < 0) {
+															System.out.println("El numero de ventas del espectaculo debe ser positivo o 0");
+														}
+													}catch(Exception ex) {
+														System.out.println("Se ha producido un error al obtener el numero de ventas del espectaculo. Se esperaba un valor entero");
+														entrada = new Scanner(System.in);
+													}
+												}
+												/*
 												 * DAMOS DE ALTA AL ESPECTACULO
 												 */
-												System.out.println(espectaculos.darAltaEspectaculo(prop, sql, tituloEspectaculo, descripcionEspectaculo, categoriaEspectaculo, tipoEspectaculo, aforoLocalidades, ventasEspectaculo, 0, 0, 0, 0, 0, 0, 0, null, null, 0, 0, horaTemporada1, minutosTemporada1, diaSemanaTemporada, horaTemporada2, minutosTemporada2));
+												System.out.println(espectaculos.darAltaEspectaculo(prop, sql, tituloEspectaculo, descripcionEspectaculo, categoriaEspectaculo, tipoEspectaculo, aforoLocalidades, ventasEspectaculo, 0, 0, 0, 0, 0, 0, 0, null, null, 0, 0, horaTemporada1, minutosTemporada1, diaSemanaTemporada, horaTemporada2, minutosTemporada2,ventasEspectaculo2));
 											}
 										}
 										// Caso 2: Cancelar un espectaculo ( todas las sesiones o una en particular)
@@ -699,10 +728,47 @@ public class ProgramaPrincipal {
 										// Caso 3: Actualizar los datos de un espectáculo
 										else if(administrador == 3) {
 											espectaculos.imprimirEspectaculos(); // Mostramos los datos de todos los espectaculos
-											int identificador = 0;
-											// Pedimos al usuario el identificador del espectaculo a modificar
+											int identificadorEspectaculo = 0;
+											/* 
+											 * OBTENCION DEL IDENTIFICADOR DEL ESPECTACULO
+											 */
+											try {
+												// Pedimos al usuario el identificador del espectaculo a modificar
+												identificadorEspectaculo = entrada.nextInt();
+												entrada = new Scanner(System.in);
+											}catch(Exception ex) {
+												System.out.println("Se esperaba un valor entero al obtener el identificador del espectaculo");
+												entrada = new Scanner(System.in);
+											}
+											/*
+											 * IDENTIFICADOR DEL ESPECTACULO ES VALIDO
+											 */
+											if(identificadorEspectaculo != 0) {
+												String descripcionEspectaculo = null;
+												int aforoLocalidades = 0;
+												int sesion = 0;
+												int opcionEdicion = -1;
+												while(opcionEdicion != 0) {
+													menu.modificarDatosEspectaculo();// Mostramos un menu con las opciones de los datos modificables del espectaculo
+													try {
+														// Obtenemos la opcion a modificar
+														// Almacenamos en una variable los datos a modificar de la base de datos
+														opcionEdicion = entrada.nextInt();
+														entrada = new Scanner(System.in);
+														
+														
+													}catch(Exception ex) {
+														System.out.println("La opcion de modificar datos del espectaculo debe ser un entero");
+														entrada = new Scanner(System.in);
+													}
+												}
+												/*
+												 * MODIFICAMOS LOS DATOS DEL ESPECTACULO
+												 */
+												// String cadena = espectaculos.modificarDatosEspectaculo(prop,sql,descripcionEspectaculo,aforoLocalidades,sesionEspectaculo,diaSemana,,horaSesion,minutosSesion,diaSesion,mesSesion,anoSesion);
+												//System.out.println(cadena);
+											}
 											
-											// Mostramos un menu con las opciones de los datos modificables del espectaculo
 										}
 										// Caso 4: Contabilizar la venta de entradas para una sesión de un espectáculo
 										// Caso 5: Consultar las localidades disponibles para un espectáculo, dada una fecha de  representación

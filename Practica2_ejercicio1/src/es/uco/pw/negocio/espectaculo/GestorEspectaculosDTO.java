@@ -232,12 +232,12 @@ public class GestorEspectaculosDTO {
 			System.out.println("\tCategoria del espectaculo: " + this.listaEspectaculos.get(i).getCategoriaEspectaculo());// Mostramos la categoria del espectaculo
 			System.out.println("\tTipo del espectaculo: " + this.listaEspectaculos.get(i).getTipoEspectaculo());// Mostramos el tipo del espectaculo
 			System.out.println("\tAforo de localidades del espectaculo: " + this.listaEspectaculos.get(i).getAforoLocalidadesEspectaculo());// Mostramos el aforo de localidades del espectaculo
-			System.out.println("\tNumero de ventas del espectaculo: " + this.listaEspectaculos.get(i).getVentasEspectaculo());// Mostramos el numero de ventas del espectaculo
 			// Caso 1: el espectaculo es de tipo puntual
 			if(this.listaEspectaculos.get(i).getTipoEspectaculo().equals("puntual")) {
 				System.out.println("\tSesion: " + this.listaEspectaculos.get(i).getSesionEspectaculo().getIdentificadorSesion());
 				System.out.println("\tFecha de la sesion: " + this.listaEspectaculos.get(i).getSesionEspectaculo().getFechaCompletaSesion());// Imprimimos la fecha completa de la sesion
 				System.out.println("\tHora completa de la sesion: " + this.listaEspectaculos.get(i).getSesionEspectaculo().getHoraCompleta());// Imprimimos la hora completa de la sesion
+				System.out.println("\tNumero de ventas de localidades: " + this.listaEspectaculos.get(i).getSesionEspectaculo().getVentasSesion() );// Mostramos el numero de ventas del espectaculo
 			}
 			// Caso 2: El espectaculo es de tipo multiple
 			else if(this.listaEspectaculos.get(i).getTipoEspectaculo().equals("multiple")) {
@@ -246,6 +246,7 @@ public class GestorEspectaculosDTO {
 					System.out.println("\tSesion " + this.listaEspectaculos.get(i).getSesionesEspectaculo().get(j).getIdentificadorSesion()); // Imprimimos el numero de la sesion
 					System.out.println("\tDia de la semana: " + this.listaEspectaculos.get(i).getSesionesEspectaculo().get(j).getDiaSemana()); // Imprimimos el dia de la semana de la sesion
 					System.out.println("\tHora de la semana: " + this.listaEspectaculos.get(i).getSesionesEspectaculo().get(j).getHoraCompleta()); // Imprimimos la hora completa de la sesion
+					System.out.println("\tNumero de ventas de localidades: " + this.listaEspectaculos.get(i).getSesionesEspectaculo().get(j).getVentasSesion()); // Imprimimos el numero de ventas de localidades de la sesion
 				}
 			}
 			// Caso 3: El espectaculo es de temporada
@@ -255,6 +256,7 @@ public class GestorEspectaculosDTO {
 						System.out.println("\tSesion " + this.listaEspectaculos.get(i).getSesionesEspectaculo().get(j).getIdentificadorSesion()); // Imprimimos el numero de la sesion
 						System.out.println("\tDia de la semana: " + this.listaEspectaculos.get(i).getSesionesEspectaculo().get(j).getDiaSemana()); // Imprimimos el dia de la semana de la sesion
 						System.out.println("\tHora de inicio de la sesion de la semana: " + this.listaEspectaculos.get(i).getSesionesEspectaculo().get(j).getHoraCompleta()); // Imprimimos la hora de inicio completa de la sesion
+						System.out.println("\tNumero de ventas de localidades: " + this.listaEspectaculos.get(i).getSesionesEspectaculo().get(j).getVentasSesion()); // Imprimimos el numero de ventas de localidades de la sesion
 					}
 					else {
 						System.out.println("\tHora de finalizacion de la sesion de la semana: " + this.listaEspectaculos.get(i).getSesionesEspectaculo().get(j).getHoraCompleta()); // Imprimimos la hora de finalizacion completa de la sesion
@@ -314,19 +316,19 @@ public class GestorEspectaculosDTO {
 	 * @param categoriaEspectaculo Categoria del espectaculo
 	 * @param tipoEspectaculo Tipo del espectaculo
 	 * @param aforoLocalidades Aforo de localidades del espectaculo
-	 * @param ventasEspectaculo
-	 * @param anoPuntual
-	 * @param mesPuntual
-	 * @param diaPuntual
-	 * @param horaPuntual
-	 * @param minutosPuntual
+	 * @param ventasEspectaculo Numero de ventas de la sesion del espectaculo
+	 * @param anoPuntual Ano de la sesion de un espectaculo puntual
+	 * @param mesPuntual Mes de la sesion de un espectaculo puntual
+	 * @param diaPuntual Dia de la sesion de un espectaculo puntual
+	 * @param horaPuntual Hora de la sesion de un espectaculo puntual
+	 * @param minutosPuntual Minutos de la sesion de un espectaculo puntual
 	 * @param horaMultiple1 Hora de la primera sesion del espectaculo multiple
 	 * @param minutosMultiple1 Minutos de la primera sesion del espectaculo
 	 * @param diaSemanaMultiple1 Primer dia de la semana del espectaculo multiple
 	 * @param diaSemanaMultiple2 Dia de la semana de la segunda sesion del espectaculo multiple
 	 * @param horaMultiple2 Hora de la segunda sesion del espectaculo multiple
 	 * @param minutosMultiple2 Minutos de la segunda sesion del espectaculo multiple
-	 * @param minutosTemporada2 
+	 * @param minutosTemporada2 Minutos de la segunda sesion del espectaculo de temporada
 	 * @param horaTemporada2 Hora de la segunda sesion del espectaculo de temporada
 	 * @param diaSemanaTemporada Dia de la semana de ambas sesiones del espectaculo de temporada
 	 * @param minutosTemporada1 Minutos de la primera sesion del espectaculo de temporada
@@ -334,12 +336,15 @@ public class GestorEspectaculosDTO {
 	 * @return Cadena con el estado del registro del espectaculo
 	 */
 
-	public String darAltaEspectaculo(Properties prop, Properties sql,String tituloEspectaculo, String descripcionEspectaculo,
-			CategoriaEspectaculo categoriaEspectaculo, String tipoEspectaculo, int aforoLocalidades,int ventasEspectaculo, 
+	public String darAltaEspectaculo(Properties prop, Properties sql,String tituloEspectaculo, 
+			String descripcionEspectaculo,CategoriaEspectaculo categoriaEspectaculo, 
+			String tipoEspectaculo, int aforoLocalidades,
+			int ventasEspectaculo1,
 			int anoPuntual, int mesPuntual, int diaPuntual, int horaPuntual, int minutosPuntual, 
-			int horaMultiple1, int minutosMultiple1, String diaSemanaMultiple1, String diaSemanaMultiple2, int horaMultiple2, 
-			int minutosMultiple2, 
-			int horaTemporada1, int minutosTemporada1, String diaSemanaTemporada, int horaTemporada2, int minutosTemporada2) 
+			int horaMultiple1, int minutosMultiple1, String diaSemanaMultiple1, String diaSemanaMultiple2, 
+			int horaMultiple2, int minutosMultiple2, 
+			int horaTemporada1, int minutosTemporada1, String diaSemanaTemporada, 
+			int horaTemporada2, int minutosTemporada2,int ventasEspectaculo2) 
 	{
 		String cadena = "Se ha producido un error al dar de alta a los datos del usuario";
 		EspectaculoDTO espectaculo = new EspectaculoDTO();
@@ -381,9 +386,15 @@ public class GestorEspectaculosDTO {
 					cadena = "Error. El mes indicado tiene como maximo 31 dias.";
 					return cadena;
 				}
-				EspectaculoPuntualDTO puntual = FactoriaEspectaculos.crearEspectaculoPuntual(tituloEspectaculo,descripcionEspectaculo,categoriaEspectaculo,tipoEspectaculo,aforoLocalidades,ventasEspectaculo,anoPuntual,mesPuntual,diaPuntual,horaPuntual,minutosPuntual);
+				/*
+				 * NUMERO DE VENTAS DEL ESPECTACULO ES SUPERIOR AL NUMERO DE LOCALIDADES
+				 */
+				if(ventasEspectaculo1 > aforoLocalidades) {
+					cadena = "Error. El numero de ventas de localidades de la sesion es superior al numero de localidades del espectaculo";
+					return cadena;
+				}
+				EspectaculoPuntualDTO puntual = FactoriaEspectaculos.crearEspectaculoPuntual(tituloEspectaculo,descripcionEspectaculo,categoriaEspectaculo,tipoEspectaculo,aforoLocalidades,ventasEspectaculo1,anoPuntual,mesPuntual,diaPuntual,horaPuntual,minutosPuntual);
 				espectaculo.setSesionEspectaculo(puntual.getSesionEspectaculo());
-				espectaculo.setVentasEspectaculo(puntual.getVentasEspectaculo());
 				espectaculo.setAforoLocalidadesEspectaculo(puntual.getAforoLocalidadesEspectaculo());
 				espectaculo.setTipoEspectaculo(puntual.getTipoEspectaculo());
 				espectaculo.setCategoriaEspectaculo(puntual.getCategoriaEspectaculo());
@@ -401,9 +412,18 @@ public class GestorEspectaculosDTO {
 					cadena = "Ambas sesiones tienen los mismos datos";
 					return cadena;
 				}
-				EspectaculoMultipleDTO multiple = FactoriaEspectaculos.crearEspectaculoMultiple(tituloEspectaculo,descripcionEspectaculo,categoriaEspectaculo,tipoEspectaculo,aforoLocalidades,ventasEspectaculo,horaMultiple1,minutosMultiple1,diaSemanaMultiple1,diaSemanaMultiple2,horaMultiple2, minutosMultiple2);
+				/*
+				 * COMPROBAMOS SI LAS VENTAS DE LAS SESIONES SON CORRECTAS
+				 */
+				if( (ventasEspectaculo1+ventasEspectaculo2) > aforoLocalidades) {
+					cadena = "Error. El numero de ventas de localidades de las sesiones son superiores al numero de localidades del espectaculo";
+					return cadena;
+				}
+				// DISMINUIMOS EL AFORO DE LOCALIDADES
+				aforoLocalidades = ventasEspectaculo1+ventasEspectaculo2;
+				// Creamos el espectaculo multiple
+				EspectaculoMultipleDTO multiple = FactoriaEspectaculos.crearEspectaculoMultiple(tituloEspectaculo,descripcionEspectaculo,categoriaEspectaculo,tipoEspectaculo,aforoLocalidades,ventasEspectaculo1,horaMultiple1,minutosMultiple1,diaSemanaMultiple1,diaSemanaMultiple2,horaMultiple2, minutosMultiple2,ventasEspectaculo2);
 				espectaculo.setSesionesEspectaculo(multiple.getSesionesEspectaculo());
-				espectaculo.setVentasEspectaculo(multiple.getVentasEspectaculo());
 				espectaculo.setAforoLocalidadesEspectaculo(multiple.getAforoLocalidadesEspectaculo());
 				espectaculo.setTipoEspectaculo(multiple.getTipoEspectaculo());
 				espectaculo.setTituloEspectaculo(multiple.getTituloEspectaculo());
@@ -421,13 +441,22 @@ public class GestorEspectaculosDTO {
 					cadena = "Las sesiones del espectaculo de temporada tienen la misma hora";
 					return cadena;
 				}
-				EspectaculoTemporadaDTO temporada = FactoriaEspectaculos.crearEspectaculoMultiple(tituloEspectaculo, descripcionEspectaculo, categoriaEspectaculo, tipoEspectaculo, aforoLocalidades, ventasEspectaculo, horaTemporada1, minutosTemporada1, diaSemanaTemporada, horaTemporada2, minutosTemporada2);
+				/*
+				 * COMPROBAMOS SI LAS VENTAS DE LAS SESIONES SON CORRECTAS
+				 */
+				if( (ventasEspectaculo1+ventasEspectaculo2) > aforoLocalidades) {
+					cadena = "Error. El numero de ventas de localidades de las sesiones son superiores al numero de localidades del espectaculo";
+					return cadena;
+				}
+				// DISMINUIMOS EL AFORO DE LOCALIDADES
+				aforoLocalidades = ventasEspectaculo1+ventasEspectaculo2;
+				// Creamos el espectaculo
+				EspectaculoTemporadaDTO temporada = FactoriaEspectaculos.crearEspectaculoMultiple(tituloEspectaculo, descripcionEspectaculo, categoriaEspectaculo, tipoEspectaculo, aforoLocalidades, ventasEspectaculo1, horaTemporada1, minutosTemporada1, diaSemanaTemporada, horaTemporada2, minutosTemporada2,ventasEspectaculo2);
 				espectaculo.setTituloEspectaculo(temporada.getTituloEspectaculo());
 				espectaculo.setDescripcionEspectaculo(temporada.getDescripcionEspectaculo());
 				espectaculo.setCategoriaEspectaculo(temporada.getCategoriaEspectaculo());
 				espectaculo.setTipoEspectaculo(temporada.getTipoEspectaculo());
 				espectaculo.setAforoLocalidadesEspectaculo(temporada.getAforoLocalidadesEspectaculo());
-				espectaculo.setVentasEspectaculo(temporada.getVentasEspectaculo());
 				espectaculo.setSesionesEspectaculo(temporada.getSesionesEspectaculo());
 			}
 			
@@ -464,16 +493,7 @@ public class GestorEspectaculosDTO {
 					/*
 					 * DATOS DE LA SESION NO REGISTRADOS
 					 */
-					if(status == 0) {
-						cadena = "Se ha producido un error al registrar los datos de sesion del espectaculo";
-						status = espectaculoDAO.eliminacionEspectaculo(prop,sql,espectaculo.getIdentificadorEspectaculo());
-						if(status == 0) {
-							cadena = cadena + ". Se ha producido un error al eliminar los datos del espectaculo";
-						}
-						else {
-							cadena = cadena + ". Se han eliminado los datos ya insertados en la base de datos";
-						}
-					}
+					if(status == 0) {cadena = "Se ha producido un error al registrar los datos de sesion del espectaculo";}
 					
 					/*
 					 * DATOS DE SESION REGISTRADOS
@@ -592,7 +612,6 @@ public class GestorEspectaculosDTO {
 				espectaculo.setDescripcionEspectaculo(this.listaEspectaculos.get(i).getDescripcionEspectaculo());
 				espectaculo.setCategoriaEspectaculo(this.listaEspectaculos.get(i).getCategoriaEspectaculo());
 				espectaculo.setAforoLocalidadesEspectaculo(this.listaEspectaculos.get(i).getAforoLocalidadesEspectaculo());
-				espectaculo.setVentasEspectaculo(this.listaEspectaculos.get(i).getVentasEspectaculo());
 				espectaculo.setTipoEspectaculo(this.listaEspectaculos.get(i).getTipoEspectaculo());
 				// ESPECTACULO PUNTUAL
 				if(espectaculo.getTipoEspectaculo().equals("puntual")) {espectaculo.setSesionEspectaculo(this.listaEspectaculos.get(i).getSesionEspectaculo());}

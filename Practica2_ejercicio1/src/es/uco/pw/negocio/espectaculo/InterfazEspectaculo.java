@@ -104,20 +104,6 @@ public interface InterfazEspectaculo {
 	public void setAforoLocalidadesEspectaculo(int aforo);
 	
 	/**
-	 * Funcion que obtiene el numero de ventas de un espectaculo
-	 * @return Numero de ventas del espectaculo
-	 */
-	
-	public int getVentasEspectaculo();
-	
-	/**
-	 * Funcion que modifica el numero de ventas del espectaculo
-	 * @param ventas Nuevo numero de ventas de un espectaculo
-	 */
-	
-	public void setVentasEspectaculo(int ventas);
-	
-	/**
 	 * Funcion que obtiene la lista de sesiones de un espectaculo
 	 * @return Lista de sesiones de un espectaculo
 	 */

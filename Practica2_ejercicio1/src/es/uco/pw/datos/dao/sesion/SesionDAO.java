@@ -24,6 +24,21 @@ public class SesionDAO {
 	private int horaSesion; // Hora de la sesion
 	private int minutosSesion; // Minutos de la sesion
 	private String diaSemana; // Dia de la semana
+	private int ventasEspectaculo; // Numero de ventas de la sesion
+	/**
+	 * Funcion que obtiene el numero de ventas de la sesion
+	 * @return Numero de ventas de la sesion
+	 */
+	public int getVentasSesion() {
+		return this.ventasEspectaculo;
+	}
+	/**
+	 * Funcion que modifica el numero de ventas de una sesion
+	 * @param ventas Nuevo numero de ventas de una sesion
+	 */
+	public void setVentasSesion(int ventas) {
+		this.ventasEspectaculo = ventas;
+	}
 	/**
 	 * Funcion que obtiene el dia de la semana
 	 * @return Dia de la semana de la sesion
@@ -158,6 +173,7 @@ public class SesionDAO {
 				ps.setInt(4, espectaculo.getSesionEspectaculo().getAnoSesion()); // Indicamos en la sentencia sql el ano de la sesion
 				ps.setInt(5, espectaculo.getSesionEspectaculo().getHoraSesion()); // Indicamos en la sentencia sql la hora de la sesion
 				ps.setInt(6, espectaculo.getSesionEspectaculo().getMinutosSesion()); // Indicamos en la sentencia sql los minutos de la sesion
+				ps.setInt(7, espectaculo.getSesionEspectaculo().getVentasSesion()); // Indicamos en la sentencia sql el numero de ventas de la sesion
 				status = ps.executeUpdate(); // Ejecutamos la sentencia sql
 				ps.close(); // Cierre de la sentencia sql
 			}
@@ -169,6 +185,7 @@ public class SesionDAO {
 					ps.setInt(2, espectaculo.getSesionesEspectaculo().get(i).getHoraSesion());
 					ps.setInt(3, espectaculo.getSesionesEspectaculo().get(i).getMinutosSesion());
 					ps.setString(4, espectaculo.getSesionesEspectaculo().get(i).getDiaSemana());
+					ps.setInt(5, espectaculo.getSesionesEspectaculo().get(i).getVentasSesion()); // Indicamos en la sentencia sql el numero de ventas de la sesion
 					status = ps.executeUpdate();
 				}
 				ps.close(); // Cierre de la sentencia sql
@@ -181,6 +198,7 @@ public class SesionDAO {
 					ps.setInt(2, espectaculo.getSesionesEspectaculo().get(i).getHoraSesion());
 					ps.setInt(3, espectaculo.getSesionesEspectaculo().get(i).getMinutosSesion());
 					ps.setString(4, espectaculo.getSesionesEspectaculo().get(i).getDiaSemana());
+					ps.setInt(5, espectaculo.getSesionesEspectaculo().get(i).getVentasSesion()); // Indicamos en la sentencia sql el numero de ventas de la sesion
 					status = ps.executeUpdate();
 				}
 				ps.close(); // Cierre de la sentencia sql
@@ -194,8 +212,15 @@ public class SesionDAO {
 		return status;
 	}
 	
+	/**
+	 * Funcion que modifica los datos de sesion de un espectaculo
+	 * @param prop Fichero de configuracion
+	 * @param sql Fichero de sentencias sql
+	 * @param sesion Datos modificados de la sesion
+	 * @return Numero de filas modificadas de la sesion
+	 */
 	
-	public int modificarSesionEspectaculoTemporada(Properties prop, Properties sql, EspectaculoDTO espectaculo) {
+	public int modificarSesionEspectaculo(Properties prop, Properties sql, SesionEspectaculoDTO sesion) {
 		return 0;
 	}
 	
@@ -245,6 +270,7 @@ public class SesionDAO {
 				sesion.setHoraSesion(rs.getInt("HORA_SESION")); // Obtenemos la hora de la sesion
 				sesion.setMinutos(rs.getInt("MINUTOS_SESION")); // Obtenemos los minutos de la sesion
 				sesion.setHoraCompleta(); // Obtenemos los datos de la hora completa
+				sesion.setVentasSesion(rs.getInt("VENTAS")); // Obtenemos las ventas de la sesion
 			}
 			ps.close(); // Cierre de la sentencia sql
 			if(con != null) {
@@ -278,6 +304,7 @@ public class SesionDAO {
 				sesion.setMinutos(rs.getInt("MINUTOS_SESION")); // Obtenemos los minutos de la sesion
 				sesion.setHoraCompleta(); // Obtenemos la hora completa de la sesion
 				sesion.setDiaSemana(rs.getString("DIA_SEMANA_SESION")); // Obtenemos el dia de la semana de la sesion
+				sesion.setVentasSesion(rs.getInt("VENTAS")); // Obtenemos las ventas de la sesion
 				sesiones.add(sesion); // anadimos los datos de la sesion
 			}
 			ps.close(); // Cierre de la sentencia sql
@@ -312,6 +339,7 @@ public class SesionDAO {
 				sesion.setMinutos(rs.getInt("MINUTOS_SESION")); // Obtenemos los minutos de la sesion
 				sesion.setHoraCompleta(); // Obtenemos la hora completa de la sesion
 				sesion.setDiaSemana(rs.getString("DIA_SEMANA_SESION")); // Obtenemos el dia de la semana de la sesion
+				sesion.setVentasSesion(rs.getInt("VENTAS")); // Obtenemos el numero de ventas de la sesion
 				sesiones.add(sesion); // anadimos los datos de la sesion
 			}
 			ps.close(); // Cierre de la sentencia sql

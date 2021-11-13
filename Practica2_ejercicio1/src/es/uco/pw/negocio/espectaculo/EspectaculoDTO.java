@@ -16,7 +16,6 @@ public class EspectaculoDTO implements InterfazEspectaculo{
 	private String tipoEspectaculo; // Tipo del espectaculo
 	private SesionEspectaculoDTO sesionEspectaculo; // sesion del espectaculo
 	private int localidades; // Aforo de localidades del evento
-	private int ventasEspectaculo; // Numero de ventas del espectaculo
 	private ArrayList<SesionEspectaculoDTO> sesionesEspectaculo; // Lista de sesiones del espectaculo
 
 	/**
@@ -98,16 +97,6 @@ public class EspectaculoDTO implements InterfazEspectaculo{
 	@Override
 	public void setAforoLocalidadesEspectaculo(int aforo) {
 		this.localidades = aforo;
-	}
-
-	@Override
-	public int getVentasEspectaculo() {
-		return this.ventasEspectaculo;
-	}
-
-	@Override
-	public void setVentasEspectaculo(int ventas) {
-		this.ventasEspectaculo = ventas;
 	}
 
 	@Override

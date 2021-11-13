@@ -291,7 +291,7 @@ public class EspectaculoDAO {
  * @param tituloEspectaculo Titulo del espectaculo
  * @return Numero de filas insertadas en la base de datos
  */
-public int insercionEspectaculo(Properties prop, Properties sql, EspectaculoDTO espectaculoDTO,String tituloEspectaculo) {
+public int insercionEspectaculo(Properties prop, Properties sql, EspectaculoDTO espectaculoDTO) {
 	int status = 0; // Numero de filas modificadas de la base de datos
 	try {
 		Connection con = ConexionBD.getConexion(prop); // Conexion con la base de datos
@@ -301,7 +301,6 @@ public int insercionEspectaculo(Properties prop, Properties sql, EspectaculoDTO 
 		ps.setString(3, espectaculoDTO.getDescripcionEspectaculo()); // Indicamos en la sentencia sql la descripcion del espectaculo a insertar
 		ps.setString(4, espectaculoDTO.getCategoriaEspectaculo().toString()); // Indicamos en la sentencia sql la categoria del espectaculo
 		ps.setInt(5, espectaculoDTO.getAforoLocalidadesEspectaculo()); // Indicamos en la sentencia sql el aforo del espectaculo a insertar
-		ps.setInt(6, espectaculoDTO.getVentasEspectaculo()); // Indicamos en la sentencia sql la venta de entradas del espectaculo a insertar
 		status = ps.executeUpdate(); // Ejecutamos la sentencia sql
 		ps.close(); // finalizacion de la sentencia sql
 		if(con != null) {
@@ -333,7 +332,7 @@ public ArrayList<EspectaculoDTO> obtencionEspectaculos(Properties prop, Properti
 			espectaculo.setDescripcionEspectaculo(rs.getString("DESCRIPCION")); // Almacenamos la descripcion del espectaculo
 			String categoria = rs.getString("CATEGORIA"); // Obtenemos la categoria del espectaculo
 			// Caso 1: La categoria es de tipo <obra de teatro>
-			if(categoria.equals("obra de teatro") ) {
+			if(categoria.equals("obraTeatro") ) {
 				espectaculo.setCategoriaEspectaculo(CategoriaEspectaculo.obraTeatro); // Almacenamos la categoria del espectaculo
 			}
 			// Caso 2: La categoria es de tipo <monologo>
@@ -345,7 +344,6 @@ public ArrayList<EspectaculoDTO> obtencionEspectaculos(Properties prop, Properti
 				espectaculo.setCategoriaEspectaculo(CategoriaEspectaculo.concierto); // Almacenamos la categoria del espectaculo
 			}
 			espectaculo.setAforoLocalidadesEspectaculo(rs.getInt("LOCALIDADES")); // Almacenamos el aforo de localidades del espectaculo
-			espectaculo.setVentasEspectaculo(rs.getInt("VENTAS")); // Almacenamos el numero de ventas del espectaculo
 			listaEspectaculos.add(espectaculo); // Anadimos los datos del espectaculo a la lista de espectaculos
 		}
 		rs.close(); // Cierre de la ejecucion de la sentencia sql
@@ -362,52 +360,7 @@ public ArrayList<EspectaculoDTO> obtencionEspectaculos(Properties prop, Properti
 
 
 
-/**
- * Funcion que anade los datos de un espectaculo en la base de datos
- * @param prop Fichero de configuracion
- * @param sql Fichero de sentencias sql
- * @param espectaculoDTO Espectaculo a insertar en la base de datos
- * @return Numero de filas insertadas en la base de datos
- */
-public int insercionEspectaculo(Properties prop, Properties sql, EspectaculoDTO espectaculoDTO) {
-	int status = 0; // Numero de filas modificadas de la base de datos
-	try {
-		Connection con = ConexionBD.getConexion(prop); // Conexion con la base de datos
-		PreparedStatement ps=con.prepareStatement(sql.getProperty("InsercionEspectaculoComun")); // Sentencia sql para insertar un espectaculo en la base de datos
-		ps.setString(1,espectaculoDTO.getTituloEspectaculo()); // Indicamos en la sentencia sql el titulo del espectaculo insertar
-		ps.setString(2, espectaculoDTO.getTipoEspectaculo()); // Indicamos en la sentencia sql el tipo del espectaculo a insertar
-		ps.setString(3, espectaculoDTO.getDescripcionEspectaculo()); // Indicamos en la sentencia sql la descripcion del espectaculo a insertar
-		//Categoria del espectaculo
-		String cat = espectaculoDTO.getCategoriaEspectaculo().toString(); 
-		
-		if(cat.equals("concierto")) {
-			ps.setString(4,"concierto"); // Indicamos en la sentencia sql la categoria del espectaculo insertar
-		}
-		// Caso 2: El espectaculo es un monologo
-		else if(cat.equals("monologo")) {
-			ps.setString(4,"monologo"); // Indicamos en la sentencia sql la categoria del espectaculo insertar
-		}
-		// Caso 3: El espectaculo es una obra de teatro
-		else if(cat.equals("obraTeatro")){
-			ps.setString(4,"obra de teatro"); // Indicamos en la sentencia sql la categoria del espectaculo insertar
-		
-		}
-		
-		//ps.setString(4,espectaculoDTO.getCategoriaEspectaculo()); // Indicamos en la sentencia sql el titulo del espectaculo insertar
-		ps.setInt(5, espectaculoDTO.getAforoLocalidadesEspectaculo()); // Indicamos en la sentencia sql el aforo del espectaculo a insertar
-		ps.setInt(6, espectaculoDTO.getVentasEspectaculo()); // Indicamos en la sentencia sql la venta de entradas del espectaculo a insertar
-		
-		status = ps.executeUpdate(); // Ejecutamos la sentencia sql
-		ps.close(); // finalizacion de la sentencia sql
-		if(con != null) {
-			con = null; // Cerramos la conexion con la base de datos
-		}
-		
-}catch(Exception ex) {
-		System.out.println("Se ha producido un error al insertar los datos del espectaculo en la base de datos");
-	}
-	return status; // Retornamos el numero de filas modificadas de la base de datos
-}
+
 /**
  * Funcion que comprueba la existencia de un espectaculo en funcion de su titulo
  * @param prop Fichero de configuracion
@@ -452,7 +405,7 @@ public EspectaculoDTO obtencionEspectaculo(Properties prop, Properties sql, Stri
 			espectaculo.setDescripcionEspectaculo(rs.getString("DESCRIPCION")); // Almacenamos la descripcion del espectaculo
 			String categoria = rs.getString("CATEGORIA"); // Obtenemos la categoria del espectaculo
 			// Caso 1: La categoria es de tipo <obra de teatro>
-			if(categoria.equals("obra de teatro") ) {
+			if(categoria.equals("obraTeatro") ) {
 				espectaculo.setCategoriaEspectaculo(CategoriaEspectaculo.obraTeatro); // Almacenamos la categoria del espectaculo
 			}
 			// Caso 2: La categoria es de tipo <monologo>
@@ -464,7 +417,6 @@ public EspectaculoDTO obtencionEspectaculo(Properties prop, Properties sql, Stri
 				espectaculo.setCategoriaEspectaculo(CategoriaEspectaculo.concierto); // Almacenamos la categoria del espectaculo
 			}
 			espectaculo.setAforoLocalidadesEspectaculo(rs.getInt("LOCALIDADES")); // Almacenamos el aforo de localidades del espectaculo
-			espectaculo.setVentasEspectaculo(rs.getInt("VENTAS")); // Almacenamos el numero de ventas del espectaculo
 		}
 		rs.close(); // Cierre de la ejecucion de la sentencia sql
 		ps.close(); // Cierre de la sentencia sql
