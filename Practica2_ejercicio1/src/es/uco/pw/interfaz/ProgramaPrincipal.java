@@ -772,7 +772,71 @@ public class ProgramaPrincipal {
 										}
 										// Caso 4: Contabilizar la venta de entradas para una sesión de un espectáculo
 										// Caso 5: Consultar las localidades disponibles para un espectáculo, dada una fecha de  representación
+										
+										
 										// caso 6: Búsqueda de espectáculos por título o por categoría
+										else if(administrador == 6) {
+											int opc = 1;
+											System.out.print("Buscar por titulo (1) o categoria (2): ");
+											try{opc = entrada.nextInt();
+											entrada = new Scanner(System.in);		
+											}catch(Exception ex) {
+												System.out.println("Se esperaba un valor entero al obtener el identificador del espectaculo");
+												entrada = new Scanner(System.in);
+												opc = 1;}
+											String bus = "";
+											
+											if(opc == 1) {
+												opc = 1;
+												System.out.print("Buscando por titulo, introduzca el titulo: ");
+												bus = entrada.nextLine();
+												System.out.println(espectaculos.obtencionDatosEspectaculo(bus).mostrarEspectaculo());
+												
+											}
+											else {
+												opc = 2;	
+												menu.mostrarCategoriaEspectaculo();
+												CategoriaEspectaculo categoriaEspectaculo = null;
+												int opcionCategoria = 0;
+												while(opcionCategoria == 0) {
+													try {
+														opcionCategoria = entrada.nextInt();
+														entrada = new Scanner(System.in); // Limpiamos el buffer de entrada
+														/*
+														 * CATEGORIA DEL ESPECTACULO ES UNA OBRA DE TEATRO
+														 */
+														if(opcionCategoria == 1) { categoriaEspectaculo = CategoriaEspectaculo.obraTeatro;}
+														/*
+														 * CATEGORIA DEL ESPECTACULO ES UN MONOLOGO
+														 */
+														else if(opcionCategoria==2) { categoriaEspectaculo = CategoriaEspectaculo.monologo;}
+														/*
+														 * CATEGORIA DEL ESPECTACULO ES UN CONCIERTO
+														 */
+														else if(opcionCategoria==3) { categoriaEspectaculo = CategoriaEspectaculo.concierto;}
+														/*
+														 * CATEGORIA DEL ESPECTACULO NO DISPONIBLE
+														 */
+														else { 
+															System.out.println("Categoria del espectaculo no disponible");
+															opcionCategoria = 0;
+														}
+													}catch(Exception ex) {
+														System.out.println("Se ha producido un error al obtener la categoria del espectaculo. Se esperaba un valor entero");
+														entrada = new Scanner(System.in);
+														}
+												}
+												 espectaculos.imprimirEspectaculosCat(categoriaEspectaculo);
+											}
+											
+											
+											
+											
+										}
+										
+										
+										
+										
 										// Caso 7: Búsqueda de próximos espectáculos con entradas disponibles, indicando o no una  categoría específica
 										// Caso 8: Publicar una crítica para un espectáculo que ya se ha celebrado
 										else if(administrador == 8) {

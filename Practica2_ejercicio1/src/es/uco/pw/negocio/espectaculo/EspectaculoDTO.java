@@ -109,5 +109,19 @@ public class EspectaculoDTO implements InterfazEspectaculo{
 		this.identificadorEspectaculo = id;
 	}
 
+	/**
+	 * Funcion que obtiene los datos de un espectaculo y los almacena en una cadena
+	 * @return Cadena con los datos del espectaculo
+	 */
+	public String mostrarEspectaculo() {
+		String espectaculo = "Espectaculo: " + this.identificadorEspectaculo + "\n"; // Anadimos el identificador de espectaculo
+		espectaculo = espectaculo + "\tTitulo del espectaculo:" + this.getTituloEspectaculo() + "\n"; // Anadimos el titulo del espectaculo
+		espectaculo = espectaculo + "\tDescripcion del espectaculo: " + this.getDescripcionEspectaculo() + "\n"; // Anadimos la descripcion del espectaculo: 
+		espectaculo = espectaculo + "\tCategoria del espectaculo: " + this.getCategoriaEspectaculo() + "\n"; // Obtenemos la categoria del espectaculo
+		espectaculo = espectaculo + "\tTipo del espectaculo: " + this.getTipoEspectaculo().toString()+"\n"; // Obtenemos el tipo del espectaculo
+		espectaculo = espectaculo + "\tLocaclidades del espectaculo: " + this.getAforoLocalidadesEspectaculo()+"\n"; // Obtenemos las localidades del espectaculo
 
+		
+		return espectaculo;
+	}
 }

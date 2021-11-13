@@ -267,6 +267,59 @@ public class GestorEspectaculosDTO {
 		
 	}
 
+	
+	/**
+	 * Funcion que muestra por pantalla la informacion de todos los espectaculos de una categoria
+	 */
+
+	public void imprimirEspectaculosCat(CategoriaEspectaculo cat) {
+		// Recorremos la lista de espectaculos
+		for(int i=0; i < this.listaEspectaculos.size(); i++) {
+			if(this.listaEspectaculos.get(i).getCategoriaEspectaculo().equals(cat)) {
+			System.out.println("Espectaculo " + this.listaEspectaculos.get(i).getIdentificadorEspectaculo()); // Imprimimos el identificador del espectaculo
+			System.out.println("\tTitulo del espectaculo: " + this.listaEspectaculos.get(i).getTituloEspectaculo()); // Mostramos el titulo del espectaculo
+			System.out.println("\tDescripcion del espectaculo: " + this.listaEspectaculos.get(i).getDescripcionEspectaculo());// Mostramos la descripcion del espectaculo
+			System.out.println("\tCategoria del espectaculo: " + this.listaEspectaculos.get(i).getCategoriaEspectaculo());// Mostramos la categoria del espectaculo
+			System.out.println("\tTipo del espectaculo: " + this.listaEspectaculos.get(i).getTipoEspectaculo());// Mostramos el tipo del espectaculo
+			System.out.println("\tAforo de localidades del espectaculo: " + this.listaEspectaculos.get(i).getAforoLocalidadesEspectaculo());// Mostramos el aforo de localidades del espectaculo
+			// Caso 1: el espectaculo es de tipo puntual
+			if(this.listaEspectaculos.get(i).getTipoEspectaculo().equals("puntual")) {
+				System.out.println("\tSesion: " + this.listaEspectaculos.get(i).getSesionEspectaculo().getIdentificadorSesion());
+				System.out.println("\tFecha de la sesion: " + this.listaEspectaculos.get(i).getSesionEspectaculo().getFechaCompletaSesion());// Imprimimos la fecha completa de la sesion
+				System.out.println("\tHora completa de la sesion: " + this.listaEspectaculos.get(i).getSesionEspectaculo().getHoraCompleta());// Imprimimos la hora completa de la sesion
+				System.out.println("\tNumero de ventas de localidades: " + this.listaEspectaculos.get(i).getSesionEspectaculo().getVentasSesion() );// Mostramos el numero de ventas del espectaculo
+			}
+			// Caso 2: El espectaculo es de tipo multiple
+			else if(this.listaEspectaculos.get(i).getTipoEspectaculo().equals("multiple")) {
+				// Recorremos las listas de sesiones
+				for(int j=0; j < this.listaEspectaculos.get(i).getSesionesEspectaculo().size(); j++) {
+					System.out.println("\tSesion " + this.listaEspectaculos.get(i).getSesionesEspectaculo().get(j).getIdentificadorSesion()); // Imprimimos el numero de la sesion
+					System.out.println("\tDia de la semana: " + this.listaEspectaculos.get(i).getSesionesEspectaculo().get(j).getDiaSemana()); // Imprimimos el dia de la semana de la sesion
+					System.out.println("\tHora de la semana: " + this.listaEspectaculos.get(i).getSesionesEspectaculo().get(j).getHoraCompleta()); // Imprimimos la hora completa de la sesion
+					System.out.println("\tNumero de ventas de localidades: " + this.listaEspectaculos.get(i).getSesionesEspectaculo().get(j).getVentasSesion()); // Imprimimos el numero de ventas de localidades de la sesion
+				}
+			}
+			// Caso 3: El espectaculo es de temporada
+			else if(this.listaEspectaculos.get(i).getTipoEspectaculo().equals("temporada")) {
+				for(int j=0; j < this.listaEspectaculos.get(i).getSesionesEspectaculo().size(); j++) {
+					if(j == 0) {
+						System.out.println("\tSesion " + this.listaEspectaculos.get(i).getSesionesEspectaculo().get(j).getIdentificadorSesion()); // Imprimimos el numero de la sesion
+						System.out.println("\tDia de la semana: " + this.listaEspectaculos.get(i).getSesionesEspectaculo().get(j).getDiaSemana()); // Imprimimos el dia de la semana de la sesion
+						System.out.println("\tHora de inicio de la sesion de la semana: " + this.listaEspectaculos.get(i).getSesionesEspectaculo().get(j).getHoraCompleta()); // Imprimimos la hora de inicio completa de la sesion
+						System.out.println("\tNumero de ventas de localidades: " + this.listaEspectaculos.get(i).getSesionesEspectaculo().get(j).getVentasSesion()); // Imprimimos el numero de ventas de localidades de la sesion
+					}
+					else {
+						System.out.println("\tHora de finalizacion de la sesion de la semana: " + this.listaEspectaculos.get(i).getSesionesEspectaculo().get(j).getHoraCompleta()); // Imprimimos la hora de finalizacion completa de la sesion
+					}
+				}
+			}
+			
+			}
+		}
+		
+	}
+	
+	
 	/**
 	 * Funcion que comprueba si un espectaculo esta registrado en la base de datos
 	 * @param tituloEspectaculo Titulo del espectaculo
