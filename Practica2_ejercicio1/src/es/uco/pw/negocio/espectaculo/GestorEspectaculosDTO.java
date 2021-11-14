@@ -933,16 +933,39 @@ public class GestorEspectaculosDTO {
 		String cad = "Se ha producido un error al cancelar las sesiones del espectaculo";
 		EspectaculoDTO espectaculoDTO = new EspectaculoDTO();
 		SesionDAO sesion = new SesionDAO();
+		int bf = 0;
 		/*
 		 * OBTENCION DATOS DEL ESPECTACULO
 		 */
-		/*
+			for(int i=0; i < this.listaEspectaculos.size();i++) {
+			// Titulo encontrado
+			if(this.listaEspectaculos.get(i).getTituloEspectaculo().equals(tituloEspectaculo)) {
+				bf = 1;	
+				break;
+				}
+		
+			}
+		
+		if(bf != 1) {
+			cad = "Titulo del espectaculo no registrado en el gestor de espectaculos";
+			return cad;
+			
+		}
+			
+			/*
 		 * para i desde 0 hasta gestor.listaEspectaculos.size
 		 * 		si !gestor.listaEspectaculos.get(i).getTituloEspectaculo.equals(tituloEspectaculo) entonces
 		 * 			cadena = Titulo del espectaculo no registrado en el gestor de espectaculos
 		 * 			return caden
 		 * fin_para
 		 */
+		
+		
+		int status = sesion.cancelarSesionesEspectaculo(prop,sql,tituloEspectaculo);
+		
+		if(status != 0) {
+			cad = "Se han eliminado las sesiones del espectaculo ";
+		}
 		/*
 		 * ELIMINACION DE LAS SESIONES DEL ESPECTACULO
 		 * int status = sesion.cancelarSesionesEspectaculo(prop, sql, tituloEspectaculo);

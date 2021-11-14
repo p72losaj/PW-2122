@@ -702,7 +702,7 @@ public class ProgramaPrincipal {
 														 * CANCELAMOS EL ESPECTACULO
 														 */
 														if(identificadorSesion != 0) {
-															//System.out.println(espectaculos.cancelarSesionEspectaculo(prop,sql,identificadorSesion,tituloEspectaculo));
+															System.out.println(espectaculos.cancelarSesionEspectaculo(prop,sql,identificadorSesion,tituloEspectaculo));
 														}
 													}
 													// Opcion 2: Cancelar todas las sesiones
@@ -713,7 +713,7 @@ public class ProgramaPrincipal {
 														/*
 														 * CANCELAMOS LAS SESIONES DEL ESPECTACULO
 														 */
-														//System.out.println(espectaculos.cancelarSesionEspectaculo(prop, sql, tituloEspectaculo));
+														System.out.println(espectaculos.cancelarSesionEspectaculo(prop, sql, tituloEspectaculo));
 													}
 													// Opcion no valida
 													else {

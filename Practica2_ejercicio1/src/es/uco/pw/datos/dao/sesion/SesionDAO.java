@@ -235,12 +235,14 @@ public class SesionDAO {
 	public int cancelarSesionEspectaculo(Properties prop, Properties sql, int id) {
 		int status = 0;
 		try {
-			// Conexion con la base de datos
-			// Sentencia sql para cancelar una sesion
-			// Indicamos en la sentencia sql el identificador de la sesion a eliminar
-			// Ejecutamos la sentencia sql ( status = ps.executeUpdate() )
-			// Cierre de la sentencia sql
-			// Cierre de la conexion
+			Connection con = ConexionBD.getConexion(prop);// Conexion con la base de datos
+			PreparedStatement ps=con.prepareStatement(sql.getProperty("CancelarSesion"));// Sentencia sql para cancelar una sesion //CancelarSesion
+			ps.setInt(1, id);// Indicamos en la sentencia sql el identificador de la sesion a eliminar
+			status = ps.executeUpdate();// Ejecutamos la sentencia sql ( status = ps.executeUpdate() )
+			 ps.close();// Cierre de la sentencia sql
+			 if(con != null) {
+					con = null; // Cierre de la conexion
+				}	
 		}catch(Exception ex) {
 			ex.getCause();
 		}
@@ -358,15 +360,18 @@ public class SesionDAO {
 	 * @param tituloEspectaculo Titulo del espectaculo
 	 * @return Numero de filas modificadas de la base de datos
 	 */
-	public int cancelarSesionesEspectaculo(Properties prop, Properties sql, String tituloEspectaculo2) {
+	public int cancelarSesionesEspectaculo(Properties prop, Properties sql, String tituloEspectaculo) {
 		int status = 0;
 		try {
-			// Conexion con la base de datos
-			// Sentencia sql para cancelar las sesiones de un espectaculo
-			// Indicamos en la sentencia sql el titulo del espectaculo de las sesiones a eliminar
-			// Ejecutamos la sentencia sql ( status = ps.executeUpdate() )
-			// Cierre de la sentencia sql
-			// Cierre de la conexion
+			Connection con = ConexionBD.getConexion(prop);// Conexion con la base de datos
+			PreparedStatement ps=con.prepareStatement(sql.getProperty("CancelarSesiones"));// Sentencia sql para cancelar las sesiones de un espectaculo CancelarSesiones
+			ps.setString(1, tituloEspectaculo);// Indicamos en la sentencia sql el titulo del espectaculo de las sesiones a eliminar
+			 status = ps.executeUpdate();// Ejecutamos la sentencia sql ( status = ps.executeUpdate() )
+			 ps.close();// Cierre de la sentencia sql
+			 if(con != null) {
+					con = null; // Cierre de la conexion
+				}
+			
 		}catch(Exception ex) {
 			ex.getCause();
 		}
