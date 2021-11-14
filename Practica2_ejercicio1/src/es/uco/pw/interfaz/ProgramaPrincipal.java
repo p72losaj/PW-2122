@@ -13,6 +13,7 @@ import es.uco.pw.negocio.critica.GestorCriticasDTO;
 import es.uco.pw.negocio.espectaculo.CategoriaEspectaculo;
 import es.uco.pw.negocio.espectaculo.GestorEspectaculosDTO;
 import es.uco.pw.negocio.usuario.GestorUsuariosDTO;
+import es.uco.pw.negocio.espectaculo.SesionEspectaculoDTO;
 
 /**
  * Funcion principal del programa
@@ -771,8 +772,95 @@ public class ProgramaPrincipal {
 											
 										}
 										// Caso 4: Contabilizar la venta de entradas para una sesión de un espectáculo
+										else if (administrador == 4) {
+											
+											espectaculos.imprimirSesionesEspectaculos();
+											int ide = -1, ids = -1;
+											
+											try {
+												System.out.print("Introduce el identificador del espectaculo para buscar ventas de la sesion: ");
+												ide = entrada.nextInt();
+												entrada = new Scanner(System.in);
+												
+											}catch(Exception ex) {
+												System.out.println("Se esperaba un valor entero al obtener el mes de la sesion");
+												entrada = new Scanner(System.in);}
+											
+
+											try {
+												System.out.print("Introduce el identificador de la sesion para buscar las ventas: ");
+												ids = entrada.nextInt();
+												entrada = new Scanner(System.in);
+												
+											}catch(Exception ex) {
+												System.out.println("Se esperaba un valor entero al obtener el mes de la sesion");
+												entrada = new Scanner(System.in);}
+											
+											if(ide < 0 || ids < 0) {
+											System.out.println("Los identificadores no son correctos");
+											}
+											else {	espectaculos.imprimirVentasSesionesEspectaculos( ide, ids);
+											}
+										}
 										// Caso 5: Consultar las localidades disponibles para un espectáculo, dada una fecha de  representación
-										
+										else if(administrador == 5) {
+											SesionEspectaculoDTO sesion = new SesionEspectaculoDTO();
+											/*
+											 * OBTENEMOS EL ANO DE LA FECHA DE LA SESION
+											 */
+											int anoPuntual = 0;
+											System.out.print("Introduce el ano de la sesion: ");
+											anoPuntual = entrada.nextInt();
+											entrada = new Scanner(System.in);
+											/*
+											 * OBTENCION DEL MES DE LA SESION
+											 */
+											int mesPuntual = -1;
+											while(mesPuntual < 0) {
+												try {
+													System.out.print("Introduce el mes de la sesion: ");
+													mesPuntual = entrada.nextInt();
+													entrada = new Scanner(System.in);
+													if(mesPuntual < 1 || mesPuntual > 12) {
+														System.out.println("El valor del mes debe estar en el rango [1,12] ");
+														mesPuntual = -1;
+													}
+												}catch(Exception ex) {
+													System.out.println("Se esperaba un valor entero al obtener el mes de la sesion");
+													entrada = new Scanner(System.in);
+												}
+											}
+											/*
+											 * OBTENCION DEL DIA DE LA SESION
+											 */
+											int diaPuntual = -1;
+											while(diaPuntual < 0) {
+												try {
+													System.out.print("Introduce el dia de la sesion: ");
+													diaPuntual = entrada.nextInt();
+													entrada = new Scanner(System.in);
+													if(diaPuntual < 0) {
+														System.out.println("Se esperaba un dia 0 o positivo");
+														diaPuntual = 0;
+													}
+												}catch(Exception ex) {
+													System.out.println("Se esperaba un valor entero al obtener el dia de la sesion");
+													entrada = new Scanner(System.in);
+												}
+											}
+									
+											
+											
+											sesion.setAnoSesion(anoPuntual); // Obtenemos el ano de la sesion
+											sesion.setMesSesion(mesPuntual); // Obtenemos el mes de la sesion
+											sesion.setDiaSesion(diaPuntual); // Obtenemos el dia de la sesion
+											sesion.setFechaCompletaSesion(anoPuntual+"-"+mesPuntual+"-"+diaPuntual); // Obtenemos la fecha completa de la sesion
+											
+											espectaculos.imprimirEspectaculosSesion(sesion);
+											
+											
+											
+										}
 										
 										// caso 6: Búsqueda de espectáculos por título o por categoría
 										else if(administrador == 6) {
@@ -834,10 +922,65 @@ public class ProgramaPrincipal {
 											
 										}
 										
-										
-										
-										
+							
 										// Caso 7: Búsqueda de próximos espectáculos con entradas disponibles, indicando o no una  categoría específica
+										else if(administrador == 7) {
+										int opc = 1;
+										boolean bf = true;
+										CategoriaEspectaculo categoriaEspectaculo =  null;// CategoriaEspectaculo.obraTeatro;
+										
+										System.out.print("Buscar especatulos disponibles (1) buscar ademas por categoria (2): ");
+										try{
+											opc = entrada.nextInt();
+										entrada = new Scanner(System.in);		
+										}catch(Exception ex) {
+											System.out.println("Se esperaba un valor entero al obtener el identificador del espectaculo");
+											entrada = new Scanner(System.in);
+											opc = 1;}
+										
+										if (opc == 2) {
+											bf = false;
+											menu.mostrarCategoriaEspectaculo();
+										//	CategoriaEspectaculo categoriaEspectaculo = null;
+											int opcionCategoria = 0;
+											while(opcionCategoria == 0) {
+												try {
+													opcionCategoria = entrada.nextInt();
+													entrada = new Scanner(System.in); // Limpiamos el buffer de entrada
+													/*
+													 * CATEGORIA DEL ESPECTACULO ES UNA OBRA DE TEATRO
+													 */
+													if(opcionCategoria == 1) { categoriaEspectaculo = CategoriaEspectaculo.obraTeatro;}
+													/*
+													 * CATEGORIA DEL ESPECTACULO ES UN MONOLOGO
+													 */
+													else if(opcionCategoria==2) { categoriaEspectaculo = CategoriaEspectaculo.monologo;}
+													/*
+													 * CATEGORIA DEL ESPECTACULO ES UN CONCIERTO
+													 */
+													else if(opcionCategoria==3) { categoriaEspectaculo = CategoriaEspectaculo.concierto;}
+													/*
+													 * CATEGORIA DEL ESPECTACULO NO DISPONIBLE
+													 */
+													else { 
+														System.out.println("Categoria del espectaculo no disponible");
+														opcionCategoria = 0;
+													}
+												}catch(Exception ex) {
+													System.out.println("Se ha producido un error al obtener la categoria del espectaculo. Se esperaba un valor entero");
+													entrada = new Scanner(System.in);
+													}
+											} }
+											
+											 espectaculos.imprimirEspectaculosLoc(categoriaEspectaculo, bf);
+										
+										
+										
+										
+										
+									}
+										
+										
 										// Caso 8: Publicar una crítica para un espectáculo que ya se ha celebrado
 										else if(administrador == 8) {
 											
