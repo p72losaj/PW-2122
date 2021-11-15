@@ -673,6 +673,7 @@ public class ProgramaPrincipal {
 												 * DAMOS DE ALTA AL ESPECTACULO
 												 */
 												System.out.println(espectaculos.darAltaEspectaculo(prop, sql, tituloEspectaculo, descripcionEspectaculo, categoriaEspectaculo, tipoEspectaculo, aforoLocalidades, ventasEspectaculo, 0, 0, 0, 0, 0, 0, 0, null, null, 0, 0, horaTemporada1, minutosTemporada1, diaSemanaTemporada, horaTemporada2, minutosTemporada2,ventasEspectaculo2));
+												espectaculos.obtenerEspectaculosRegistrados(prop, sql);
 											}
 										}
 										// Caso 2: Cancelar un espectaculo ( todas las sesiones o una en particular)
@@ -1077,6 +1078,7 @@ public class ProgramaPrincipal {
 											if(identificadorCritica != 0) {
 												String cadena = gestorCriticas.eliminacionCritica(prop,sql,identificadorCritica,correoUsuario,idUsuario);
 												System.out.println(cadena);
+												gestorCriticas.obtencionDatosCriticas(prop, sql);
 											}
 										}
 										// Caso 11: Valorar la utilidad de una crítica publicada por otro usuario
@@ -1116,7 +1118,10 @@ public class ProgramaPrincipal {
 											/*
 											 * REALIZAMOS LA VALORACION DE UTILIDAD DE LA CRITICA
 											 */
-											if(identificadorCritica != 0) { System.out.println(gestorCriticas.valoracionUtilidadCritica(prop,sql,identificadorCritica,correoUsuario,idUsuario,valoracion ));}
+											if(identificadorCritica != 0) { 
+												System.out.println(gestorCriticas.valoracionUtilidadCritica(prop,sql,identificadorCritica,correoUsuario,idUsuario,valoracion ));
+												gestorCriticas.obtencionDatosCriticas(prop, sql);
+											}
 										}
 										entrada = new Scanner(System.in);
 									}catch(Exception ex) {ex.getCause(); }
@@ -1184,6 +1189,7 @@ public class ProgramaPrincipal {
 												 */
 												String registroCritica = gestorCriticas.registroCritica(prop, sql, correoUsuario, titulo,resenaCritica,tituloEspectaculo,puntuacion,fechaActual.toString()); // Realizamos el registro de la critica
 												System.out.println(registroCritica); // Mostramos el estado del registro de la critica	
+												gestorCriticas.obtencionDatosCriticas(prop, sql);
 											}
 										}
 										
@@ -1226,7 +1232,11 @@ public class ProgramaPrincipal {
 											/*
 											 * REALIZAMOS LA VALORACION DE UTILIDAD DE LA CRITICA
 											 */
-											if(identificadorCritica != 0) { System.out.println(gestorCriticas.valoracionUtilidadCritica(prop,sql,identificadorCritica,correoUsuario,idUsuario,valoracion ));}
+											if(identificadorCritica != 0) 
+											{ 
+												System.out.println(gestorCriticas.valoracionUtilidadCritica(prop,sql,identificadorCritica,correoUsuario,idUsuario,valoracion ));
+												gestorCriticas.obtencionDatosCriticas(prop, sql);
+											}
 											entrada = new Scanner(System.in);
 										}
 										// Caso 3: Mostrar informacion espectaculos
