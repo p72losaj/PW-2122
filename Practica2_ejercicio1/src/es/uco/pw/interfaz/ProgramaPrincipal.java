@@ -1027,9 +1027,9 @@ public class ProgramaPrincipal {
 										
 										// Caso 9: Consultar las críticas de un espectáculo, dado su título
 										else if(administrador == 9) {
+											System.out.println("##########################################");
+											System.out.println("MOSTRANDO LOS DATOS DE LOS ESPECTACULOS REGISTRADOS");
 											espectaculos.imprimirEspectaculos(); // Mostramos los datos de todos los espectaculos
-
-											
 											System.out.print("Introduce el titulo del espectaculo del que mostrar su critica: "); // Pedimos al usuario el titulo del espectaculo
 											String tituloEspectaculo = entrada.nextLine(); // Obtenemos el titulo de la critica
 											
@@ -1038,6 +1038,8 @@ public class ProgramaPrincipal {
 											 */
 											for(int i=0; i<gestorCriticas.getListaCriticas().size(); i++) { 
 												if(gestorCriticas.getListaCriticas().get(i).getTituloEspectaculo().equals(tituloEspectaculo)) {
+													System.out.println("#################################################");
+													System.out.println("MOSTRANDO LOS DATOS DE LAS CRITICAS DEL ESPECTACULO");
 												System.out.println(gestorCriticas.getListaCriticas().get(i).mostrarCritica());}
 											
 										}
@@ -1129,7 +1131,13 @@ public class ProgramaPrincipal {
 										 * CREACION DE UNA NUEVA CRITICA
 										 */
 										
-										if(espectador == 1) {			
+										if(espectador == 1) {
+											/*
+											 * MOSTRAMOS LOS ESPECTACULOS
+											 */
+											System.out.println("Mostrando los datos de los espectaculos");
+											espectaculos.imprimirEspectaculos();
+											System.out.println("#####################");
 											/*
 											 * OBTENCION DE LA FECHA ACTUAL
 											 */
@@ -1210,7 +1218,13 @@ public class ProgramaPrincipal {
 											entrada = new Scanner(System.in);
 										}
 										// Caso 3: Mostrar informacion espectaculos
-										else if(espectador == 3) { espectaculos.imprimirEspectaculos(); }
+										else if(espectador == 3) 
+										{ 
+											System.out.println("####################");
+											System.out.println("Mostrando los espectaculos registrados");
+											espectaculos.imprimirEspectaculos(); 
+											System.out.println("####################");
+										}
 								}
 							}
 						}

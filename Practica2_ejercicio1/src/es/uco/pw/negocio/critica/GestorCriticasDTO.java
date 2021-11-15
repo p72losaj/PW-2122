@@ -203,6 +203,7 @@ public class GestorCriticasDTO {
 			 */
 			
 			else{
+				estado = "Se han anadido los datos unicos de la critica a la base de datos";
 				int identificador = criticaDAO.obtencionIdentificadorCritica(prop,sql,criticaDTO.getTituloCritica()); // Obtenemos el identificador de la critica registrada en la base de datos
 				/*
 				 * IDENTIFICADOR DE LA CRITICA NO OBTENIDO
@@ -212,6 +213,7 @@ public class GestorCriticasDTO {
 					status = criticaDAO.eliminacionCritica(prop,sql,criticaDTO.getTituloCritica()); // Eliminamos los datos de la critica de la base de datos
 					if(status == 0) { estado = estado + "Se ha producido un error al eliminar los datos de critica";}
 					else { estado = estado + " Se han eliminado los datos de la critica almacenados en la base de datos";}
+					return estado;
 				} 
 				/*
 				 * IDENTIFICADOR DE LA CRITICA OBTENIDO
@@ -227,6 +229,7 @@ public class GestorCriticasDTO {
 						status = criticaDAO.eliminacionCritica(prop,sql,criticaDTO.getTituloCritica()); // Eliminamos los datos de la critica de la base de datos
 						if(status == 0) { estado = estado + "Se ha producido un error al eliminar los datos de critica";}
 						else { estado = estado + " Se han eliminado los datos de la critica registrados en la base de datos";}
+						return estado;
 					}
 					/*
 					 * PUNTUACION DEL ESPECTACULO REGISTRADO
