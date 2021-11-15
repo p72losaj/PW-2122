@@ -173,6 +173,14 @@ public class UsuarioCriticaDAO {
 		}
 		return listaEvaluaciones; // Recornamos los datos de las evaluaciones de utilidad de la critica
 	}
+	/**
+	 * 
+	 */
+	public EvaluacionUtilidadCriticaDTO obtencionValoracionCriticaIdentificador(Properties prop, Properties sql,
+			int identificadorEliminar) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 	
 }

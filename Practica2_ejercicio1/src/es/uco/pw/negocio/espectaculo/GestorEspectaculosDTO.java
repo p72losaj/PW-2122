@@ -798,7 +798,8 @@ public class GestorEspectaculosDTO {
 					 * DATOS DE SESION REGISTRADOS
 					 */
 					else {
-						this.listaEspectaculos.add(espectaculo); // Anadimos el espectaculo al gestor de espectaculos
+						// Anadimos el espectaculo al gestor de espectaculos
+						this.listaEspectaculos.add(espectaculo);
 						cadena = "Espectaculo registrado correctamente";
 					}
 					

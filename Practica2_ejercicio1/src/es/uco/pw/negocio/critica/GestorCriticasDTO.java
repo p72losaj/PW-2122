@@ -107,17 +107,96 @@ public class GestorCriticasDTO {
 	 * Funcion que elimina los datos de una critica
 	 * @param prop Fichero de configuracion
 	 * @param sql Fichero de sentencias sql
-	 * @param tituloEliminar Titulo de la critica a eliminar
+	 * @param identificadorCritica Identificador de la critica a leiminar
+	 * @param correoUsuario Autor de la critica
+	 * @param idUsuario Identificador del usuario
+	 * @return Estado de eliminacion de la critica
 	 */
 
-	public void eliminacionCritica(Properties prop, Properties sql,String tituloEliminar) {
+	public String eliminacionCritica(Properties prop, Properties sql,int identificadorCritica, String correoUsuario, int idUsuario) {
 		CriticaDAO criticaDAO = new CriticaDAO();
+		EspectaculoCriticaDAO puntuacionDAO = new EspectaculoCriticaDAO();
+		UsuarioCriticaDAO valoracion = new UsuarioCriticaDAO();
+		String cadena = null;
+		int identificadorEliminar = 0;
+		/*
+		 * COMPROBAMOS SI EL USUARIO PUEDE ELIMINAR LA CRITICA
+		 */
+		for(int i=0; i < this.listaCriticas.size(); i++) {
+			
+			if( (this.listaCriticas.get(i).getIdentificadorCritica() == identificadorCritica) && (this.listaCriticas.get(i).getAutorCritica().equals(correoUsuario))) 
+			{
+				identificadorEliminar = identificadorCritica;
+			}
+		}
+		/*
+		 * CASO ERROR
+		 */
+		if(identificadorEliminar == 0) {
+			cadena = "Critica no encontrada o el usuario no tiene permisos para eliminar la critica";
+		}
+		else {
+			// Eliminamos la puntuacion del espectaculo
+			int status = puntuacionDAO.eliminacionPuntuacionEspectaculoCritica(prop, sql, identificadorEliminar);
+			if(status == 0) {
+				cadena = "Se ha producido un error al eliminar la puntuacion de la critica";
+			}
+			else {
+				cadena = "Se ha eliminado la puntuacion de la critica";
+				EvaluacionUtilidadCriticaDTO evaluacion = new EvaluacionUtilidadCriticaDTO();
+				evaluacion = valoracion.obtencionValoracionCriticaIdentificador(prop, sql, identificadorEliminar);
+				/*
+				 * CRITICA CON VALORACION DE UTILIDAD
+				 */
+				if(evaluacion.getIdentificadorValoracion() != 0) {
+					// Eliminamos la valoracion de utilidad de la critica
+					status = valoracion.eliminarValoracionUtilidadIdentificadorCritica(prop, sql, identificadorEliminar);
+					/*
+					 * VALORACION DE UTILIDAD NO ELIMINADA
+					 */
+					if(status == 0) {
+						cadena = cadena + "\n Se ha producido un error al eliminar la valoracion de utilidad de la critica";
+					}
+					/*
+					 * VALORACION DE UTILIDAD ELIMINADA
+					 */
+					else {
+						cadena = cadena + "\n Se ha eliminado la valoracion de utilidad de la critica";
+						// Eliminamos los datos propios de la critica
+						status = criticaDAO.eliminacionCritica(prop, sql, identificadorEliminar);
+						if(status == 0) {
+							cadena = "\n Se ha producido un error al eliminar la critica";
+						}
+						else {
+							cadena = "\n Se ha eliminado los datos de la critica";
+						}
+					}
+				}
+				/*
+				 * CRITICA SIN VALORACION DE UTILIDAD
+				 */
+				else {
+					// Eliminamos los datos propios de la critica
+					status = criticaDAO.eliminacionCritica(prop, sql, identificadorEliminar);
+					if(status == 0) {
+						cadena = "\n Se ha producido un error al eliminar la critica";
+					}
+					else {
+						cadena = "\n Se ha eliminado los datos de la critica";
+					}
+				}
+				
+			}
+		}
+		/*
 		for(int i=0; i<this.listaCriticas.size(); i++) { // Recorremos la lista de criticas
-			if(this.listaCriticas.get(i).getTituloCritica().equals(tituloEliminar)) { // Critica encontrada
-				 criticaDAO.eliminacionCritica(prop, sql,tituloEliminar);
+			if(this.listaCriticas.get(i).getTituloCritica().equals(identificadorCritica)) { // Critica encontrada
+				 criticaDAO.eliminacionCritica(prop, sql,identificadorCritica);
 				this.listaCriticas.remove(this.listaCriticas.get(i)); // Eliminamos la critica del gestor de criticas
 			}
 		}
+		*/
+		return cadena;
 	}
 
 	/**
@@ -197,7 +276,11 @@ public class GestorCriticasDTO {
 			/*
 			 * CRITICA NO INSERTADA EN LA BASE DE DATOS
 			 */
-			if(status == 0) { estado = "Se ha producido un error al anadir los datos unicos de la critica en la base de datos";}
+			if(status == 0) 
+			{ 
+				estado = "Se ha producido un error al anadir los datos unicos de la critica en la base de datos";
+				return estado;
+			}
 			/*
 			 * CRITICA INSERTADA EN LA BASE DE DATOS
 			 */
@@ -210,11 +293,11 @@ public class GestorCriticasDTO {
 				 */
 				if(identificador == 0) {
 					estado = "Se ha producido un error al obtener el identificador de la critica.";
-					status = criticaDAO.eliminacionCritica(prop,sql,criticaDTO.getTituloCritica()); // Eliminamos los datos de la critica de la base de datos
-					if(status == 0) { estado = estado + "Se ha producido un error al eliminar los datos de critica";}
+					int status2 = criticaDAO.eliminacionCritica(prop,sql,identificador); // Eliminamos los datos de la critica de la base de datos
+					if(status2 == 0) { estado = estado + "Se ha producido un error al eliminar los datos de critica";}
 					else { estado = estado + " Se han eliminado los datos de la critica almacenados en la base de datos";}
 					return estado;
-				} 
+				}
 				/*
 				 * IDENTIFICADOR DE LA CRITICA OBTENIDO
 				 */
@@ -226,17 +309,21 @@ public class GestorCriticasDTO {
 					 */
 					if(status == 0) {
 						estado = "Se ha producido un error al registrar la puntuacion del espectaculo.";
-						status = criticaDAO.eliminacionCritica(prop,sql,criticaDTO.getTituloCritica()); // Eliminamos los datos de la critica de la base de datos
-						if(status == 0) { estado = estado + "Se ha producido un error al eliminar los datos de critica";}
-						else { estado = estado + " Se han eliminado los datos de la critica registrados en la base de datos";}
+						int status2 = criticaDAO.eliminacionCritica(prop,sql,identificador); // Eliminamos los datos de la critica de la base de datos
+						if(status2 == 0) { 
+							estado = estado + "Se ha producido un error al eliminar los datos de critica";
+						}
+						else 
+						{ 
+							estado = estado + " Se han eliminado los datos de la critica registrados en la base de datos";
+						}
 						return estado;
 					}
 					/*
 					 * PUNTUACION DEL ESPECTACULO REGISTRADO
 					 */
-					else {
+					else {		
 						estado = "Se han registrado correctamente los datos de la critica";
-						this.listaCriticas.add(criticaDTO); // Anadimos los datos de la critica al gestor de criticas
 					}
 				}
 			}

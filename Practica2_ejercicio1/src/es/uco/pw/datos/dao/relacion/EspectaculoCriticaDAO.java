@@ -105,7 +105,7 @@ public class EspectaculoCriticaDAO {
 				con = null; // cierre de la conexion con la base de datos
 			}
 		}catch(Exception ex) {
-			System.out.println("Se ha producido un error al eliminar la puntuacion del espectaculo");
+			ex.getMessage();
 		}
 		return status; // Retornamos el numero de filas modificadas de la base de datos
 	}

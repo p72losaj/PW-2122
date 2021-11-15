@@ -137,40 +137,19 @@ public class CriticaDAO {
 	 * Funcion que elimina los datos de una critica
 	 * @param prop Fichero de configuracion
 	 * @param sql Fichero de propiedades
-	 * @param tituloCritica Titulo de la critica a eliminar de la base de datos
+	 * @param identificadorEliminar Identificador de la critica
 	 * @return Numero de filas modificadas de la base de datos
 	 */
-	public int eliminacionCritica(Properties prop, Properties sql, String tituloCritica) {
+	public int eliminacionCritica(Properties prop, Properties sql, int identificadorEliminar) {
 		int status = 0; // Numero de filas modificadas de la base de datos
-		int identificadorCritica = obtencionIdentificadorCritica(prop, sql, tituloCritica); // Obtenemos el identificador de la critica a eliminar
 		try {
 			Connection con = ConexionBD.getConexion(prop); // Conexion con la base de datos
-			PreparedStatement ps=con.prepareStatement(sql.getProperty("EliminacionCriticaTitulo")); // Sentencia sql para eliminar una critica en funcion de su titulo
-			ps.setString(1, tituloCritica); // Indicamos en la sentencia sql el titulo de la critica a eliminar
+			PreparedStatement ps=con.prepareStatement(sql.getProperty("EliminacionCriticaIdentificador")); // Sentencia sql para eliminar una critica en funcion de su titulo
+			ps.setInt(1, identificadorEliminar); // Indicamos en la sentencia sql el titulo de la critica a eliminar
 			status = ps.executeUpdate(); // Ejecutamos la sentencia sql
 			ps.close(); // Cerramos la sentencia sql
 			if(con != null) {
 				con = null; // Cierre de la conexion con la base de datos
-			}
-			// Eliminacion de la valoracion de utilidad de la critica
-			if(status != 0) {
-				UsuarioCriticaDAO relacion = new UsuarioCriticaDAO();
-				status = relacion.eliminarValoracionUtilidadIdentificadorCritica(prop,sql,identificadorCritica); // eliminamos la valoracion de utilidad de la critica
-				if(status == 0) { // Valoracion de utilidad de la critica no eliminada
-					System.out.println("Se ha producido un error al eliminar la valoracion de utilidad de la critica. Conctacte con el administrador");
-				}
-				else { // Valoracion de utilidad de la critica eliminada
-					System.out.println("Valoracion de utilidad de la critica eliminada");
-					// Eliminamos la critica del espectaculo
-					EspectaculoCriticaDAO relacion2 = new EspectaculoCriticaDAO();
-					status = relacion2.eliminacionPuntuacionEspectaculoCritica(prop,sql,identificadorCritica); // Eliminamos la puntuacion del espectaculo
-					if(status == 0) { // Puntuacion del espectaculo no eliminado
-						System.out.println("Se ha producido un error al eliminar la puntuacion del espectaculo. Contacte con el administrador");
-					}
-					else { // Puntuacion del espectaculo eliminado
-						System.out.println("Puntuacion del espectaculo eliminado");
-					}
-				}
 			}
 		}catch(Exception ex) {
 			System.out.println("Se ha producido un error al eliminar los datos de la critica");
