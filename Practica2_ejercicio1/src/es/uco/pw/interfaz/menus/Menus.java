@@ -139,7 +139,7 @@ public class Menus {
 	public void mostrarOpcionesCancelacionEspectaculo() {
 		System.out.println("MENU DE CANCELACION DE UN ESPECTACULO");
 		System.out.println("1. CANCELAR UNA SESION DEL ESPECTACULO");
-		System.out.println("2. CANCELAR TODAS LAS SESIONES DEL ESPECTACULO");
+		System.out.println("2. CANCELAR EL ESPECTACULO (Y TODAS LAS SESIONES)");
 		System.out.print("Introduce una opcion: ");
 	}
 	
@@ -148,9 +148,10 @@ public class Menus {
 	 */
 
 	public void modificarDatosEspectaculo() {
-		// Opcion 1: Descripcion espectaculo
-		// Opcion 2: Aforo de localidades
-		// Opcion 3: 
+		System.out.println("MENU DE MODIFICACION DE UN ESPECTACULO");
+		System.out.println("1. CAMBIAR DESCRIPCION");
+		System.out.println("2. CAMBIAR AFORO");
+
 	}
 	
 }

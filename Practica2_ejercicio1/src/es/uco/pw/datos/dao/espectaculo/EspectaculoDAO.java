@@ -444,7 +444,28 @@ public EspectaculoDTO obtencionEspectaculo(Properties prop, Properties sql, Stri
 			Connection con = ConexionBD.getConexion(prop); // Conexion con la base de datos
 			PreparedStatement ps=con.prepareStatement(sql.getProperty("EliminacionEspectaculo")); // Sentencia sql para obtener los datos comunes de los espectaculos
 			ps.setInt(1, idEspectaculo); // Indicamos en la sentencia sql el identificador del espectaculo
+			ps.executeQuery();
+			ps.close();
 			if(con != null) { con = null; } // Cierre de la conexion
+		}catch(Exception ex) {
+			ex.getCause();
+		}
+		return status;
+	}
+
+
+	public int modificarEspectaculos(Properties prop, Properties sql,int id,String descripcionEspectaculo, int aforoLocalidades) {
+		int status = 0; // Numero de filas eliminadas de la base de datos
+		try {
+			Connection con = ConexionBD.getConexion(prop); // Conexion con la base de datos
+			PreparedStatement ps=con.prepareStatement(sql.getProperty("ModificacionEspectaculo")); // Sentencia sql para obtener los datos comunes de los espectaculos
+			ps.setInt(3, id); //Identificador
+			ps.setString(1, descripcionEspectaculo); // Descripcion
+			ps.setInt(2, aforoLocalidades); //Aforo
+			status = ps.executeUpdate();
+			ps.close();
+			if(con != null) { con = null; } // Cierre de la conexion
+
 		}catch(Exception ex) {
 			ex.getCause();
 		}

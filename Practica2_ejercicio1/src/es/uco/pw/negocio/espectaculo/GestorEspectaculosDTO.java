@@ -91,8 +91,9 @@ public class GestorEspectaculosDTO {
 	}
 	
 	*/
-	public Boolean cancelarEspectaculo(String tituloEliminar) {
-		
+	
+	public Boolean cancelarEspectaculo( Properties prop, Properties sql,String tituloEliminar) {
+		EspectaculoDAO esp = new EspectaculoDAO();
 		// Recorremos la lista de espectaculo
 		
 		for(int i=0; i<this.listaEspectaculos.size(); i++) {
@@ -101,6 +102,7 @@ public class GestorEspectaculosDTO {
 			
 			if(this.listaEspectaculos.get(i).getTituloEspectaculo().equals(tituloEliminar)) {
 				// Eliminamos el espectaculo de la lista de espectaculos
+				esp.eliminacionEspectaculo(prop, sql,  this.listaEspectaculos.get(i).getIdentificadorEspectaculo());
 				this.listaEspectaculos.remove(this.listaEspectaculos.get(i));
 				// Retornamos true
 				return true;
@@ -851,10 +853,29 @@ public class GestorEspectaculosDTO {
 		String cadena = "Se ha producido un error un error al cancelar la sesion del espectaculo";
 		EspectaculoDTO espectaculoDTO = new EspectaculoDTO();
 		SesionDAO sesion = new SesionDAO();
-		int id = 0;
+	
 		/*
 		 * OBTENCION DATOS DEL ESPECTACULO
 		 */
+		boolean fa = false;  
+		for(int i = 0;i < this.listaEspectaculos.size();i++) {
+			
+			if(this.listaEspectaculos.get(i).getTituloEspectaculo().equals(tituloEspectaculo)){
+				fa = true;
+				espectaculoDTO = obtencionDatosEspectaculo(tituloEspectaculo);
+			}
+			
+			
+		}
+		
+		if(fa == false) {
+			return "El titulo no esta registrado";
+		}
+		
+		
+		
+		
+		
 		/*
 		 * para i desde 0 hasta gestor.listaEspectaculos.size
 		 * 		si !gestor.listaEspectaculos.get(i).getTituloEspectaculo.equals(tituloEspectaculo) entonces
@@ -867,6 +888,24 @@ public class GestorEspectaculosDTO {
 		/*
 		 * COMPROBACION IDENTIFICADOR DE LA SESION DEL ESPECTACULO
 		 */
+	
+		
+		boolean fe = false;
+		if(espectaculoDTO.getTipoEspectaculo().equals("puntual")) {
+			if (espectaculoDTO.getSesionEspectaculo().getIdentificadorSesion() == identificadorSesion) {
+				fe = true;
+			}
+				
+		}
+		else {
+			for(int i = 0; i< espectaculoDTO.getSesionesEspectaculo().size();i++) {
+				if (espectaculoDTO.getSesionesEspectaculo().get(i).getIdentificadorSesion() == identificadorSesion) {
+					fe = true;
+				}
+			}
+			
+		}
+		
 		/*
 		 * si espectaculoDTO.getTipoEspectaculo().equals("puntual") entonces
 		 * 		si espectaculoDTO.getSesionEspectaculo().getIdentificador() == identificadorEspectaculo entonces
@@ -879,7 +918,24 @@ public class GestorEspectaculosDTO {
 		 * 			fin_si
 		 * 		fin_para
 		 * fin_si
-		 * 
+		 */
+		
+		if(fe == false) {
+			cadena = "Sesion no resgistrada";
+		}
+		else {
+			int status = sesion.cancelarSesionEspectaculo(prop,sql,identificadorSesion);
+			if(status != 0) {
+				cadena = "Error al eliminar la sesion";
+			}
+			else {
+				cadena = "Sesion elimina correctamente";
+			}
+			
+		}
+		
+		
+		/*
 		 * si id == 0 entonces
 		 * 	cadena = sesion del espectaculo no registrado
 		 * si_no
@@ -891,6 +947,8 @@ public class GestorEspectaculosDTO {
 		 * 
 		 */
 		
+		
+		
 		return cadena;
 	}
 	
@@ -901,10 +959,12 @@ public class GestorEspectaculosDTO {
 	 */
 	public EspectaculoDTO obtencionDatosEspectaculo(String tituloEspectaculo) {
 		EspectaculoDTO espectaculo = new EspectaculoDTO();
+		boolean flag = false;
 		// Recorremos la lista de espectaculos del gestor
 		for(int i=0; i < this.listaEspectaculos.size();i++) {
 			// Titulo encontrado
 			if(this.listaEspectaculos.get(i).getTituloEspectaculo().equals(tituloEspectaculo)) {
+				flag = true;
 				espectaculo.setIdentificadorEspectaculo(this.listaEspectaculos.get(i).getIdentificadorEspectaculo());
 				espectaculo.setTituloEspectaculo(tituloEspectaculo);
 				espectaculo.setDescripcionEspectaculo(this.listaEspectaculos.get(i).getDescripcionEspectaculo());
@@ -917,7 +977,11 @@ public class GestorEspectaculosDTO {
 				else {espectaculo.setSesionesEspectaculo(this.listaEspectaculos.get(i).getSesionesEspectaculo());}
 			}
 		}
-		return espectaculo;
+		if(flag) {
+		return espectaculo;}
+		else {
+			return null;
+		}
 	}
 	
 	/**
@@ -974,5 +1038,20 @@ public class GestorEspectaculosDTO {
 		return cad;
 	}
 
+	
+	public String modificarDatosEspectaculo(Properties prop, Properties sql,int id,String descripcionEspectaculo, int aforoLocalidades) {
+		
+		EspectaculoDAO espectaculo = new EspectaculoDAO();
+		
+		
+		if(espectaculo.modificarEspectaculos( prop,  sql, id, descripcionEspectaculo,  aforoLocalidades)!=0) {
+			return "Espectaculo modificado";
+		}
+		else {
+			return "El espectaculo no se ha podido modificar";
+		}
+		
+		
+	}
 	
 }

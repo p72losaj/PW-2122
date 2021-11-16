@@ -11,6 +11,7 @@ import es.uco.pw.datos.dao.usuario.UsuarioDAO;
 import es.uco.pw.interfaz.menus.Menus;
 import es.uco.pw.negocio.critica.GestorCriticasDTO;
 import es.uco.pw.negocio.espectaculo.CategoriaEspectaculo;
+import es.uco.pw.negocio.espectaculo.EspectaculoDTO;
 import es.uco.pw.negocio.espectaculo.GestorEspectaculosDTO;
 import es.uco.pw.negocio.usuario.GestorUsuariosDTO;
 import es.uco.pw.negocio.espectaculo.SesionEspectaculoDTO;
@@ -715,7 +716,9 @@ public class ProgramaPrincipal {
 														/*
 														 * CANCELAMOS LAS SESIONES DEL ESPECTACULO
 														 */
+														
 														System.out.println(espectaculos.cancelarSesionEspectaculo(prop, sql, tituloEspectaculo));
+														espectaculos.cancelarEspectaculo(prop,sql, tituloEspectaculo);
 													}
 													// Opcion no valida
 													else {
@@ -731,31 +734,34 @@ public class ProgramaPrincipal {
 										// Caso 3: Actualizar los datos de un espectáculo
 										else if(administrador == 3) {
 											espectaculos.imprimirEspectaculos(); // Mostramos los datos de todos los espectaculos
-											int identificadorEspectaculo = 0;
+											String tituloEspectaculo = "";
 											/* 
 											 * OBTENCION DEL IDENTIFICADOR DEL ESPECTACULO
 											 */
-											try {
-												// Pedimos al usuario el identificador del espectaculo a modificar
-												identificadorEspectaculo = entrada.nextInt();
+											System.out.println("Introduzca el titulo del espectaculo");
+												// Pedimos al usuario el titulo del espectaculo a modificar
+												tituloEspectaculo = entrada.nextLine();
 												entrada = new Scanner(System.in);
-											}catch(Exception ex) {
-												System.out.println("Se esperaba un valor entero al obtener el identificador del espectaculo");
-												entrada = new Scanner(System.in);
-											}
+												
+											EspectaculoDTO espectaculo = new EspectaculoDTO();
+											System.out.println("Se ha obtenido el espectaculo");
+											
+											espectaculo = espectaculos.obtencionDatosEspectaculo(tituloEspectaculo);
 											/*
 											 * IDENTIFICADOR DEL ESPECTACULO ES VALIDO
 											 */
-											if(identificadorEspectaculo != 0) {
-												String descripcionEspectaculo = null;
+					
+											if(espectaculo != null) {
+												String descripcionEspectaculo = "";
 												int aforoLocalidades = 0;
-												int sesion = 0;
+					
 												int opcionEdicion = -1;
-												while(opcionEdicion != 0) {
+												while((opcionEdicion < 0)||(opcionEdicion > 2)) {
 													menu.modificarDatosEspectaculo();// Mostramos un menu con las opciones de los datos modificables del espectaculo
 													try {
 														// Obtenemos la opcion a modificar
 														// Almacenamos en una variable los datos a modificar de la base de datos
+														System.out.println("Introduzca opcion de para cambiar");
 														opcionEdicion = entrada.nextInt();
 														entrada = new Scanner(System.in);
 														
@@ -768,8 +774,32 @@ public class ProgramaPrincipal {
 												/*
 												 * MODIFICAMOS LOS DATOS DEL ESPECTACULO
 												 */
-												// String cadena = espectaculos.modificarDatosEspectaculo(prop,sql,descripcionEspectaculo,aforoLocalidades,sesionEspectaculo,diaSemana,,horaSesion,minutosSesion,diaSesion,mesSesion,anoSesion);
-												//System.out.println(cadena);
+												
+												if(opcionEdicion == 1) {
+													System.out.println("Introduzca nueva descripcion del espectaculo");	
+													descripcionEspectaculo = entrada.nextLine();
+													aforoLocalidades = espectaculo.getAforoLocalidadesEspectaculo();
+												}
+												else {
+													while(aforoLocalidades >= 0) {
+													try {
+														
+														aforoLocalidades = entrada.nextInt();
+														entrada = new Scanner(System.in);
+														
+														
+													}catch(Exception ex) {
+														System.out.println("La opcion de modificar datos del espectaculo debe ser un entero");
+														entrada = new Scanner(System.in);
+													}}
+													descripcionEspectaculo = espectaculo.getDescripcionEspectaculo();
+														
+												}
+												
+												
+												
+												String cadena = espectaculos.modificarDatosEspectaculo(prop,sql,espectaculo.getIdentificadorEspectaculo(),descripcionEspectaculo,aforoLocalidades);
+												System.out.println(cadena);
 											}
 											
 										}
@@ -1263,5 +1293,4 @@ public class ProgramaPrincipal {
 		}
 		
 	}
-
 }
