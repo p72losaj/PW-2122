@@ -1,0 +1,127 @@
+@import url('https://rsms.me/inter/inter-ui.css');
+::selection {
+  background: #2D2F36;
+}
+::-webkit-selection {
+  background: #2D2F36;
+}
+::-moz-selection {
+  background: #2D2F36;
+}
+body {
+  background-color: #000000;
+  font-family: 'Inter UI', sans-serif;
+  margin: 0;
+  padding: 20px;
+}
+.page {
+  background-color: #2d3436;
+  background-image: linear-gradient(315deg, #2d3436 0%, #000000 74%);
+  display: flex;
+  flex-direction: column;
+  height: calc(100% - 20px);
+  position: absolute;
+  place-content: center;
+  width: calc(100% - 20px);
+}
+@media (max-width: 767px) {
+  .page {
+    height: auto;
+    margin-bottom: 10px;
+    padding-bottom: 20px;
+  }
+}
+.container {
+  display: flex;
+  height: 370px;
+  margin: 0 auto;
+  width: 920px;
+  background-color: #FFFFFF;
+  border-radius: 5px 5px 5px 5px;
+-webkit-box-reflect: below -15px -webkit-gradient(linear, left top, left bottom, from(transparent), to(rgba(255, 255, 255, 0.1)));
+}
+
+.welcome_user {
+  font-size: 44px;
+  font-weight: 850;
+  margin: 39px 40px 40px;
+  color: #23242A;
+}
+.eula {
+  color: #565657;
+  font-size: 17px;
+  line-height: 1.5;
+  margin: 170px;
+  font-weight: 450;
+  margin-left: -290px;
+}
+a {
+  color: #4A4F5F;
+  font-size: 15px;
+  margin: 290px 0px 40px;
+  padding: 15px;
+  text-align: left;
+  font-weight: 500;
+}
+.columnas {
+  column-count: 2;
+  column-gap: 55px;
+  column-rule: 2px solid black;
+  list-style: none;
+}
+.zoom{
+     /* Aumentamos la anchura y altura durante 0.5 segundos */
+     transition: width 0.5s, height 0.5s, transform 0.5s;
+}
+.zoom:hover{
+     /* tranformamos el elemento al pasar el mouse por encima al doble de
+     su tamaño con scale(2). */
+     transform : scale(1.05);
+}
+svg {
+  position: absolute;
+  width: 320px;
+}
+path {
+  fill: none;
+  stroke: url(#linearGradient);;
+  stroke-width: 4;
+  stroke-dasharray: 240 1386;
+}
+.form {
+  margin: 40px;
+  position: absolute;
+}
+label {
+  color:  #c2c2c5;
+  display: block;
+  font-size: 14px;
+  height: 16px;
+  margin-top: 20px;
+  margin-bottom: 5px;
+}
+
+input {
+  background: transparent;
+  border: 0;
+  color: #f2f2f2;
+  font-size: 20px;
+  height: 30px;
+  line-height: 30px;
+  outline: none !important;
+  width: 100%;
+}
+input::-moz-focus-inner { 
+  border: 0; 
+}
+#submit {
+  color: #f2f2f2;
+  margin-top: 40px;
+  transition: color 300ms;
+}
+#submit:focus {
+  color: #707075;
+}
+#submit:active {
+  color: #d0d0d2;
+}
