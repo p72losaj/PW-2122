@@ -1,34 +1,25 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import='java.util.Date' %>
-
-<!-- Bugs encontrados a solucionar: -->
-	<!-- Bug: al intentar selccionar la categoría desaparece el desplegable principal. El valor sí que se guarda -->
-
 <!DOCTYPE html>
+
 <html>
-
-
 	<head>
 		<meta charset="UTF-8">
+		<title>Mi perfil</title>
 		
 		<!-- Link hacia los archivos de estilos css -->
  		<link rel="stylesheet" href="css/css_welcome_user.css">
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
-		<title>Bienvenida administrador</title>
 		<meta name="author" content="">
-        <meta name="description" content="Página principal del administrador en el que se le da acceso a su perfil, al listado de usuarios, y al creación y búsqueda de espectáculos">
+        <meta name="description" content="Página que muestra los datos personales del usuario (ya sea espectador o administrador) y la opción de modificarlos">
         <meta name="keywords" content="">
-		
-		<!-- Scripts para la obtención de la hora actual -->
-		<script type="text/javascript" src="hora_actual.js"></script>
 
 	</head>
-	
-	<!-- Inicializamos startTime() para la obtención de la hora -->
-	<body onload="startTime()">
-	
+
+
+	<body>
+
 		<!-- Barra superior que sirve como menú para acceder a las diferentes funciones -->
 		<nav class="navbar navbar-dark bg-dark">	
 			<a style="color: white" class="navbar-toggler"><span class="navbar-toggler-icon"></span></a>
@@ -37,21 +28,9 @@
     			Página reshulona sin nombre
   			</a>
   			
-  			<!-- Opción para acceder a su perfil y al listado de usuarios -->
-	    	<div class="dropdown">
-        		<a style="color: white" class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          		Usuarios
-        		</a>
-        		<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          			<a class="dropdown-item" href="#">Mi perfil</a>
-          			<div class="dropdown-divider"></div>
-          			<a class="dropdown-item" href="">Listado de usuarios</a>
-          	    </div>
-      		</div>
-  			
-  			<!-- Opción para dar de alta un nuevo espectáculo-->
+  			<!-- Opción para acceder a la visualización y modificación de los datos personales del usuario-->
 			<div class="nav-item active">
-        		<a style="color: white" class="nav-link" href="">Añadir nuevo espectáculo<span class="sr-only">(current)</span></a>
+        		<a style="color: white" class="nav-link" href="mi_perfil.jsp">Mi perfil <span class="sr-only">(current)</span></a>
       		</div>
       		
       		<!-- Opción para mostrar espectáculos, ya sea todos o algunos en concreto que seleccionemos -->
@@ -102,26 +81,46 @@
 	
 		<div class="container mt-4">
 			<br/><br/><br/>
-			<!-- Mensaje de bienvenida personalizado con el nombre del usuario -->
-			<h1>Bienvenido al sistema, ${nick} .</h1>
+			<h2>Tus datos </h2>
 			<br/><br/>
-
-			<h3>Tiempo de conexión: <!-- <input class="timepage" size="5" id="timespent" name="timespent"><br> --></h3> 
-
-			<!-- Contenedor que muestra la hora actual -->
-			<div id="clockdate">
-  				<div class="clockdate-wrapper">
-    				<div id="clock"></div>
-    				<div id="date"></div>
-  				</div>
-			</div>
-		</div> 
+			<h5>Nombre: ${nombre}</h5>
+			<br/>
+			<h5>Apellidos: ${primer_apellido} ${segundo_apellido}</h5>
+			<br/>
+			<h5>Correo electrónico: ${correo}</h5>
+			<br/>
+			<h5>Nick: ${nick}</h5>
+			
+			
+			<div class="cont_form">
+				<br/>
+				<h2>&nbsp;&nbsp;Modificar datos</h2>
+      			<form action="ServletAcceso">
+        			<label for="name">Nuevo nombre</label>
+        				<input type="text" id="nombre" name="nombre">
+        	
+        				<label for="primer_apellido">Nuevo primer apellido</label>
+        				<input type="text" id="primer_apellido" name="primer_apellido">
+        	
+        				<label for="segundo_apellido">Nuevo segundo apellido</label>
+        				<input type="text" id="segundo_apellido" name="segundo_apellido">
+        	
+        				<label for="user">Nuevo nick de usuario</label>
+        				<input type="text" id="nick" name="nick">
+        	
+        				<br/>
+      					<div class="zoom">
+        					<input type="submit" name="accion" value="Modificar datos">
+      					</div> 
+      					<br/>
+      				</form>
+				</div> 
 	
 		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 
+
 	</body>
-
-
+	
 </html>

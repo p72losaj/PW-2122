@@ -2,8 +2,9 @@
     pageEncoding="UTF-8"%>
 <%@ page import='java.util.Date' %>
 
-<!-- Bugs encontrados a solucionar: -->
-	<!-- Bug: al intentar selccionar la categoría desaparece el desplegable principal. El valor sí que se guarda -->
+<!-- Bugs encontrados a solucionar -->
+<!-- Bug: al intentar selccionar la categoría desaparece el desplegable principal. El valor sí que se guarda -->
+<!-- Bug: ambos scripts tienen que incializar la función startTime() y usarla y entran en conflicto si se usan los dos a la vez -->
 
 <!DOCTYPE html>
 <html>
@@ -16,14 +17,14 @@
  		<link rel="stylesheet" href="css/css_welcome_user.css">
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
-		<title>Bienvenida administrador</title>
+		<title>Bienvenida espectador</title>
 		<meta name="author" content="">
-        <meta name="description" content="Página principal del administrador en el que se le da acceso a su perfil, al listado de usuarios, y al creación y búsqueda de espectáculos">
+        <meta name="description" content="Página principal del espectador en el que se le da acceso a su perfil y al apartado de espectáculos">
         <meta name="keywords" content="">
 		
-		<!-- Scripts para la obtención de la hora actual -->
+		<!-- Scripts para la obtención de la hora de conexión y la actual -->
 		<script type="text/javascript" src="hora_actual.js"></script>
-
+		<script type="text/javascript" src="hora_conexion.js"></script>
 	</head>
 	
 	<!-- Inicializamos startTime() para la obtención de la hora -->
@@ -37,21 +38,9 @@
     			Página reshulona sin nombre
   			</a>
   			
-  			<!-- Opción para acceder a su perfil y al listado de usuarios -->
-	    	<div class="dropdown">
-        		<a style="color: white" class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          		Usuarios
-        		</a>
-        		<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          			<a class="dropdown-item" href="#">Mi perfil</a>
-          			<div class="dropdown-divider"></div>
-          			<a class="dropdown-item" href="">Listado de usuarios</a>
-          	    </div>
-      		</div>
-  			
-  			<!-- Opción para dar de alta un nuevo espectáculo-->
+  			<!-- Opción para acceder a la visualización y modificación de los datos personales del usuario-->
 			<div class="nav-item active">
-        		<a style="color: white" class="nav-link" href="">Añadir nuevo espectáculo<span class="sr-only">(current)</span></a>
+        		<a style="color: white" class="nav-link" href="">Mi perfil <span class="sr-only">(current)</span></a>
       		</div>
       		
       		<!-- Opción para mostrar espectáculos, ya sea todos o algunos en concreto que seleccionemos -->
@@ -106,9 +95,9 @@
 			<h1>Bienvenido al sistema, ${nick} .</h1>
 			<br/><br/>
 
-			<h3>Tiempo de conexión: <!-- <input class="timepage" size="5" id="timespent" name="timespent"><br> --></h3> 
-
-			<!-- Contenedor que muestra la hora actual -->
+			<h3>Tiempo de conexión: </h3>
+			
+			<!-- Contenedor que muestra la hora actual y la de conexión-->
 			<div id="clockdate">
   				<div class="clockdate-wrapper">
     				<div id="clock"></div>
