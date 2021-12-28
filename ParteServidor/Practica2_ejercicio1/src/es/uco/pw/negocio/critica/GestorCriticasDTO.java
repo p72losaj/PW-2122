@@ -366,7 +366,7 @@ public class GestorCriticasDTO {
 	 * @param prop Fichero de configuracion
 	 * @param sql Fichero de propiedades
 	 */
-	public void obtencionDatosCriticas(Properties prop, Properties sql) {
+	public ArrayList<CriticaDTO> obtencionDatosCriticas(Properties prop, Properties sql) {
 		CriticaDAO criticaDAO = new CriticaDAO();
 		EspectaculoCriticaDAO puntuacionEspectaculo = new EspectaculoCriticaDAO();
 		UsuarioCriticaDAO evaluacionCritica = new UsuarioCriticaDAO();
@@ -377,6 +377,9 @@ public class GestorCriticasDTO {
 			this.getListaCriticas().get(i).setPuntuacionEspectaculo(puntuacionEspectaculo.obtencionPuntuacionEspectaculo(prop,sql,this.getListaCriticas().get(i).getIdentificadorCritica())); // Obtenemos la puntuacion del espectaculo
 			this.getListaCriticas().get(i).setListaEvaluacionesCritica(evaluacionCritica.obtencionEvaluacionesCritica(prop,sql,this.getListaCriticas().get(i).getIdentificadorCritica())); // Obtenemos las evaluaciones de utilidad de las criticas
 		}
+		
+			return this.listaCriticas;
+		
 	}
 	/**
 	 * Funcion que realiza la valoracion de utilidad de una critica

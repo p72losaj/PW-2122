@@ -3,6 +3,8 @@ package es.uco.pw.negocio.log;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.lang.Object;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Properties;
 import es.uco.pw.datos.dao.log.LogDAO;
@@ -24,13 +26,13 @@ public class LogDTO {
 	 * Fecha de registro del usuario
 	 */
 	
-	private Date fechaRegistro = null; 
+	private java.sql.Date fechaRegistro = null; 
 	
 	/**
 	 * Ultima fecha de logeo
 	 */
 	
-	private Date ultimaFecha = null;
+	private java.sql.Date ultimaFecha = null;
 	
 	/**
 	 * Contraseña del usuario
@@ -63,7 +65,7 @@ public class LogDTO {
 	 * @return Fecha de registro
 	 */
 	
-	public Date getFechaRegistro() {
+	public java.sql.Date getFechaRegistro() {
 		return this.fechaRegistro;
 	}
 	
@@ -72,7 +74,7 @@ public class LogDTO {
 	 * @param fecha fecha de registro
 	 */
 	
-	public void setFechaRegistro(Date fecha) {
+	public void setFechaRegistro(java.sql.Date fecha) {
 		this.fechaRegistro = fecha;
 	}
 	
@@ -81,7 +83,7 @@ public class LogDTO {
 	 * @return Fecha de registro
 	 */
 	
-	public Date getFechaFinal() {
+	public java.sql.Date getFechaFinal() {
 		return this.ultimaFecha;
 	}
 	
@@ -90,7 +92,7 @@ public class LogDTO {
 	 * @param fecha fecha de registro
 	 */
 	
-	public void setFechaFinal(Date fecha) {
+	public void setFechaFinal(java.sql.Date fecha) {
 		this.ultimaFecha = fecha;
 	}
 	
@@ -113,7 +115,7 @@ public class LogDTO {
 	}
 	
 	
-	public void insertarLog(int id, Date d1, Date d2, String pass, Properties prop, Properties sql) {
+	public void insertarLog(int id, java.sql.Date d1, java.sql.Date d2, String pass, Properties prop, Properties sql) {
 	
 		LogDTO log = new LogDTO();
 		LogDAO logger = new LogDAO();
@@ -159,6 +161,53 @@ public class LogDTO {
 	}
 		
 		
+	public Boolean ActualizarLog(int id, String pass, Properties prop, Properties sql) {
 		
+		LogDTO log = new LogDTO();
+		LogDAO logger = new LogDAO();
+		
+		
+		
+		log.setIdUsuario(id); 
+		log.setPassword(pass);
+		
+		
+		 log = logger.obtenerDatosLog(prop, sql, id);
+		
+		if(!(log.getPassword().equals(pass))) {
+
+			return false;
+			
+		}
+		else {
+			LocalDate fechaActual = LocalDate.now();
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+			try {
+			java.util.Date parsed = format.parse(fechaActual.toString());
+			
+			java.sql.Date fecha = new java.sql.Date(parsed.getTime());
+			
+			logger.borrarDatos(prop, sql, id);
+			log.setFechaFinal(fecha);
+			}
+			catch(Exception ex) {
+				System.out.println("Error con la fecha");
+			}
+			
+			int n = logger.insertarLog(log, prop, sql);
+			
+			if(n < 0) {
+				System.out.println("Error al insertar log");
+				
+			}
+
+		}
+			
+			
+		return true;
+	}
+		
+			
+	
 		
 }
