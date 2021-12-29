@@ -9,8 +9,6 @@ import java.util.Properties;
 import java.text.DateFormat;
 
 import es.uco.pw.datos.dao.comun.conexionBD.ConexionBD;
-import es.uco.pw.negocio.usuario.RolUsuario;
-import es.uco.pw.negocio.usuario.UsuarioDTO;
 import es.uco.pw.negocio.log.LogDTO;
 import java.lang.Object;
 
@@ -24,8 +22,8 @@ import java.lang.Object;
 public class LogDAO {
 
 	private int idUsuario;
-	private Date fechaRegistro = null; 
-	private Date ultimaFecha = null;
+	private java.sql.Date fechaRegistro = null; 
+	private java.sql.Date ultimaFecha = null;
 	private String password = null; 
 	
 	
@@ -62,7 +60,7 @@ public class LogDAO {
 	 * @param fecha fecha de registro
 	 */
 	
-	public void setFechaRegistro(Date fecha) {
+	public void setFechaRegistro(java.sql.Date fecha) {
 		this.fechaRegistro = fecha;
 	}
 	
@@ -71,7 +69,7 @@ public class LogDAO {
 	 * @return Fecha de registro
 	 */
 	
-	public Date getFechaFinal() {
+	public java.sql.Date getFechaFinal() {
 		return this.ultimaFecha;
 	}
 	
@@ -80,7 +78,7 @@ public class LogDAO {
 	 * @param fecha fecha de registro
 	 */
 	
-	public void setFechaFinal(Date fecha) {
+	public void setFechaFinal(java.sql.Date fecha) {
 		this.ultimaFecha = fecha;
 	}
 	
@@ -122,9 +120,13 @@ public class LogDAO {
 			// Obtenemos la propiedad del fichero de propiedades
 			PreparedStatement ps=con.prepareStatement(sql.getProperty("InsertarLog"));
 			ps.setInt(1,logDTO.getIdUsuario());// Indicamos id de usuario
-			ps.setString(2, logDTO.getFechaRegistro().toString());// Indicamos fecha de registro
-			ps.setString(3, logDTO.getFechaFinal().toString());// Indicamos fecha final
-			ps.setString(4, logDTO.getPassword());// Indicamos la contraseña
+			
+			ps.setDate(2,logDTO.getFechaRegistro());// Indicamos fecha de registro
+			ps.setDate(3, logDTO.getFechaFinal());// Indicamos fecha final
+		
+			//ps.setString(2,new Java.sql.Date (logDTO.getFechaRegistro().toString()));// Indicamos fecha de registro
+			//ps.setString(3, logDTO.getFechaFinal().toString());// Indicamos fecha final
+			ps.setString(4, logDTO.getPassword());// Indicamos la contraseÃ±a
 			
 			
 			status = ps.executeUpdate(); // Actualizamos la base de datos
@@ -156,11 +158,11 @@ public LogDTO obtenerDatosLog(Properties sql, Properties prop, int idUsuario) {
 			ResultSet rs = ps.executeQuery();
 			// Recorremos las filas de la base de datos
 		
-			DateFormat d = DateFormat.getDateInstance();
+			//DateFormat d = DateFormat.getDateInstance();
 			
 			log.setIdUsuario(rs.getInt("ID_USUARIO")); // Obtenemos el identificador del usuario
-				log.setFechaRegistro(d.parse(rs.getString("FECHA_REGISTRO")));// Obtenemos fecha de registro
-				log.setFechaFinal(d.parse(rs.getString("FECHA_ACTUAL")));// Obtenemos fecha del ultimo log
+				log.setFechaRegistro(rs.getDate("FECHA_REGISTRO"));// Obtenemos fecha de registro
+				log.setFechaFinal(rs.getDate("FECHA_ACTUAL"));// Obtenemos fecha del ultimo log
 				log.setPassword(rs.getString("CONTRASENA"));// Obtenemos la contrasena
 
 			// Cerramos la sentencia rs
@@ -179,6 +181,37 @@ public LogDTO obtenerDatosLog(Properties sql, Properties prop, int idUsuario) {
 		
 	}
 
+public void borrarDatos(Properties prop,Properties sql,int id) {
 	
+	try {
+	
+	Connection con = ConexionBD.getConexion(prop);
+	// Obtener el log
+	PreparedStatement ps=con.prepareStatement(sql.getProperty("EliminarLog"));
+	ps.setInt(1,id);// Indicamos id de usuario
+	// Ejecutamos la sentencia sql
+	ps.executeQuery();
+	ps.close();
+	// Cerramos la conexion con la base de datos
+	if(con != null) {
+		con = null;
+	}
+	}
+	catch(Exception ex) {
+		System.out.println("Se ha producido un error al eliminar los datos de la base de datos");
+	}
+
+
+
+
+
+
+
+
+
+
+
+}
+
 	
 }
