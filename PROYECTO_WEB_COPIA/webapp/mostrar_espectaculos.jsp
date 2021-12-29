@@ -1,45 +1,45 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import='java.util.Date' %>
-<%@ page import='es.uco.pw.negocio.usuario.UsuarioDTO' %>
-
-<!-- Bugs encontrados a solucionar -->
-<!-- Bug: al intentar selccionar la categoría desaparece el desplegable principal. El valor sí que se guarda -->
-
+<%@ page import='es.uco.pw.negocio.espectaculo.GestorEspectaculosDTO'; %>
+<%@ page import= 'es.uco.pw.negocio.espectaculo.EspectaculoDTO'; %>  
+<%@ page import= 'java.util.ArrayList'; %>
+    
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<title>Filtrando espectáculos por categorias</title>
 
+	<link rel="stylesheet" href="css/estilos.css">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
-	<head>
-		<meta charset="UTF-8">
-		
-		<!-- Link hacia los archivos de estilos css -->
- 		<link rel="stylesheet" href="css/css_welcome_user.css">
-		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700" rel="stylesheet">
 
-		<title>Bienvenida espectador</title>
-		<meta name="author" content="">
-        <meta name="description" content="Página principal del espectador en el que se le da acceso a su perfil y al apartado de espectáculos">
-        <meta name="keywords" content="">
-		
-		<!-- Scripts para la obtención de la hora de conexión y la actual -->
-		<script type="text/javascript" src="hora_actual.js"></script>
-		<script type="text/javascript" src="hora_conexion.js"></script>
-	</head>
-	
-	
-	
-	<!-- Inicializamos startTime() para la obtención de la hora -->
-	<body onload="startTime()">
-	
-			<!-- Asignamos a una variable el resultado del servlet para poder mostrar los datos-->
-		<%
-		
-			UsuarioDTO us = getAttribute("us");
-		
-		%>
-	
-		<!-- Barra superior que sirve como menú para acceder a las diferentes funciones -->
+	<script src="js/jquery-3.2.1.js"></script>
+	<script src="js/script.js"></script>
+	<script type="text/javascript">
+		function search() {
+  			var input, filter, ul, li, a, i;
+  			input = document.getElementById("input");
+  			filter = input.value.toUpperCase();
+  			ul = document.getElementById("ul");
+  			li = ul.getElementsByTagName("li");
+  			for (i = 0; i < li.length; i++) {
+  				a = li[i].getElementsByTagName("a")[0];
+  				if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+  					li[i].style.display = "block";
+  				} else {
+  					li[i].style.display = "none";
+  				}
+ 			}
+		}
+
+	</script>
+</head>
+<body>
+
+	<!-- Barra superior que sirve como menú para acceder a las diferentes funciones -->
 		<nav class="navbar navbar-dark bg-dark">	
 			<a style="color: white" class="navbar-toggler"><span class="navbar-toggler-icon"></span></a>
 			<a class="navbar-brand" href="#">
@@ -49,7 +49,7 @@
   			
   			<!-- Opción para acceder a la visualización y modificación de los datos personales del usuario-->
 			<div class="nav-item active">
-        		<a style="color: white" class="nav-link" href="">Mi perfil <span class="sr-only">(current)</span></a>
+        		<a style="color: white" class="nav-link" href="mi_perfil.jsp">Mi perfil <span class="sr-only">(current)</span></a>
       		</div>
       		
       		<!-- Opción para mostrar espectáculos, ya sea todos o algunos en concreto que seleccionemos -->
@@ -85,8 +85,8 @@
 				<a style="color: white" href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Cerrar sesión&nbsp;&nbsp;</a>
 				<div class="dropdown-menu text-center">
 					<a><img src="imagenes/perfil.png" height="80" width="80"></a>
-					<a><br/>&nbsp;${us.nombre} ${us.apellido1} ${us.apellido2}&nbsp;</a>
-					<a>&nbsp;${us.correo}&nbsp;</a>
+					<a><br/>&nbsp;Nombre completo&nbsp;</a>
+					<a>&nbsp;correo@correo.com&nbsp;</a>
 					<div class="dropdown-divider"></div>
 					<a href="index.jsp" class="dropdown-item">Salir</a>
 					<a href="#" class="dropdown-item">
@@ -98,28 +98,37 @@
 			</div>
 		</nav>
 	
-		<div class="container mt-4">
-			<br/><br/><br/>
-			<!-- Mensaje de bienvenida personalizado con el nombre del usuario -->
-			<h1>Bienvenido al sistema, ${us.nick} .</h1>
-			<br/><br/>
 
-			<h3>Tiempo de conexión: </h3>
-			
-			<!-- Contenedor que muestra la hora actual y la de conexión-->
-			<div id="clockdate">
-  				<div class="clockdate-wrapper">
-    				<div id="clock"></div>
-    				<div id="date"></div>
-  				</div>
-			</div>
-		</div> 
+
+	<div class="wrap">
+		<input type="text" id="input" onkeyup="search()" placeholder="Busca un nombre ..." title="Escribe un nombre">
+		<h1>Escoge una categoría</h1>
+		<div class="store-wrapper">
+			<section class="products-list">
+			<ul id="ul">
+					
+				<%
+					// Almacena la lista de espectáculos proveniente del servlet
+				
+					ArrayList<EspectaculoDTO> listaEspectaculos =new ArrayList<EspectaculoDTO>();
+					listaEspectaculos = (ArrayList<EspectaculoDTO>)request.getAttribute("listaEspectaculos");
+					
+					//Vamos recorriendo la lista y mostrando el título de los espectáculos
+					
+					for(EspectaculoDTO es : listaEspectaculos){
 	
-		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+				%>
+				<li><div class="product-item" category="monologos">
+					<a href="#"><%= es.getTituloEspectaculo() %></a>
+				</div></li>
+				<%
+					}
+				%>
+				
+			</ul>
+			</section>
+		</div>
+	</div>
 
-	</body>
-
-
+</body>
 </html>

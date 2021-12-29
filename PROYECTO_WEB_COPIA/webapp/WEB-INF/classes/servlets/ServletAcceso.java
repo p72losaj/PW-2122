@@ -60,12 +60,22 @@ public class ServletAcceso extends HttpServlet {
 			//Llamamos a la funciones correspondientes del gestor para llevar a cabo la validación
 			if((us.comprobarExistenciaNickUsuario(nick) == true) && (us.comprobarExistenciaCorreoEspectador(correo) == true)) {
 				
-				//Acceso correcto, lo lleva a su página de bienvenida.
+				//Acceso correcto
 				if((p.getRolUsuario()).equals("espectador")) {
+					
+					//Guardamos al usuario obtenido como atributo del request (parámetro para el JSP)
+					request.setAttribute(us, "us");
+					
+					//Llevamos al espectador a su página de bienvenida
 					request.getRequestDispatcher("principal_espectador.jsp").forward(request, response);
 				}
 				
 				else {
+					
+					//Guardamos al usuario obtenido como atributo del request (parámetro para el JSP)
+					request.setAttribute(us, "us");
+					
+					//Llevamos al administrador a su página de bienvenida
 					request.getRequestDispatcher("principal_administrador.jsp").forward(request, response);
 				}
 				

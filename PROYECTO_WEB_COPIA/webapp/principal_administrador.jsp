@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import='java.util.Date' %>
+<%@ page import='es.uco.pw.negocio.usuario.UsuarioDTO' %>
 
 <!-- Bugs encontrados a solucionar: -->
 	<!-- Bug: al intentar selccionar la categoría desaparece el desplegable principal. El valor sí que se guarda -->
@@ -26,8 +27,17 @@
 
 	</head>
 	
+	
+	
 	<!-- Inicializamos startTime() para la obtención de la hora -->
 	<body onload="startTime()">
+	
+			<!-- Asignamos a una variable el resultado del servlet para poder mostrar los datos-->
+		<%
+		
+			UsuarioDTO us = getAttribute("us");
+		
+		%>
 	
 		<!-- Barra superior que sirve como menú para acceder a las diferentes funciones -->
 		<nav class="navbar navbar-dark bg-dark">	
@@ -87,8 +97,8 @@
 				<a style="color: white" href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Cerrar sesión&nbsp;&nbsp;</a>
 				<div class="dropdown-menu text-center">
 					<a><img src="imagenes/perfil.png" height="80" width="80"></a>
-					<a><br/>&nbsp;Nombre completo&nbsp;</a>
-					<a>&nbsp;correo@correo.com&nbsp;</a>
+					<a><br/>&nbsp;${us.nombre} ${us.apellido1} ${us.apellido2}&nbsp;</a>
+					<a>&nbsp;${us.correo}&nbsp;</a>
 					<div class="dropdown-divider"></div>
 					<a href="index.jsp" class="dropdown-item">Salir</a>
 					<a href="#" class="dropdown-item">
@@ -103,7 +113,7 @@
 		<div class="container mt-4">
 			<br/><br/><br/>
 			<!-- Mensaje de bienvenida personalizado con el nombre del usuario -->
-			<h1>Bienvenido al sistema, ${nick} .</h1>
+			<h1>Bienvenido al sistema, ${us.nick} .</h1>
 			<br/><br/>
 
 			<h3>Tiempo de conexión: <!-- <input class="timepage" size="5" id="timespent" name="timespent"><br> --></h3> 

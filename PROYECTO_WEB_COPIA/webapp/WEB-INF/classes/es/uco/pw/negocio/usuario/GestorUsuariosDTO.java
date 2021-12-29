@@ -144,8 +144,9 @@ public class GestorUsuariosDTO {
 	 * @param listaEspectadores Nueva lista de usuarios
 	 */
 
-	public void setListaEspectadores(ArrayList<UsuarioDTO> listaEspectadores) {
-		this.listaEspectadores = listaEspectadores;
+	public void setListaEspectadores(Properties prop, Properties sql) {
+		UsuarioDAO usuarios = new UsuarioDAO();
+		this.listaEspectadores = usuarios.obtenerUsuarios( sql,  prop);
 	}
 
 	/**

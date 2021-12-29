@@ -1,30 +1,30 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import='es.uco.pw.negocio.usuario.UsuarioDTO' %>
+<%@ page import='es.uco.pw.negocio.espectaculo.EspectaculoDTO' %>
 <!DOCTYPE html>
 
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>Mi perfil</title>
+		<title>Informacion del espectaculo</title>
 		
 		<!-- Link hacia los archivos de estilos css -->
  		<link rel="stylesheet" href="css/css_welcome_user.css">
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
 		<meta name="author" content="">
-        <meta name="description" content="Página que muestra los datos personales del usuario (ya sea espectador o administrador) y la opción de modificarlos">
+        <meta name="description" content="Página que muestra los datos de un espectáculo junto con la lista de críticas asociadas a él">
         <meta name="keywords" content="">
 
 	</head>
 
 
 	<body>
-		
-		<!-- Asignamos a una variable el resultado del servlet para poder mostrar los datos-->
+	
+			<!-- Asignamos a una variable el resultado del servlet para poder mostrar los datos-->
 		<%
 		
-			UsuarioDTO us = request.getAttribute("us");
+			EspectaculoDTO espectaculo = getAttribute("espectaculo");
 		
 		%>
 
@@ -59,14 +59,14 @@
           			<a class="dropdown-item">Buscar por categoría&nbsp;&nbsp;
           			<!-- Bug: al intentar selccionar la categoría desaparece el desplegable principal. El valor sí que se guarda -->
           			<!-- El campo de value es lo que se enviará -->
-          				<form action=ServletMostrarEspectaculos>
-          					<select name="busqueda_categorias">
-   								<option selected value="0">Seleccionar</option> 
-   								<option value="Mostrar_conciertos">Conciertos</option> 
-   								<option value="Mostrar_monologos">Monólogos</option>
-   								<option value="Mostrar_obrasTeatro">Obras de teatro</option> 
-							</select>
-						</form>				
+          			<form>
+          			<select name="busqueda_categorias">
+   						<option selected value="0">Seleccionar</option> 
+   						<option value="2">Categoría 1</option> 
+   						<option value="3">Categoría 2</option>
+   						<option value="10">Categoría 3</option> 
+					</select>
+					</form>
           			</a>
           	    </div>
       		</div>
@@ -76,8 +76,8 @@
 				<a style="color: white" href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Cerrar sesión&nbsp;&nbsp;</a>
 				<div class="dropdown-menu text-center">
 					<a><img src="imagenes/perfil.png" height="80" width="80"></a>
-					<a><br/>&nbsp;${us.nombre} ${us.apellido1} ${us.apellido2}&nbsp;</a>
-					<a>&nbsp;${us.correo}&nbsp;</a>
+					<a><br/>&nbsp;Nombre completo&nbsp;</a>
+					<a>&nbsp;correo@correo.com&nbsp;</a>
 					<div class="dropdown-divider"></div>
 					<a href="index.jsp" class="dropdown-item">Salir</a>
 					<a href="#" class="dropdown-item">
@@ -91,43 +91,38 @@
 	
 		<div class="container mt-4">
 			<br/><br/><br/>
-			<h2>Tus datos </h2>
+			<h2> ${nombre} </h2>
 			<br/><br/>
-			<h5>Nombre: ${us.nombre}</h5>
+			<h5>Tipo: ${si es un cocierto, monologo, etc}</h5>
 			<br/>
-			<h5>Apellidos: ${us.apellido1} ${us.apellido2}</h5>
+			<h5>Lista de sesiones:</h5>
 			<br/>
-			<h5>Correo electrónico: ${us.correo}</h5>
+			<h5>${lista de sesiones}</h5>
 			<br/>
-			<h5>Nick: ${us.nick}</h5>
-			
 			
 			<div class="cont_form">
 				<br/>
-				<h2>&nbsp;&nbsp;Modificar datos</h2>
-      			<form action="ServletMiPerfil" method="post">
-        			<label for="nombre">Nuevo nombre</label>
-        			<input type="text" id="nombre" name="nombre">
+				<h2>&nbsp;&nbsp;Críticas</h2>
+      			<form action="ServletAcceso">
+        			<label for="name">Nuevo nombre</label>
+        				<input type="text" id="nombre" name="nombre">
         	
-        			<label for="apellido1">Nuevo primer apellido</label>
-        			<input type="text" id="apellido1" name="apellido1">
+        				<label for="primer_apellido">Nuevo primer apellido</label>
+        				<input type="text" id="primer_apellido" name="primer_apellido">
         	
-        			<label for="apellido2">Nuevo segundo apellido</label>
-        			<input type="text" id="apellido2" name="apellido2">
+        				<label for="segundo_apellido">Nuevo segundo apellido</label>
+        				<input type="text" id="segundo_apellido" name="segundo_apellido">
         	
-        			<label for="nick">Nuevo nick de usuario</label>
-        			<input type="text" id="nick" name="nick">
-        			
-        			<label for="password">Nueva contraseña</label>
-        			<input type="password" id="password" name="password">
+        				<label for="user">Nuevo nick de usuario</label>
+        				<input type="text" id="nick" name="nick">
         	
-        			<br/>
-      				<div class="zoom">
+        				<br/>
+      					<div class="zoom">
         					<input type="submit" name="accion" value="Modificar datos">
-      				</div> 
-      				<br/>
-      			</form>
-			</div> 
+      					</div> 
+      					<br/>
+      				</form>
+				</div> 
 	
 		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
