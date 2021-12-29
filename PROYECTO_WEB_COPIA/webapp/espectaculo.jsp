@@ -91,37 +91,21 @@
 	
 		<div class="container mt-4">
 			<br/><br/><br/>
-			<h2> ${nombre} </h2>
+			<h2> <%= espectaculo.getTituloEspectaculo() %> </h2>
 			<br/><br/>
-			<h5>Tipo: ${si es un cocierto, monologo, etc}</h5>
+			<h5>Tipo: <%= espectaculo.getCategoriaEspectaculo() %></h5>
 			<br/>
 			<h5>Lista de sesiones:</h5>
 			<br/>
-			<h5>${lista de sesiones}</h5>
+			<h5><!-- Poner la lista de sesiones --></h5>
 			<br/>
 			
 			<div class="cont_form">
 				<br/>
 				<h2>&nbsp;&nbsp;Críticas</h2>
-      			<form action="ServletAcceso">
-        			<label for="name">Nuevo nombre</label>
-        				<input type="text" id="nombre" name="nombre">
-        	
-        				<label for="primer_apellido">Nuevo primer apellido</label>
-        				<input type="text" id="primer_apellido" name="primer_apellido">
-        	
-        				<label for="segundo_apellido">Nuevo segundo apellido</label>
-        				<input type="text" id="segundo_apellido" name="segundo_apellido">
-        	
-        				<label for="user">Nuevo nick de usuario</label>
-        				<input type="text" id="nick" name="nick">
-        	
-        				<br/>
-      					<div class="zoom">
-        					<input type="submit" name="accion" value="Modificar datos">
-      					</div> 
-      					<br/>
-      				</form>
+  				<!-- Desplegar aquí la lista de críticas. Comprobar si coincide con el usuario que tenemos guardado, en cuyo caso se dará la opción de que borre esa crítica.
+  					Si después de desplegar todas vemos que no tiene ninguna crítica, le daremos la opción de añadir una
+  				 -->
 				</div> 
 	
 		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
