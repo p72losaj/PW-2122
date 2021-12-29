@@ -16,7 +16,8 @@ import es.uco.pw.negocio.espectaculo.SesionEspectaculoDTO;
 /**
  * Gestor de criticas, disenado mediante el patron de diseno Singleton
  * @author Jaime Lorenzo Sanchez
- * @version 2.0
+ * @author Jose Angel Exposito Fernandez 
+ * @version 2.2
  */
 
 public class GestorCriticasDTO {
