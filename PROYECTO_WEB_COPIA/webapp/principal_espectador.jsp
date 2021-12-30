@@ -24,7 +24,6 @@
 		
 		<!-- Scripts para la obtención de la hora de conexión y la actual -->
 		<script type="text/javascript" src="hora_actual.js"></script>
-		<script type="text/javascript" src="hora_conexion.js"></script>
 	</head>
 	
 	
@@ -49,8 +48,9 @@
   			
   			<!-- Opción para acceder a la visualización y modificación de los datos personales del usuario-->
 			<div class="nav-item active">
-        		<a style="color: white" class="nav-link" href="">Mi perfil <span class="sr-only">(current)</span></a>
+        		<a style="color: white" class="nav-link" href="ServletMiPerfil?us=<%= us %>&accion=Mostrar_datos">Mi perfil <span class="sr-only">(current)</span></a>
       		</div>
+      		
       		
       		<!-- Opción para mostrar espectáculos, ya sea todos o algunos en concreto que seleccionemos -->
 	    	<div class="dropdown">
@@ -58,7 +58,7 @@
           		Espectáculos
         		</a>
         		<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          			<a class="dropdown-item" href="#">Todos los espectáculos</a>
+          			<a class="dropdown-item" href="ServletMostrarEspectaculos?accion=Mostrar_todos">Todos los espectáculos</a>
           			<div class="dropdown-divider"></div>
           			<a class="dropdown-item">Buscar por nombre
     	  				<form class="form-inline">
@@ -67,16 +67,11 @@
   						</form>
           			</a>
           			<div class="dropdown-divider"></div>
-          			<a class="dropdown-item">Buscar por categoría&nbsp;&nbsp;
-          			<!-- Bug: al intentar selccionar la categoría desaparece el desplegable principal. El valor sí que se guarda -->
-          			<!-- El campo de value es lo que se enviará -->
-          			<select name="busqueda_categorias">
-   						<option selected value="0">Seleccionar</option> 
-   						<option value="2">Categoría 1</option> 
-   						<option value="3">Categoría 2</option>
-   						<option value="10">Categoría 3</option> 
-					</select>
-          			</a>
+          			<a class="dropdown-item" href="ServletMostrarEspectaculos?accion=Mostrar_conciertos">Todos los conciertos</a>
+          			<div class="dropdown-divider"></div>          			
+          			<a class="dropdown-item" href="ServletMostrarEspectaculos?accion=Mostrar_monologos">Todos los monólogos</a>
+          			<div class="dropdown-divider"></div>          			
+          			<a class="dropdown-item" href="ServletMostrarEspectaculos?accion=Mostrar_obrasTeatro">Todas las obras de teatro</a>
           	    </div>
       		</div>
       		
@@ -85,8 +80,8 @@
 				<a style="color: white" href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Cerrar sesión&nbsp;&nbsp;</a>
 				<div class="dropdown-menu text-center">
 					<a><img src="imagenes/perfil.png" height="80" width="80"></a>
-					<a><br/>&nbsp;${us.nombre} ${us.apellido1} ${us.apellido2}&nbsp;</a>
-					<a>&nbsp;${us.correo}&nbsp;</a>
+					<a><br/>&nbsp;<%= us.getNombreEspectador() %> <%= us.getPrimerApellidoEspectador() %>&nbsp;</a>
+					<a>&nbsp;<%= us.getCorreoEspectador() %>&nbsp;</a>
 					<div class="dropdown-divider"></div>
 					<a href="index.jsp" class="dropdown-item">Salir</a>
 					<a href="#" class="dropdown-item">

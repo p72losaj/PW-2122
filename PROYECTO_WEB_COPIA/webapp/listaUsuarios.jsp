@@ -54,7 +54,7 @@
           		Usuarios
         		</a>
         		<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          			<a class="dropdown-item" href="ServletMiPerfil?us=<%= us %>&?accion=Mostrar_datos">Mi perfil</a>
+          			<a class="dropdown-item" href="ServletMiPerfil?us=<%= us %>&accion=Mostrar_datos">Mi perfil</a>
           			<div class="dropdown-divider"></div>
           			<a class="dropdown-item" href="ServletMostrarUsuarios">Listado de usuarios</a>
           	    </div>
@@ -121,6 +121,7 @@
 			<li>
 				<p>Nombre completo: <%= us.getNombreEspectador() %> <%= us.getPrimerApellidoEspectador() %> <%= us.getSegundoApellidoEspectador() %></p>
 				<p>Nick: <%= us.getNickEspectador() %></p>
+				<hr>
 			</li>
 		<%
 			}

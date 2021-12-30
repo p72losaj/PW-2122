@@ -38,7 +38,7 @@
   			
   			<!-- Opción para acceder a la visualización y modificación de los datos personales del usuario-->
 			<div class="nav-item active">
-        		<a style="color: white" class="nav-link" href="ServletMiPerfil?us=<%= us %>&?accion=Mostrar_datos">Mi perfil <span class="sr-only">(current)</span></a>
+        		<a style="color: white" class="nav-link" href="ServletMiPerfil?us=<%= us %>&accion=Mostrar_datos">Mi perfil <span class="sr-only">(current)</span></a>
       		</div>
       		
       		
