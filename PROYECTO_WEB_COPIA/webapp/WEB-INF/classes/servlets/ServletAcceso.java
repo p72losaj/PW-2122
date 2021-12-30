@@ -2,6 +2,14 @@ package servlets;
 
 import es.uco.pw.datos.dao.usuario.UsuarioDAO;
 import es.uco.pw.negocio.usuario.*;
+import es.uco.pw.negocio.log.LogDTO;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.lang.Object;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Date;
+import java.util.Properties;
 
 import java.io.IOException;
 import java.util.Properties;
@@ -35,6 +43,7 @@ public class ServletAcceso extends HttpServlet {
     
 	GestorUsuariosDTO us= new GestorUsuariosDTO();
 	UsuarioDTO p=new UsuarioDTO();
+	LogDTO logger=new LogDTO();
 	String estado; //variable para la comprobación en el registro
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -46,7 +55,7 @@ public class ServletAcceso extends HttpServlet {
 		prop.load(getServletContext().getResourceAsStream("/WEB-INF/lib/config.properties"));
 		sql.load(getServletContext().getResourceAsStream("/WEB-INF/lib/sql.properties"));
 		
-		
+		us.setListaEspectadores(prop, sql); //Cargamos la lista de espectadores
 	    //Las diferentes acciones en las que se interactuará con el servlet
 	    
 		String accion=request.getParameter("accion");
@@ -56,12 +65,22 @@ public class ServletAcceso extends HttpServlet {
 			//Cargamos los datos desde el formulario
 			String nick=request.getParameter("nick");
 			String correo=request.getParameter("correo");
-			
+			String pass=request.getParameter("password");
 			//Llamamos a la funciones correspondientes del gestor para llevar a cabo la validación
-			if((us.comprobarExistenciaNickUsuario(nick) == true) && (us.comprobarExistenciaCorreoEspectador(correo) == true)) {
+		
+			int idlog = us.obtencionIdentificadorUsuario(correo);
+		
+			
+			if(logger.ComprobarLog(idlog,pass,prop,sql)==true) { 
 				
+				
+				p = us.obtenerDatosUsuario(correo);
 				//Guardamos al usuario obtenido como atributo del request (parámetro para el JSP)
 				request.setAttribute(p, "us");
+				
+				//actualizamos el log
+				logger.ActualizarLog(idlog,pass, prop, sql);
+				
 				
 				//Acceso correcto
 				if((p.getRolUsuario()).equals("espectador")) {
@@ -96,13 +115,31 @@ public class ServletAcceso extends HttpServlet {
 			String segundo_apellido=request.getParameter("segundo_apellido");
 			String nick=request.getParameter("nick");
 			String correo=request.getParameter("correo");
+			String password=request.getParameter("password");
+			
+			LocalDate fechaActual = LocalDate.now();
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+			try {
+			java.util.Date parsed = format.parse(fechaActual.toString());
+			
+			java.sql.Date fecha = new java.sql.Date(parsed.getTime());
+			
+			}
+			catch(Exception ex) {
+				System.out.println("Error con la fecha");
+			}
+			
+			
 			
 			//En principio sólo se podrán registrar nuevos espectadores para impedir que alguien no autorizado se registre como administrador
 			String rol="espectador"; 
 			
 			//Llamamos a la función del gestor para llevar a cabo el registro
 			estado = us.registrarUsuario(prop, sql, correo, nombre, primer_apellido, segundo_apellido, nick, rol);
-
+			int idusu = us.obtencionIdentificadorUsuario(correo);
+			
+			logger.insertarLog(idusu, fecha, fecha, password,  prop,  sql);
+			
 			//El registro se ha realizado correctamente
 			if(estado == "Registro del usuario en la base de datos ha sido un exito") { 
 				request.getRequestDispatcher("principal_espectador.jsp").forward(request, response);
