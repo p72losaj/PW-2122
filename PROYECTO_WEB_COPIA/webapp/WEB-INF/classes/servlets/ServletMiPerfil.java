@@ -36,13 +36,13 @@ public class ServletEspectaculo extends HttpServlet {
 	String apellido1;
 	String apellido2
 	String nick;
+	int id;
 	
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		// Esto no se para que coño es response.getWriter().append("Served at: ").append(request.getContextPath());
 		
 		prop.load(getServletContext().getResourceAsStream("/WEB-INF/lib/config.properties"));
 		sql.load(getServletContext().getResourceAsStream("/WEB-INF/lib/sql.properties"));
@@ -55,15 +55,15 @@ public class ServletEspectaculo extends HttpServlet {
 		
 			gest_us.setListaEspectadores(prop, sql);
 		
-			//Asignamos el parámetro del JSP a la variable correo
+			//Asignamos el parÃ¡metro del JSP a la variable correo
 			
 			correo=request.getParameter("correo"); //correo es el id de lo que nos ha llegado
 		
-			//Llamamos a la función de devolver los datos de un usuario por su correo
+			//Llamamos a la funciÃ³n de devolver los datos de un usuario por su correo
 		
 			us = gest_us.obtenerDatosUsuario(correo);
 			
-			//Lo guardamos como atributo del request (parámetro para el JSP)
+			//Lo guardamos como atributo del request (parÃ¡metro para el JSP)
 			
 			request.setAttribute(us, "us");
 		
@@ -82,6 +82,11 @@ public class ServletEspectaculo extends HttpServlet {
 		// TODO Auto-generated method stub
 		if(accion.equals("Modificar_datos")) {
 				
+
+			prop.load(getServletContext().getResourceAsStream("/WEB-INF/lib/config.properties"));
+			sql.load(getServletContext().getResourceAsStream("/WEB-INF/lib/sql.properties"));
+			
+			
 			//Pillamos los datos del JSP
 			
 			correo=request.getParameter("correo");
@@ -89,9 +94,14 @@ public class ServletEspectaculo extends HttpServlet {
 			apellido1=request.getParameter("apellido1");
 			apellido2=request.getParameter("apellido2");
 			nick=request.getParameter("nick");
-			//Poner la contraseña tb
 			
-			//Pillamos al usuario de ese correo para poder cambiarlo con el DTO
+
+			//Cargamos lista de espectaadores en el gestor
+			gest_us.setListaEspectadores(prop, sql);
+			
+			//Obtenemos el usuario que se va a cambiar
+			us = gest_us.obtenerDatosUsuario(correo);
+			
 			
 			//Depende de los campos que haya rellenado, cambiamos unos datos u otros
 			
@@ -103,32 +113,61 @@ public class ServletEspectaculo extends HttpServlet {
 				us.setPrimerApellidoEspectador(apellido1);
 			}
 			
-			if(!"". equals(apellido)) {
+			if(!"". equals(apellido2)) {
 				us.setSegundoApellidoEspectador(apellido2);
 			}
 			
 			if(!"". equals(nick)) {
 				us.setNickEspectador(nick);
 			}
-			//añadir lo de la contrasña tb
 			
-			//Devolvemos el usuario con los datos cambiados y volvemos a la página principal
+			int error = gest_us.modificarUsuario(us.getIdUsuario(),correo,nombre,apellido1,apellido2, nick, prop,sql);
+			
+			//Devolvemos el usuario con los datos cambiados y volvemos a la pÃ¡gina principal
 			
 			request.setAttribute(us, "us");
 			
 			if((p.getRolUsuario()).equals("espectador")) {
 
-				//Llevamos al espectador a su página de bienvenida
+				//Llevamos al espectador a su pÃ¡gina de bienvenida
 				
 				request.getRequestDispatcher("principal_espectador.jsp").forward(request, response);
 			}
 			
 			else {
 								
-				//Llevamos al administrador a su página de bienvenida
+				//Llevamos al administrador a su pÃ¡gina de bienvenida
 				
 				request.getRequestDispatcher("principal_administrador.jsp").forward(request, response);
 			}
+			
+		}
+		else if(accion.equals("Dar_Baja")) {
+			
+
+			prop.load(getServletContext().getResourceAsStream("/WEB-INF/lib/config.properties"));
+			sql.load(getServletContext().getResourceAsStream("/WEB-INF/lib/sql.properties"));
+			
+			
+			//Pillamos los datos del JSP
+			
+			correo=request.getParameter("correo");			
+
+			//Cargamos lista de espectaadores en el gestor
+			gest_us.setListaEspectadores(prop, sql);
+			
+			//Obtenemos el usuario que se va a cambiar
+			us = gest_us.obtenerDatosUsuario(correo);
+			
+			
+			//Depende de los campos que haya rellenado, cambiamos unos datos u otros
+			
+			int error = gest_us.modificarUsuario(us.getIdUsuario(),"deleted","deleted","deleted","deleted", "deleted", prop,sql);
+			
+		
+				//salimos a la pagina de inicio
+			
+				request.getRequestDispatcher("index.jsp").forward(request, response);
 			
 		}
 	}
