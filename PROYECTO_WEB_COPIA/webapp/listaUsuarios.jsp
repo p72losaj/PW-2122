@@ -44,8 +44,8 @@
 		<nav class="navbar navbar-dark bg-dark">	
 			<a style="color: white" class="navbar-toggler"><span class="navbar-toggler-icon"></span></a>
 			<a class="navbar-brand" href="#">
-        		<img src="imagenes/logo_bootstrap.png" width="30" height="30" class="d-inline-block align-top" alt="">
-    			Página reshulona sin nombre
+        		<img src="imagenes/piermarini_logo.png" width="30" height="30" class="d-inline-block align-top" alt="">
+    			Piermarini espectáculos
   			</a>
   			
   			<!-- Opción para acceder a su perfil y al listado de usuarios -->

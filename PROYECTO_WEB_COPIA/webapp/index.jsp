@@ -112,12 +112,12 @@ document.querySelector('#Iniciar sesión').addEventListener('focus', function(e)
       
       
       <div class="form">
-      <form action="ServletAcceso" method="GET">
+      <form action="ServletAcceso" method="POST">
         <label for="email">Email</label>
         <input type="email" name="correo" id="correo">
         
-        <label for="nick">Usuario</label>
-        <input type="text" name="nick" id="nick">
+        <label for="password">Contraseña</label>
+        <input type="password" name="password" id="password">
         
         <div class="zoom">
           <input type="submit" name="accion" value="Iniciar sesión">

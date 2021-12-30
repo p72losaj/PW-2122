@@ -116,8 +116,8 @@ document.querySelector('#Iniciar sesión').addEventListener('focus', function(e)
       </svg>
       
       
-      <div class="form" method="GET">
-      <form action="ServletAcceso">
+      <div class="form">
+      <form action="ServletAcceso" method="POST">
       	<div class="columnas">
         	<label for="name">Nombre</label>
         	<input type="text" id="nombre" name="nombre">
@@ -133,6 +133,9 @@ document.querySelector('#Iniciar sesión').addEventListener('focus', function(e)
         	
         	<label for="email">Email</label>
         	<input type="email" id="correo" name="correo">
+        	
+        	<label for="password">Contraseña</label>
+        	<input type="password" id="password" name="password">
         	
       		<div class="zoom">
         		<input type="submit" name="accion" value="Registrarse">

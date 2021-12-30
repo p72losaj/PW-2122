@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import='es.uco.pw.negocio.espectaculo.EspectaculoDTO' %>
+<%@ page import='es.uco.pw.negocio.critica.*' %>
+<%@ page import='es.uco.pw.negocio.usuario.UsuarioDTO' %>
 <!DOCTYPE html>
 
 <html>
@@ -33,8 +35,8 @@
 		<nav class="navbar navbar-dark bg-dark">	
 			<a style="color: white" class="navbar-toggler"><span class="navbar-toggler-icon"></span></a>
 			<a class="navbar-brand" href="#">
-        		<img src="imagenes/logo_bootstrap.png" width="30" height="30" class="d-inline-block align-top" alt="">
-    			Página reshulona sin nombre
+        		<img src="imagenes/piermarini_logo.png" width="30" height="30" class="d-inline-block align-top" alt="">
+    			Piermarini espectáculos
   			</a>
   			
   			<!-- Opción para acceder a la visualización y modificación de los datos personales del usuario-->
@@ -102,9 +104,63 @@
 			<div class="cont_form">
 				<br/>
 				<h2>&nbsp;&nbsp;Críticas</h2>
+				
   				<!-- Desplegar aquí la lista de críticas. Comprobar si coincide con el usuario que tenemos guardado, en cuyo caso se dará la opción de que borre esa crítica.
   					Si después de desplegar todas vemos que no tiene ninguna crítica, le daremos la opción de añadir una
   				 -->
+  				 <ul>
+				<%	
+				//Controla que el usuario no haya escrito una critica anteriormente de ese espectáculo
+					int ncri = 0;
+				
+				//Usuario que ha entrado en el espectaculo
+				
+					UsuarioDTO us = new UsuarioDTO();
+					us = (UsuarioDTO)request.getAttribute("us");
+				
+				// Almacena la lista de criticas proveniente del servlet
+				
+					ArrayList<CriticaDTO> criticas = new ArrayList<CriticaDTO>();
+					criticas = (ArrayList<UsuarioDTO>)request.getAttribute("listaCriticas");
+				
+					for(CriticaDTO critica : criticas){
+						
+				%>
+					<li>
+						<h4><%= critica.getTituloCritica() %></h4>
+						<p>Autor: <%= critica.getAutorCritica() %></p>
+						<p>Critica: <%= critica.getResenaCritica() %></p>
+						
+				<%
+						//Si una de las criticas es suya se le dara la opción de borrarla
+						if(us.getNickEspectador().equals(critica.getAutorCritica())){
+							ncri = 1;
+							String correo = us.getCorreoEspectador();
+							int idCritica = critica.getIdentificadorCritica();
+							int idUsuario = us.getIdUsuario();
+				%>	
+						<a href="ServletCriticas?accion=EliminarCritica&correo=<%= correo %>&idCritica=<%= idCritica %>&idUsuarios=<%= idUsuario %>">Eliminar crítica</a>
+				<% 	
+						}
+				
+				%>
+						<hr>
+					</li>
+				<%
+					}
+				%>
+				</ul>
+				
+				<%
+					//Si aun no tiene ninguna critica registrada para ese espectáculo, se le dará la opción de añadir una
+					if(ncri==0){
+				%>	
+				
+				<a href="ServletCriticas?us=<%= us %>&accion=AccesoANuevaCritica&espectaculo=<%= espectaculo %>">Añadir una crítica</a>
+					
+				<%
+					}
+				%>
 			</div> 
 	
 		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
