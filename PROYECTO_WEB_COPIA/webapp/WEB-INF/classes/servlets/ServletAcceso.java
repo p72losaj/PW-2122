@@ -60,20 +60,17 @@ public class ServletAcceso extends HttpServlet {
 			//Llamamos a la funciones correspondientes del gestor para llevar a cabo la validación
 			if((us.comprobarExistenciaNickUsuario(nick) == true) && (us.comprobarExistenciaCorreoEspectador(correo) == true)) {
 				
+				//Guardamos al usuario obtenido como atributo del request (parámetro para el JSP)
+				request.setAttribute(p, "us");
+				
 				//Acceso correcto
 				if((p.getRolUsuario()).equals("espectador")) {
-					
-					//Guardamos al usuario obtenido como atributo del request (parámetro para el JSP)
-					request.setAttribute(us, "us");
-					
+
 					//Llevamos al espectador a su página de bienvenida
 					request.getRequestDispatcher("principal_espectador.jsp").forward(request, response);
 				}
 				
 				else {
-					
-					//Guardamos al usuario obtenido como atributo del request (parámetro para el JSP)
-					request.setAttribute(us, "us");
 					
 					//Llevamos al administrador a su página de bienvenida
 					request.getRequestDispatcher("principal_administrador.jsp").forward(request, response);
@@ -99,6 +96,7 @@ public class ServletAcceso extends HttpServlet {
 			String segundo_apellido=request.getParameter("segundo_apellido");
 			String nick=request.getParameter("nick");
 			String correo=request.getParameter("correo");
+			
 			//En principio sólo se podrán registrar nuevos espectadores para impedir que alguien no autorizado se registre como administrador
 			String rol="espectador"; 
 			

@@ -19,11 +19,12 @@ import es.uco.pw.negocio.usuario.*;
 
 
 /**
- * Servlet implementation class ServletMostrarUsuarios
+ * Servlet que pasa la lista de usuarios a listaUsuarios.jsp
+ * @author Rocío del Viejo Cupido
  */
 @WebServlet("/ServletMostrarUsuarios")
 public class ServletMostrarUsuarios extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 5L;
        
     /**
      * @see HttpServlet#HttpServlet()

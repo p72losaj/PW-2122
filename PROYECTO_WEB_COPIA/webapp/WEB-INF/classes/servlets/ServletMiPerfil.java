@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet("/ServletEspectaculo")
 public class ServletEspectaculo extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 3L;
 
     /**
      * Default constructor. 
@@ -49,7 +49,7 @@ public class ServletEspectaculo extends HttpServlet {
 		
 		String accion=request.getParameter("accion");
 
-		if(accion.equals("Mostrar datos")){
+		if(accion.equals("Mostrar_datos")){
 		
 			//Cargamos la lista de espectadores del gestor
 		
@@ -80,7 +80,7 @@ public class ServletEspectaculo extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		if(accion.equals("Modificar datos")) {
+		if(accion.equals("Modificar_datos")) {
 				
 			//Pillamos los datos del JSP
 			
@@ -111,6 +111,24 @@ public class ServletEspectaculo extends HttpServlet {
 				us.setNickEspectador(nick);
 			}
 			//añadir lo de la contrasña tb
+			
+			//Devolvemos el usuario con los datos cambiados y volvemos a la página principal
+			
+			request.setAttribute(us, "us");
+			
+			if((p.getRolUsuario()).equals("espectador")) {
+
+				//Llevamos al espectador a su página de bienvenida
+				
+				request.getRequestDispatcher("principal_espectador.jsp").forward(request, response);
+			}
+			
+			else {
+								
+				//Llevamos al administrador a su página de bienvenida
+				
+				request.getRequestDispatcher("principal_administrador.jsp").forward(request, response);
+			}
 			
 		}
 	}

@@ -20,11 +20,12 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * Servlet para mostrar todos los espectáculos o por categorías
+ * 
  */
 @WebServlet(name="ServletMostrarEspectaculos", urlPatterns="/ServletMostrarEspectaculos") 
 public class ServletMostrarEspectaculos extends HttpServlet {
 	
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 4L;
     
     /**
      * @see HttpServlet#HttpServlet()
