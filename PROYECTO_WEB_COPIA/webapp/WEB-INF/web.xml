@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd" id="WebApp_ID" version="4.0">
-  <display-name>Proyecto_web_practica3</display-name>
+  <display-name>PROYECTO_WEB_COPIA</display-name>
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
     <welcome-file>index.htm</welcome-file>
@@ -12,9 +12,39 @@
   <servlet>
     <servlet-name>ServletAcceso</servlet-name>
     <servlet-class>servlets.ServletAcceso</servlet-class>
+    
+    <servlet-name>ServletCriticas</servlet-name>
+    <servlet-class>servlets.ServletCriticas</servlet-class>
+    
+    <servlet-name>ServletEspectaculo</servlet-name>
+    <servlet-class>servlets.ServletEspectaculo</servlet-class>
+    
+    <servlet-name>ServletMiPerfil</servlet-name>
+    <servlet-class>servlets.ServletMiPerfil</servlet-class>
+    
+    <servlet-name>ServletMostrarEspectaculos</servlet-name>
+    <servlet-class>servlets.ServletMostrarEspectaculos</servlet-class>
+    
+    <servlet-name>ServletMostrarUsuarios</servlet-name>
+    <servlet-class>servlets.ServletMostrarUsuarios</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>ServletAcceso</servlet-name>
     <url-pattern>/ServletAcceso</url-pattern>
+    
+    <servlet-name>ServletCriticas</servlet-name>
+    <url-pattern>/ServletCriticas</url-pattern>
+    
+    <servlet-name>ServletEspectaculo</servlet-name>
+    <url-pattern>/ServletEspectaculo</url-pattern>
+    
+    <servlet-name>ServletMiPerfil</servlet-name>
+    <url-pattern>/ServletMiPerfil</url-pattern>
+    
+    <servlet-name>ServletMostrarEspectaculos</servlet-name>
+    <url-pattern>/ServletMostrarEspectaculos</url-pattern>
+    
+    <servlet-name>ServletMostrarUsuarios</servlet-name>
+    <url-pattern>/ServletMostrarUsuarios</url-pattern>
   </servlet-mapping>
 </web-app>
