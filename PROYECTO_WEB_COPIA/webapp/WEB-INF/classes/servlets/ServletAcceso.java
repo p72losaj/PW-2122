@@ -46,7 +46,8 @@ public class ServletAcceso extends HttpServlet {
 	LogDTO logger=new LogDTO();
 	String estado; //variable para la comprobación en el registro
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
 		
@@ -63,9 +64,9 @@ public class ServletAcceso extends HttpServlet {
 		if(accion.equals("Iniciar sesión")){
 			
 			//Cargamos los datos desde el formulario
-			String nick=request.getParameter("nick");
 			String correo=request.getParameter("correo");
 			String pass=request.getParameter("password");
+			
 			//Llamamos a la funciones correspondientes del gestor para llevar a cabo la validación
 		
 			int idlog = us.obtencionIdentificadorUsuario(correo);
