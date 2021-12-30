@@ -1,6 +1,8 @@
 package servlets;
 
-import es.uco.pw.negocio.espectaculo.EspectaculoDTO;
+import es.uco.pw.negocio.espectaculo.*;
+import es.uco.pw.datos.dao.espectaculo.*;
+
 
 import java.io.IOException;
 import java.util.Properties;
@@ -29,22 +31,21 @@ public class ServletEspectaculo extends HttpServlet {
 	Properties sql = new Properties();
     
 	EspectaculoDTO espectaculo = new EspectaculoDTO();
-	EspectaculoDAO espect = new EspectaculoDAO();
-	String titulo_espectaculo;
+	EspectaculoDAO gestes = new EspectaculoDAO();
+	String titulo;
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		// Esto no se para que coño es response.getWriter().append("Served at: ").append(request.getContextPath());
 		
 		//Asignamos el parámetro del JSP a la variable titulo_espectaculo
 		
-		titulo_espectaculo=request.getParameter("titulo"); //titulo es el id de lo que nos ha llegado
+		titulo=request.getParameter("titulo"); 
 		
 		//Llamamos a la función de devolver los datos de un espectáculo por su título
 		
-		espectaculo = espect.obtencionEspectaculo(prop, sql, String titulo_espectaculo);
+		espectaculo = gestes.obtencionEspectaculo(prop, sql, titulo);
 		
 		//Guardamos el espectaculo obtenido como atributo del request (parámetro para el JSP)
 		request.setAttribute(espectaculo, "espectaculo");
