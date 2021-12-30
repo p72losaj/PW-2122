@@ -14,7 +14,8 @@ import es.uco.pw.datos.dao.usuario.UsuarioDAO;
 /**
  * Gestor de espectadores
  * @author Jaime Lorenzo Sanchez
- * @version 2.0
+ * @author Jose Angel Exposito Fernandez
+ * @version 2.2
  */
 
 public class GestorUsuariosDTO {
