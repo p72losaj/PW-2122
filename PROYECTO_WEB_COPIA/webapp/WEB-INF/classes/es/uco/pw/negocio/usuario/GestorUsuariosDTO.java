@@ -249,7 +249,24 @@ public class GestorUsuariosDTO {
 		return identificador;
 	}
 
-
+	public int modificarUsuario(int id, String correo, String nombre, String ap1, String ap2, String nick,Properties prop, Properties sql) {
 	
+		UsuarioDTO usuario = new UsuarioDTO();
+		UsuarioDAO updater = new UsuarioDAO();
+	
+	usuario.setCorreoEspectador(correo); // Almacenamos el correo del usuario
+	usuario.setNombreEspectador(nombre); // Almacenamos el nombre del usuario
+	usuario.setPrimerApellidoEspectador(ap1); // Almacenamos el primer apellido del usuario
+	usuario.setSegundoApellidoEspectador(ap2); // Almacenamos el segundo apellido del usuario
+	usuario.setNickEspectador(nick); // Almacenamos el nick del usuario
+
+	usuario.setIdUsuario(id);
+
+	return update.modificarUsuario(usuario,prop,sql);
+	
+}
+
+
+
 
 }
