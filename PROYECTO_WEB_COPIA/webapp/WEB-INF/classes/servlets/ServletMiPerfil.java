@@ -80,6 +80,9 @@ public class ServletEspectaculo extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+
+		String accion=request.getParameter("accion");
+		
 		if(accion.equals("Modificar_datos")) {
 				
 
