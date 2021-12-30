@@ -13,7 +13,8 @@ import es.uco.pw.negocio.usuario.UsuarioDTO;
 /**
  * Clase que gestiona la tabla usuario de la base de datos
  * @author Jaime Lorenzo Sanchez
- * @version 1.0
+ * @author Jose Angel Exposito Fernandez
+ * @version 1.2
  */
 
 public class UsuarioDAO {
@@ -267,7 +268,33 @@ public class UsuarioDAO {
 	
 	
 	
-	
+public int modificarUsuario(UsuarioDTO usuarioDTO, Properties prop, Properties sql) {
+		
+		int status = 0; // Numero de filas anadidas en la base de datos
+		
+		try {
+			Connection con = ConexionBD.getConexion(prop); // Conexion con la base de datos
+			// Obtenemos la propiedad del fichero de propiedades
+			PreparedStatement ps=con.prepareStatement(sql.getProperty("ModificarUsuario"));
+			ps.setString(1,usuarioDTO.getCorreoEspectador());// Indicamos en la sentencia ps el correo del usuario
+			ps.setString(2, usuarioDTO.getNombreEspectador());// Indicamos el nombre del usuario en la sentencia ps
+			ps.setString(3, usuarioDTO.getPrimerApellidoEspectador());// Indicamos el primer apellido del usuario en la sentencia ps
+			ps.setString(4, usuarioDTO.getSegundoApellidoEspectador());// Indicamos el segundo apellido del usuario en la sentencia ps
+			ps.setString(5, usuarioDTO.getNickEspectador());// Indicamos el nick del usuario en la sentencia ps
+			ps.setInt(6, usuarioDTO.getIdUsuario());
+			
+			status = ps.executeUpdate(); // Actualizamos la base de datos
+			ps.close(); // Cerramos la sentencia ps
+			// Cerramos la conexion con la base de datos
+			if(con != null) {
+				con = null;
+			}
+		}catch(Exception ex) {
+			System.out.println("Se ha producido un error al anadir los datos del usuario en la base de datos");
+		}
+		
+		return status; // Retornamos el numero de filas anadidas a la base de datos
+	}
 	
 	
 	
