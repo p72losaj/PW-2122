@@ -4,6 +4,7 @@
 <%@ page import='es.uco.pw.negocio.usuario.UsuarioDTO' %>
 <%@ page import= 'java.util.ArrayList'; %>
 
+<!-- JSP que recibe la lista con todos los usuarios desde ServletMostrarUsuarios y los muestra al administrador -->
 
 <!DOCTYPE html>
 <html>
@@ -15,9 +16,8 @@
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
 		<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700" rel="stylesheet">
-
-		<script src="js/jquery-3.2.1.js"></script>
-		<script src="js/script.js"></script>
+		
+		<!-- Script para la búsqueda 
 		<script type="text/javascript">
 			function search() {
   				var input, filter, ul, li, a, i;
@@ -35,7 +35,7 @@
  				}
 			}
 
-	</script>
+		</script> -->
 	</head>
 	
 	
@@ -48,18 +48,30 @@
     			Página reshulona sin nombre
   			</a>
   			
-  			<!-- Opción para acceder a la visualización y modificación de los datos personales del usuario-->
+  			<!-- Opción para acceder a su perfil y al listado de usuarios -->
+	    	<div class="dropdown">
+        		<a style="color: white" class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          		Usuarios
+        		</a>
+        		<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          			<a class="dropdown-item" href="ServletMiPerfil?us=<%= us %>&?accion=Mostrar_datos">Mi perfil</a>
+          			<div class="dropdown-divider"></div>
+          			<a class="dropdown-item" href="ServletMostrarUsuarios">Listado de usuarios</a>
+          	    </div>
+      		</div>
+
+  			<!-- Opción para dar de alta un espectáculo -->
 			<div class="nav-item active">
-        		<a style="color: white" class="nav-link" href="mi_perfil.jsp">Mi perfil <span class="sr-only">(current)</span></a>
+        		<a style="color: white" class="nav-link" href="">Añadir nuevo espectáculo<span class="sr-only">(current)</span></a>
       		</div>
       		
-      		<!-- Opción para mostrar espectáculos, ya sea todos o algunos en concreto que seleccionemos -->
+      		<!-- Opción para mostrar y modificar espectáculos, ya sea todos o algunos en concreto que seleccionemos -->
 	    	<div class="dropdown">
         		<a style="color: white" class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           		Espectáculos
         		</a>
         		<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          			<a class="dropdown-item" href="#">Todos los espectáculos</a>
+          			<a class="dropdown-item" href="ServletMostrarEspectaculos?accion=Mostrar_todos">Todos los espectáculos</a>
           			<div class="dropdown-divider"></div>
           			<a class="dropdown-item">Buscar por nombre
     	  				<form class="form-inline">
@@ -68,16 +80,11 @@
   						</form>
           			</a>
           			<div class="dropdown-divider"></div>
-          			<a class="dropdown-item">Buscar por categoría&nbsp;&nbsp;
-          			<!-- Bug: al intentar selccionar la categoría desaparece el desplegable principal. El valor sí que se guarda -->
-          			<!-- El campo de value es lo que se enviará -->
-          			<select name="busqueda_categorias">
-   						<option selected value="0">Seleccionar</option> 
-   						<option value="2">Categoría 1</option> 
-   						<option value="3">Categoría 2</option>
-   						<option value="10">Categoría 3</option> 
-					</select>
-          			</a>
+          			<a class="dropdown-item" href="ServletMostrarEspectaculos?accion=Mostrar_conciertos">Todos los conciertos</a>
+          			<div class="dropdown-divider"></div>          			
+          			<a class="dropdown-item" href="ServletMostrarEspectaculos?accion=Mostrar_monologos">Todos los monólogos</a>
+          			<div class="dropdown-divider"></div>          			
+          			<a class="dropdown-item" href="ServletMostrarEspectaculos?accion=Mostrar_obrasTeatro">Todas las obras de teatro</a>
           	    </div>
       		</div>
       		
@@ -86,8 +93,8 @@
 				<a style="color: white" href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Cerrar sesión&nbsp;&nbsp;</a>
 				<div class="dropdown-menu text-center">
 					<a><img src="imagenes/perfil.png" height="80" width="80"></a>
-					<a><br/>&nbsp;Nombre completo&nbsp;</a>
-					<a>&nbsp;correo@correo.com&nbsp;</a>
+					<a><br/>&nbsp;<%= us.getNombreEspectador() %> <%= us.getPrimerApellidoEspectador() %>&nbsp;</a>
+					<a>&nbsp;<%= us.getCorreoEspectador() %>&nbsp;</a>
 					<div class="dropdown-divider"></div>
 					<a href="index.jsp" class="dropdown-item">Salir</a>
 					<a href="#" class="dropdown-item">
@@ -100,9 +107,7 @@
 		</nav>
 	
 	
-	
-	
-	
+
 		<ul>
 		<%	
 			// Almacena la lista de usuarios proveniente del servlet

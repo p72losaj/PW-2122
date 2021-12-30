@@ -18,7 +18,7 @@
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
 		<title>Bienvenida administrador</title>
-		<meta name="author" content="">
+		<meta name="author" content="Rocío del Viejo Cupido">
         <meta name="description" content="Página principal del administrador en el que se le da acceso a su perfil, al listado de usuarios, y al creación y búsqueda de espectáculos">
         <meta name="keywords" content="">
 		
@@ -29,7 +29,7 @@
 	
 	
 	
-	<!-- Inicializamos startTime() para la obtención de la hora -->
+	<!-- Inicializamos startTime() para la obtención de la hora actual -->
 	<body onload="startTime()">
 	
 			<!-- Asignamos a una variable el resultado del servlet para poder mostrar los datos-->
@@ -53,24 +53,24 @@
           		Usuarios
         		</a>
         		<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          			<a class="dropdown-item" href="#">Mi perfil</a>
+          			<a class="dropdown-item" href="ServletMiPerfil?us=<%= us %>&?accion=Mostrar_datos">Mi perfil</a>
           			<div class="dropdown-divider"></div>
-          			<a class="dropdown-item" href="">Listado de usuarios</a>
+          			<a class="dropdown-item" href="ServletMostrarUsuarios">Listado de usuarios</a>
           	    </div>
       		</div>
   			
-  			<!-- Opción para dar de alta un nuevo espectáculo-->
+  			<!-- Opción para dar de alta un espectáculo -->
 			<div class="nav-item active">
         		<a style="color: white" class="nav-link" href="">Añadir nuevo espectáculo<span class="sr-only">(current)</span></a>
       		</div>
       		
-      		<!-- Opción para mostrar espectáculos, ya sea todos o algunos en concreto que seleccionemos -->
+      		<!-- Opción para mostrar y modificar espectáculos, ya sea todos o algunos en concreto que seleccionemos -->
 	    	<div class="dropdown">
         		<a style="color: white" class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           		Espectáculos
         		</a>
         		<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          			<a class="dropdown-item" href="#">Todos los espectáculos</a>
+          			<a class="dropdown-item" href="ServletMostrarEspectaculos?accion=Mostrar_todos">Todos los espectáculos</a>
           			<div class="dropdown-divider"></div>
           			<a class="dropdown-item">Buscar por nombre
     	  				<form class="form-inline">
@@ -79,16 +79,11 @@
   						</form>
           			</a>
           			<div class="dropdown-divider"></div>
-          			<a class="dropdown-item">Buscar por categoría&nbsp;&nbsp;
-          			<!-- Bug: al intentar selccionar la categoría desaparece el desplegable principal. El valor sí que se guarda -->
-          			<!-- El campo de value es lo que se enviará -->
-          			<select name="busqueda_categorias">
-   						<option selected value="0">Seleccionar</option> 
-   						<option value="2">Categoría 1</option> 
-   						<option value="3">Categoría 2</option>
-   						<option value="10">Categoría 3</option> 
-					</select>
-          			</a>
+          			<a class="dropdown-item" href="ServletMostrarEspectaculos?accion=Mostrar_conciertos">Todos los conciertos</a>
+          			<div class="dropdown-divider"></div>          			
+          			<a class="dropdown-item" href="ServletMostrarEspectaculos?accion=Mostrar_monologos">Todos los monólogos</a>
+          			<div class="dropdown-divider"></div>          			
+          			<a class="dropdown-item" href="ServletMostrarEspectaculos?accion=Mostrar_obrasTeatro">Todas las obras de teatro</a>
           	    </div>
       		</div>
       		
@@ -97,8 +92,8 @@
 				<a style="color: white" href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Cerrar sesión&nbsp;&nbsp;</a>
 				<div class="dropdown-menu text-center">
 					<a><img src="imagenes/perfil.png" height="80" width="80"></a>
-					<a><br/>&nbsp;${us.nombre} ${us.apellido1} ${us.apellido2}&nbsp;</a>
-					<a>&nbsp;${us.correo}&nbsp;</a>
+					<a><br/>&nbsp;<%= us.getNombreEspectador() %> <%= us.getPrimerApellidoEspectador() %>&nbsp;</a>
+					<a>&nbsp;<%= us.getCorreoEspectador() %>&nbsp;</a>
 					<div class="dropdown-divider"></div>
 					<a href="index.jsp" class="dropdown-item">Salir</a>
 					<a href="#" class="dropdown-item">
@@ -113,10 +108,10 @@
 		<div class="container mt-4">
 			<br/><br/><br/>
 			<!-- Mensaje de bienvenida personalizado con el nombre del usuario -->
-			<h1>Bienvenido al sistema, ${us.nick} .</h1>
+			<h1>Bienvenido al sistema, <%= us.getNombreEspectador() %> .</h1>
 			<br/><br/>
 
-			<h3>Tiempo de conexión: <!-- <input class="timepage" size="5" id="timespent" name="timespent"><br> --></h3> 
+			<h3>Tiempo de conexión: </h3> 
 
 			<!-- Contenedor que muestra la hora actual -->
 			<div id="clockdate">

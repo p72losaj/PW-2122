@@ -5,41 +5,24 @@
 <%@ page import= 'java.util.ArrayList'; %>
     
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-	<title>Filtrando espectáculos por categorias</title>
+	<title>Resultado de la seleccion de espectaculos</title>
 
-	<link rel="stylesheet" href="css/estilos.css">
+	<link rel="stylesheet" href="css/css_lista_espectaculos.css">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700" rel="stylesheet">
 
 	<script src="js/jquery-3.2.1.js"></script>
 	<script src="js/script.js"></script>
-	<script type="text/javascript">
-		function search() {
-  			var input, filter, ul, li, a, i;
-  			input = document.getElementById("input");
-  			filter = input.value.toUpperCase();
-  			ul = document.getElementById("ul");
-  			li = ul.getElementsByTagName("li");
-  			for (i = 0; i < li.length; i++) {
-  				a = li[i].getElementsByTagName("a")[0];
-  				if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
-  					li[i].style.display = "block";
-  				} else {
-  					li[i].style.display = "none";
-  				}
- 			}
-		}
 
-	</script>
 </head>
 <body>
 
-	<!-- Barra superior que sirve como menú para acceder a las diferentes funciones -->
+		<!-- Barra superior que sirve como menú para acceder a las diferentes funciones -->
 		<nav class="navbar navbar-dark bg-dark">	
 			<a style="color: white" class="navbar-toggler"><span class="navbar-toggler-icon"></span></a>
 			<a class="navbar-brand" href="#">
@@ -49,8 +32,9 @@
   			
   			<!-- Opción para acceder a la visualización y modificación de los datos personales del usuario-->
 			<div class="nav-item active">
-        		<a style="color: white" class="nav-link" href="mi_perfil.jsp">Mi perfil <span class="sr-only">(current)</span></a>
+        		<a style="color: white" class="nav-link" href="ServletMiPerfil?us=<%= us %>&?accion=Mostrar_datos">Mi perfil <span class="sr-only">(current)</span></a>
       		</div>
+      		
       		
       		<!-- Opción para mostrar espectáculos, ya sea todos o algunos en concreto que seleccionemos -->
 	    	<div class="dropdown">
@@ -58,7 +42,7 @@
           		Espectáculos
         		</a>
         		<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          			<a class="dropdown-item" href="#">Todos los espectáculos</a>
+          			<a class="dropdown-item" href="ServletMostrarEspectaculos?accion=Mostrar_todos">Todos los espectáculos</a>
           			<div class="dropdown-divider"></div>
           			<a class="dropdown-item">Buscar por nombre
     	  				<form class="form-inline">
@@ -67,16 +51,11 @@
   						</form>
           			</a>
           			<div class="dropdown-divider"></div>
-          			<a class="dropdown-item">Buscar por categoría&nbsp;&nbsp;
-          			<!-- Bug: al intentar selccionar la categoría desaparece el desplegable principal. El valor sí que se guarda -->
-          			<!-- El campo de value es lo que se enviará -->
-          			<select name="busqueda_categorias">
-   						<option selected value="0">Seleccionar</option> 
-   						<option value="2">Categoría 1</option> 
-   						<option value="3">Categoría 2</option>
-   						<option value="10">Categoría 3</option> 
-					</select>
-          			</a>
+          			<a class="dropdown-item" href="ServletMostrarEspectaculos?accion=Mostrar_conciertos">Todos los conciertos</a>
+          			<div class="dropdown-divider"></div>          			
+          			<a class="dropdown-item" href="ServletMostrarEspectaculos?accion=Mostrar_monologos">Todos los monólogos</a>
+          			<div class="dropdown-divider"></div>          			
+          			<a class="dropdown-item" href="ServletMostrarEspectaculos?accion=Mostrar_obrasTeatro">Todas las obras de teatro</a>
           	    </div>
       		</div>
       		
@@ -85,8 +64,8 @@
 				<a style="color: white" href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Cerrar sesión&nbsp;&nbsp;</a>
 				<div class="dropdown-menu text-center">
 					<a><img src="imagenes/perfil.png" height="80" width="80"></a>
-					<a><br/>&nbsp;Nombre completo&nbsp;</a>
-					<a>&nbsp;correo@correo.com&nbsp;</a>
+					<a><br/>&nbsp;<%= us.getNombreEspectador() %> <%= us.getPrimerApellidoEspectador() %>&nbsp;</a>
+					<a>&nbsp;<%= us.getCorreoEspectador() %>&nbsp;</a>
 					<div class="dropdown-divider"></div>
 					<a href="index.jsp" class="dropdown-item">Salir</a>
 					<a href="#" class="dropdown-item">
@@ -101,33 +80,42 @@
 
 
 	<div class="wrap">
-		<input type="text" id="input" onkeyup="search()" placeholder="Busca un nombre ..." title="Escribe un nombre">
-		<h1>Escoge una categoría</h1>
-		<div class="store-wrapper">
-			<section class="products-list">
-			<ul id="ul">
-					
+		<h1>Espectáculos seleccionados:</h1>
+		<section class="products-list">
+			<table>
 				<%
 					// Almacena la lista de espectáculos proveniente del servlet
 				
 					ArrayList<EspectaculoDTO> listaEspectaculos =new ArrayList<EspectaculoDTO>();
 					listaEspectaculos = (ArrayList<EspectaculoDTO>)request.getAttribute("listaEspectaculos");
 					
+					//Variable para controlar la disposición de las columnas
+					
+					int salto = 0;
+					
 					//Vamos recorriendo la lista y mostrando el título de los espectáculos
 					
 					for(EspectaculoDTO es : listaEspectaculos){
 	
 				%>
-				<li><div class="product-item" category="monologos">
-					<a href="#"><%= es.getTituloEspectaculo() %></a>
-				</div></li>
+					<th>
+						<div class="product-item">
+							<a href="ServletEspectaculo?us=<%= es %>"><%= es.getTituloEspectaculo() %></a>
+						</div>
+					</th>
 				<%
+						salto++;
+						if(salto==4);
+				%>
+					<tr>
+				<%
+							salto=0;
+						}
 					}
 				%>
 				
-			</ul>
-			</section>
-		</div>
+			</table>
+		</section>
 	</div>
 
 </body>

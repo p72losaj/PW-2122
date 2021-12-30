@@ -38,8 +38,9 @@
   			
   			<!-- Opción para acceder a la visualización y modificación de los datos personales del usuario-->
 			<div class="nav-item active">
-        		<a style="color: white" class="nav-link" href="mi_perfil.jsp">Mi perfil <span class="sr-only">(current)</span></a>
+        		<a style="color: white" class="nav-link" href="ServletMiPerfil?us=<%= us %>&?accion=Mostrar_datos">Mi perfil <span class="sr-only">(current)</span></a>
       		</div>
+      		
       		
       		<!-- Opción para mostrar espectáculos, ya sea todos o algunos en concreto que seleccionemos -->
 	    	<div class="dropdown">
@@ -47,7 +48,7 @@
           		Espectáculos
         		</a>
         		<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          			<a class="dropdown-item" href="#">Todos los espectáculos</a>
+          			<a class="dropdown-item" href="ServletMostrarEspectaculos?accion=Mostrar_todos">Todos los espectáculos</a>
           			<div class="dropdown-divider"></div>
           			<a class="dropdown-item">Buscar por nombre
     	  				<form class="form-inline">
@@ -56,18 +57,11 @@
   						</form>
           			</a>
           			<div class="dropdown-divider"></div>
-          			<a class="dropdown-item">Buscar por categoría&nbsp;&nbsp;
-          			<!-- Bug: al intentar selccionar la categoría desaparece el desplegable principal. El valor sí que se guarda -->
-          			<!-- El campo de value es lo que se enviará -->
-          				<form action=ServletMostrarEspectaculos>
-          					<select name="busqueda_categorias">
-   								<option selected value="0">Seleccionar</option> 
-   								<option value="Mostrar_conciertos">Conciertos</option> 
-   								<option value="Mostrar_monologos">Monólogos</option>
-   								<option value="Mostrar_obrasTeatro">Obras de teatro</option> 
-							</select>
-						</form>				
-          			</a>
+          			<a class="dropdown-item" href="ServletMostrarEspectaculos?accion=Mostrar_conciertos">Todos los conciertos</a>
+          			<div class="dropdown-divider"></div>          			
+          			<a class="dropdown-item" href="ServletMostrarEspectaculos?accion=Mostrar_monologos">Todos los monólogos</a>
+          			<div class="dropdown-divider"></div>          			
+          			<a class="dropdown-item" href="ServletMostrarEspectaculos?accion=Mostrar_obrasTeatro">Todas las obras de teatro</a>
           	    </div>
       		</div>
       		
@@ -76,8 +70,8 @@
 				<a style="color: white" href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Cerrar sesión&nbsp;&nbsp;</a>
 				<div class="dropdown-menu text-center">
 					<a><img src="imagenes/perfil.png" height="80" width="80"></a>
-					<a><br/>&nbsp;${us.nombre} ${us.apellido1} ${us.apellido2}&nbsp;</a>
-					<a>&nbsp;${us.correo}&nbsp;</a>
+					<a><br/>&nbsp;<%= us.getNombreEspectador() %> <%= us.getPrimerApellidoEspectador() %>&nbsp;</a>
+					<a>&nbsp;<%= us.getCorreoEspectador() %>&nbsp;</a>
 					<div class="dropdown-divider"></div>
 					<a href="index.jsp" class="dropdown-item">Salir</a>
 					<a href="#" class="dropdown-item">
@@ -93,13 +87,13 @@
 			<br/><br/><br/>
 			<h2>Tus datos </h2>
 			<br/><br/>
-			<h5>Nombre: ${us.nombre}</h5>
+			<h5>Nombre: <% us.getNombreEspectador() %></h5>
 			<br/>
-			<h5>Apellidos: ${us.apellido1} ${us.apellido2}</h5>
+			<h5>Apellidos: <% us.getPrimerApellidoEspectador() %> <% us.getSegundoApellidoEspectador() %></h5>
 			<br/>
-			<h5>Correo electrónico: ${us.correo}</h5>
+			<h5>Correo electrónico: <% us.getCorreoEspectador() %></h5>
 			<br/>
-			<h5>Nick: ${us.nick}</h5>
+			<h5>Nick: <% us.getNickEspectador() %></h5>
 			
 			
 			<div class="cont_form">
@@ -117,13 +111,10 @@
         	
         			<label for="nick">Nuevo nick de usuario</label>
         			<input type="text" id="nick" name="nick">
-        			
-        			<label for="password">Nueva contraseña</label>
-        			<input type="password" id="password" name="password">
         	
         			<br/>
       				<div class="zoom">
-        					<input type="submit" name="accion" value="Modificar datos">
+        					<input type="submit" name="accion" value="Modificar_datos">
       				</div> 
       				<br/>
       			</form>
