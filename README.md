@@ -1,6 +1,14 @@
 # PW-2122
 Repositorio para la practica de PW del año 21-22
 
+# Enlaces de test
+
+1. https://www.daypo.com/programacion-web-11.html#test
+2. https://forms.gle/nRmH5yrGPk1Kca2L8
+3. https://docs.google.com/forms/d/e/1FAIpQLSfyui1Zd112bpI4HQbrgh9KVYAJKh3dejmlybugdPlyPqomHA/viewform?usp=sf_link
+
+Nota: El enlace 2 y el 3 se refieren al mismo cuestionario.
+
 #SENTENCIAS SQL
 ###########################################################################################################################
 # SENTENCIAS SQL TABLA USUARIO
